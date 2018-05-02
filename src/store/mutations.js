@@ -1,7 +1,7 @@
 import getters from './getters.js';
 
 const state = {
-	isLoading: true
+	isLoading: false
 };
 
 const mutations = {

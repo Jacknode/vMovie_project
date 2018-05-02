@@ -6,12 +6,16 @@ import router from './router'
 import '@/assets/css/reset.css'
 import store from './store/index'
 import axios from 'axios'
+import ElementUI from 'element-ui'
+import 'element-ui/lib/theme-chalk/index.css'
 import * as filters from './filters'
 import App from './App'
 
 Object.keys(filters).forEach((key) => {
   Vue.filter(key, filters[key]);
 })
+Vue.prototype.$http = axios;
+Vue.use(ElementUI)
 
 
 
