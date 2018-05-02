@@ -65,7 +65,9 @@
             </div>
             <!--右边-->
             <div class="HotRight">
-              <div class="HotMovieName"><span>怀旧风叛逆少女回忆录《荼靡旧梦》</span><button>来自新片场</button></div>
+              <div class="HotMovieName"><span>怀旧风叛逆少女回忆录《荼靡旧梦》</span>
+                <!--<button>来自新片场</button>-->
+              </div>
               <!--热门评分-->
               <div class="HotMovieReta">
                 影片作者:石腾帅
@@ -106,10 +108,12 @@
             </div>
             <!--右边-->
             <div class="ChooseRight">
-              <div class="ChooseMovieName"><span>怀旧风叛逆少女回忆录《荼靡旧梦》</span><button>来自新片场</button></div>
+              <div class="ChooseMovieName"><span>怀旧风叛逆少女回忆录《荼靡旧梦》</span>
+                <!--<button>来自新片场</button>-->
+              </div>
               <!--热门评分-->
               <div class="ChooseMovieReta">
-                影片作者:石腾帅
+                <!--影片作者:石腾帅-->
                 <el-rate
                   v-model="value5"
                   disabled
@@ -409,15 +413,15 @@
                 font-size: 20px;
                 font-family: "Microsoft YaHei";
               }
-              button{
-                border: none;
-                outline: none;
-                height: 20px;
-                width: 80px;
-                color: #fff;
-                background-color: #5cbeff;
-                margin-left: 10px;
-              }
+              /*button{*/
+                /*border: none;*/
+                /*outline: none;*/
+                /*height: 20px;*/
+                /*width: 80px;*/
+                /*color: #fff;*/
+                /*background-color: #5cbeff;*/
+                /*margin-left: 10px;*/
+              /*}*/
             }
             .HotMovieReta{
               font-size: 14px;
@@ -506,15 +510,15 @@
               font-size: 20px;
               font-family: "Microsoft YaHei";
             }
-            button{
-              border: none;
-              outline: none;
-              height: 20px;
-              width: 80px;
-              color: #fff;
-              background-color: #5cbeff;
-              margin-left: 10px;
-            }
+            /*button{*/
+              /*border: none;*/
+              /*outline: none;*/
+              /*height: 20px;*/
+              /*width: 80px;*/
+              /*color: #fff;*/
+              /*background-color: #5cbeff;*/
+              /*margin-left: 10px;*/
+            /*}*/
           }
           .ChooseMovieReta{
             font-size: 14px;
