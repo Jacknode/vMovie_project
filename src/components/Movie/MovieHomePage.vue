@@ -70,7 +70,8 @@
             </div>
             <!--右边-->
             <div class="HotRight">
-              <div class="HotMovieName"><span>怀旧风叛逆少女回忆录《荼靡旧梦》</span>
+              <div class="HotMovieName">
+                <span>怀旧风叛逆少女回忆录《荼靡旧梦》</span>
                 <!--<button>来自新片场</button>-->
               </div>
               <!--热门评分-->
