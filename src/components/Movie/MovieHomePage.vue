@@ -42,6 +42,11 @@
               <div class="MovieOther">
                 <div class="BoxBtm">
                   <span>9小时前</span>
+                  <!--点赞、评论-->
+                  <div class="BottomIconCont">
+                    <span class="el-icon-document">213</span>
+                    <span class="el-icon-star-on">32</span>
+                  </div>
                 </div>
               </div>
             </div>
@@ -85,6 +90,11 @@
               <div class="HotOtherInmation">
                 <div class="BoxBottom">
                   <span>2018-04-15</span>
+                  <!--点赞、评论-->
+                  <div class="HotBottomIconCont">
+                    <span class="el-icon-document">213</span>
+                    <span class="el-icon-star-on">32</span>
+                  </div>
                 </div>
               </div>
             </div>
@@ -128,6 +138,11 @@
               <div class="ChooseOtherInmation">
                 <div class="BoxBot">
                   <span>9小时前</span>
+                  <!--点赞、评论-->
+                  <div class="ChooseBottomIconCont">
+                    <span class="el-icon-document">213</span>
+                    <span class="el-icon-star-on">32</span>
+                  </div>
                 </div>
               </div>
             </div>
@@ -161,6 +176,11 @@
               <div class="WatchMovieOther">
                 <div class="BoxBtm">
                   <span>2018-04-15</span>
+                  <!--点赞、评论-->
+                  <div class="WatchBottomIconCont">
+                    <span class="el-icon-document">213</span>
+                    <span class="el-icon-star-on">32</span>
+                  </div>
                 </div>
               </div>
             </div>
@@ -256,12 +276,12 @@
       width: 1400px;
       /*height: 540px;*/
       margin: 0px auto;
-        .el-carousel__item:nth-child(2n) {
-          background-color: #99a9bf;
-        }
-        .el-carousel__item:nth-child(2n+1) {
-          background-color: #d3dce6;
-        }
+      .el-carousel__item:nth-child(2n) {
+        background-color: #99a9bf;
+      }
+      .el-carousel__item:nth-child(2n+1) {
+        background-color: #d3dce6;
+      }
     }
     .content{
       width: 1198px;
@@ -332,18 +352,34 @@
             }
             .MovieDescribe{
               margin-top: 10px;
-              font-size: 18px;
+              font-size: 14px;
               color: #aaa;
               line-height: 24px;
             }
             .MovieOther{
               .BoxBtm{
+                width: 100%;
+                height: 30px;
+                line-height: 30px;
                 position: absolute;
                 bottom: 5px;
                 left: 5px;
                 span{
                   font-size: 14px;
                   color: #ccc;
+                  float: left;
+                }
+                .BottomIconCont{
+                  height: 100%;
+                  float: right;
+                  margin-right: 40px;
+                  span{
+                    display: inline-block;
+                    margin-left: 10px;
+                    zoom: 1.1;
+                    height: 100%;
+                    line-height: 30px;
+                  }
                 }
               }
             }
@@ -413,15 +449,15 @@
                 font-size: 20px;
                 font-family: "Microsoft YaHei";
               }
-              /*button{*/
-                /*border: none;*/
-                /*outline: none;*/
-                /*height: 20px;*/
-                /*width: 80px;*/
-                /*color: #fff;*/
-                /*background-color: #5cbeff;*/
-                /*margin-left: 10px;*/
-              /*}*/
+              button{
+                border: none;
+                outline: none;
+                height: 20px;
+                width: 80px;
+                color: #fff;
+                background-color: #5cbeff;
+                margin-left: 10px;
+              }
             }
             .HotMovieReta{
               font-size: 14px;
@@ -430,19 +466,35 @@
               line-height: 18px;
             }
             .HotMovieDec{
-              font-size: 16px;
+              font-size: 14px;
               color: #aaa;
               margin-top: 10px;
               line-height: 24px;
             }
             .HotOtherInmation{
               .BoxBottom{
+                width: 100%;
+                height: 30px;
+                line-height: 30px;
                 position: absolute;
                 bottom: 5px;
                 left: 5px;
                 span{
                   font-size: 14px;
                   color: #ccc;
+                  float: left;
+                }
+                .HotBottomIconCont{
+                  height: 100%;
+                  float: right;
+                  margin-right: 40px;
+                  span{
+                    display: inline-block;
+                    margin-left: 10px;
+                    zoom: 1.1;
+                    height: 100%;
+                    line-height: 30px;
+                  }
                 }
               }
             }
@@ -510,15 +562,15 @@
               font-size: 20px;
               font-family: "Microsoft YaHei";
             }
-            /*button{*/
-              /*border: none;*/
-              /*outline: none;*/
-              /*height: 20px;*/
-              /*width: 80px;*/
-              /*color: #fff;*/
-              /*background-color: #5cbeff;*/
-              /*margin-left: 10px;*/
-            /*}*/
+            button{
+              border: none;
+              outline: none;
+              height: 20px;
+              width: 80px;
+              color: #fff;
+              background-color: #5cbeff;
+              margin-left: 10px;
+            }
           }
           .ChooseMovieReta{
             font-size: 14px;
@@ -527,19 +579,35 @@
             line-height: 18px;
           }
           .ChooseMovieDec{
-            font-size: 16px;
+            font-size: 14px;
             color: #aaa;
             margin-top: 10px;
             line-height: 24px;
           }
           .ChooseOtherInmation{
             .BoxBot{
+              width: 100%;
+              height: 30px;
+              line-height: 30px;
               position: absolute;
               bottom: 5px;
               left: 5px;
               span{
                 font-size: 14px;
                 color: #ccc;
+                float: left;
+              }
+              .ChooseBottomIconCont{
+                height: 100%;
+                float: right;
+                margin-right: 40px;
+                span{
+                  display: inline-block;
+                  margin-left: 10px;
+                  zoom: 1.1;
+                  height: 100%;
+                  line-height: 30px;
+                }
               }
             }
           }
@@ -589,18 +657,34 @@
             }
             .WatchMovieDescribe{
               margin-top: 10px;
-              font-size: 18px;
+              font-size: 14px;
               color: #aaa;
               line-height: 24px;
             }
             .WatchMovieOther{
               .BoxBtm{
+                width: 100%;
+                height: 30px;
+                line-height: 30px;
                 position: absolute;
                 bottom: 5px;
                 left: 5px;
                 span{
                   font-size: 14px;
                   color: #ccc;
+                  float: left;
+                }
+                .WatchBottomIconCont{
+                  height: 100%;
+                  float: right;
+                  margin-right: 40px;
+                  span{
+                    display: inline-block;
+                    margin-left: 10px;
+                    zoom: 1.1;
+                    height: 100%;
+                    line-height: 30px;
+                  }
                 }
               }
             }
@@ -608,5 +692,5 @@
         }
       }
     }
-    }
+  }
 </style>
