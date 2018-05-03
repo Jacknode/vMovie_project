@@ -7,9 +7,7 @@
       <!--导航-->
       <ul>
         <!--<li @click="HomePage">首页</li>-->
-        <router-link to="MovieHomePage" tag="li">首页</router-link>
-        <router-link to="MovieChannel" tag="li">频道</router-link>
-        <router-link to="MovieSeries" tag="li">系列</router-link>
+        <li :class="{active:index==n}" v-for="item,index in toArr" @click="toPath(index,item)">{{item.name}}</li>
         <li>教育</li>
         <!--<li @click="Channel">频道</li>-->
         <!--<li @click="Series">系列</li>-->
@@ -37,17 +35,29 @@
   export default {
     data(){
       return{
-        "ChannelShow":false,
-        "SeriesShow":false,
-        "HomePageShow":false,
+        n:0,
+        toArr:[
+          {
+            path:'MovieHomePage',
+            name:'首页'
+          },
+          {
+            path:'MovieChannel',
+            name:'频道'
+          },
+          {
+            path:'MovieSeries',
+            name:'系列'
+          }
+        ]
       }
     },
-    components:{
-      MovieSeries,
-      MovieChannel,
-      MovieHomePage
-    },
     methods:{
+      toPath(index,obj){
+        this.$router.push({name:obj.path});
+        sessionStorage.setItem('n',index);
+        this.n = index;
+      }
 //      Series(){
 //        this.SeriesShow= true;
 //        this.ChannelShow= false;
@@ -66,6 +76,11 @@
     },
     created(){
 //      this.HomePage();
+      let n = sessionStorage.getItem('n');
+      if(n==0||n){
+        this.n = n;
+      }
+      this.n = n;
     }
    }
 </script>
@@ -98,6 +113,9 @@
           font-size: 16px;
           margin: 0px -10px 0px 50px;
           &:hover{
+            border-bottom: 4px #3498Db solid;
+          }
+          &.active{
             border-bottom: 4px #3498Db solid;
           }
         }
