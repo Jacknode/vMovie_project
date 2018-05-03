@@ -19,6 +19,7 @@ Vue.use(ElementUI)
 
 
 
+
 import VueLazyLoad from 'vue-lazyload'
 Vue.use(VueLazyLoad, {
   error: '../static/img/error.jpg',

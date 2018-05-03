@@ -3,19 +3,24 @@
   <div class="comment">
     <!--顶部-->
     <div class="PageTop">
-      <img src="@/assets/img/movieLogo.png" alt="" @click="HomePage">
+      <img src="@/assets/img/movieLogo.png" alt="">
       <!--导航-->
       <ul>
-        <li @click="HomePage">首页</li>
-        <li @click="Channel">频道</li>
-        <li @click="Series">系列</li>
+        <!--<li @click="HomePage">首页</li>-->
+        <router-link to="MovieHomePage" tag="li">首页</router-link>
+        <router-link to="MovieChannel" tag="li">频道</router-link>
+        <router-link to="MovieSeries" tag="li">系列</router-link>
         <li>教育</li>
+        <!--<li @click="Channel">频道</li>-->
+        <!--<li @click="Series">系列</li>-->
+        <!--<li>教育</li>-->
       </ul>
     </div>
     <!--需要修改-->
-    <MovieHomePage v-show="HomePageShow"></MovieHomePage>
-    <MovieSeries v-show="SeriesShow"></MovieSeries>
-    <MovieChannel v-show="ChannelShow"></MovieChannel>
+    <router-view name="Home"></router-view>
+    <!--<MovieHomePage v-show="HomePageShow"></MovieHomePage>-->
+    <!--<MovieSeries v-show="SeriesShow"></MovieSeries>-->
+    <!--<MovieChannel v-show="ChannelShow"></MovieChannel>-->
     <!--尾部-->
     <div class="PageFooter">
       <!--版权信息-->
@@ -43,29 +48,29 @@
       MovieHomePage
     },
     methods:{
-      Series(){
-        this.SeriesShow= true;
-        this.ChannelShow= false;
-        this.HomePageShow=false;
-      },
-      Channel(){
-        this.ChannelShow= true;
-        this.SeriesShow= false;
-        this.HomePageShow=false;
-      },
-      HomePage(){
-        this.HomePageShow= true;
-        this.ChannelShow=false;
-        this.SeriesShow=false;
-      }
+//      Series(){
+//        this.SeriesShow= true;
+//        this.ChannelShow= false;
+//        this.HomePageShow=false;
+//      },
+//      Channel(){
+//        this.ChannelShow= true;
+//        this.SeriesShow= false;
+//        this.HomePageShow=false;
+//      },
+//      HomePage(){
+//        this.HomePageShow= true;
+//        this.ChannelShow=false;
+//        this.SeriesShow=false;
+//      }
     },
     created(){
-      this.HomePage();
+//      this.HomePage();
     }
    }
 </script>
 
-<style lang="less" scoped>
+<style lang="less" scoped type="text/less">
   .comment{
     width: 100%;
     height: 65px;

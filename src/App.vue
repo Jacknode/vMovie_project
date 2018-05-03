@@ -8,7 +8,7 @@
         <p>拼命加载中</p>
       </div>
     </div>
-    <comment></comment>
+    <!--<comment></comment>-->
     <router-view/>
   </div>
 </template>

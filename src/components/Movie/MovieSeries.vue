@@ -56,7 +56,7 @@
     }
 </script>
 
-<style lang="less" scoped>
+<style lang="less" scoped type="text/less">
   .SeriesPage{
     width: 1200px;
     height: 900px;

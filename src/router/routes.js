@@ -5,24 +5,46 @@ import MovieChannel from '@/components/Movie/MovieChannel'
 import Comment from '@/components/public/comment'
 
 
-export default [{
-	path: '/movieHomePage',
-	name: 'MovieHomePage',
-	component: MovieHomePage
-},
-  {
-    path: '/movieSeries',
-    name: 'MovieSeries',
-    component: MovieSeries
-  },
-  {
-    path: '/movieChannel',
-    name: 'MovieChannel',
-    component: MovieChannel
-  },
+export default [
   {
     path: '/comment',
     name: 'Comment',
     component: Comment,
-  }
+    children: [
+      {
+        path: 'movieHomePage',
+        name: 'MovieHomePage',
+        components: {
+          default: Comment,
+          Home: MovieHomePage,
+        },
+      },
+      {
+        path: 'movieChannel',
+        name: 'MovieChannel',
+        components: {
+          default: Comment,
+          Home: MovieChannel,
+        },
+      },
+      {
+        path: 'movieSeries',
+        name: 'MovieSeries',
+        components: {
+          default: Comment,
+          Home: MovieSeries,
+        },
+      },
+    ]
+  },
+  {
+    path: '/',
+    hidden: true,
+    redirect: {name: 'MovieHomePage'}
+  },
+  {
+    path: '*',
+    hidden: true,
+    redirect: {name: 'MovieHomePage'}
+  },
 ]
