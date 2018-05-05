@@ -1,278 +1,292 @@
 <template>
   <!--电影首页-->
-    <div class="MovieHomePage">
-      <!--Logo部分的轮播-->
-      <div class="logo">
-          <el-carousel trigger="click" :interval="5000" height="540px">
-            <el-carousel-item v-for="item in 4" :key="item">
-              <img src="@/assets/img/MovieBanner.jpg" alt="">
-            </el-carousel-item>
-          </el-carousel>
-      </div>
-      <!--中间内容-->
-      <div class="content">
-        <ul>
-          <li :class="{active:index==x}" v-for="item,index in switchList" @click="Switch(index)" ref="active">{{item}}</li>
-        </ul>
-        <!--最新推荐-->
-        <div class="MovieList" v-show="mili.Recommend">
-          <!--电影-->
-          <div class="Movies" v-for="item in Movies">
-            <!--左边-->
-            <div class="Movieleft">
-              <img src="@/assets/img/11.jpg" alt="">
-              <span>04:00</span>
+  <div class="MovieHomePage">
+    <!--轮播-->
+    <div class="logo">
+      <el-carousel trigger="click" :interval="5000" height="540px">
+        <el-carousel-item v-for="item in 4" :key="item">
+          <img src="@/assets/img/MovieBanner.jpg" alt="">
+        </el-carousel-item>
+      </el-carousel>
+    </div>
+    <!--中间内容-->
+    <div class="content">
+      <ul>
+        <!--切换器-->
+        <li :class="{active:index==x}" v-for="item,index in switchList" @click="Switch(index)" ref="active">{{item}}</li>
+      </ul>
+      <!--最新推荐-->
+      <!--切换的内容-->
+      <div class="MovieList" v-show="mili.Recommend">
+        <!--电影-->
+        <div class="Movies" v-for="item in MovieHomePageList">
+          <!--左边-->
+          <div class="Movieleft">
+            <img v-lazy="item.vf_vo_ImageURL" alt="" style="height: 198px">
+            <!--时长-->
+            <span>{{item.timeLength}}</span>
+          </div>
+          <!--右边-->
+          <div class="MovieRight">
+            <!--标题-->
+            <div class="MovieName">{{item.vf_vo_Title}}</div>
+            <!--评分-->
+            <div class="MovieReta">
+              <el-rate
+                v-model="value5"
+                disabled
+                show-score
+                text-color="#ff9900"
+                score-template="{value}">
+              </el-rate>
             </div>
-            <!--右边-->
-            <div class="MovieRight">
-              <div class="MovieName">大片即视感超燃视觉系《玩转疯狂赛车》</div>
-              <!--评分-->
-              <div class="MovieReta">
-                <el-rate
-                  v-model="value5"
-                  disabled
-                  show-score
-                  text-color="#ff9900"
-                  score-template="{value}">
-                </el-rate>
-              </div>
-              <!--描述-->
-              <div class="MovieDescribe">继在沙子里游泳后，NASA 的退役工程师 Mark Rober 又出新招数！借鉴电影中的经典飙车场景，把玩具赛车拍出了大片追击战的感觉。</div>
-              <!--其他-->
-              <div class="MovieOther">
-                <div class="BoxBtm">
-                  <span>9小时前</span>
-                  <!--点赞、评论-->
-                  <div class="BottomIconCont">
-                    <span class="el-icon-document">213</span>
-                    <span class="el-icon-star-on">32</span>
-                  </div>
+            <!--简介描述-->
+            <div class="MovieDescribe">{{item.vf_vo_Introduce}}</div>
+            <!--其他-->
+            <div class="MovieOther">
+              <div class="BoxBtm">
+                <span>{{item.vf_vo_CreateTime}}</span>
+                <!--点赞、评论-->
+                <div class="BottomIconCont">
+                  <!--评论-->
+                  <span class="el-icon-document"> 213</span>
+                  <!--点赞-->
+                  <span class="icon-heart5"> {{item.count_pointGood}}</span>
+                  <span class="el-icon-share">121</span>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-        <!--热门排行-->
-        <div class="HotRanking" v-show="mili.Ranking">
-          <!--排行选择-->
-          <div class="RankingSel">
-            <dl>
-              <strong>排序:</strong>
-              <dd v-for="item in RankingSels">{{item}}</dd>
-           </dl>
-          </div>
-          <!--热门电影-->
-          <div class="HotMovie" v-for="item in HotMovies">
-            <!--左边-->
-            <div class="HotLeft">
-              <img src="@/assets/img/hotRanking.jpg" alt="">
-              <span>04:00</span>
-            </div>
-            <!--右边-->
-            <div class="HotRight">
-              <div class="HotMovieName">
-                <span>怀旧风叛逆少女回忆录《荼靡旧梦》</span>
-                <!--<button>来自新片场</button>-->
-              </div>
-              <!--热门评分-->
-              <div class="HotMovieReta">
-                影片作者:石腾帅
-                <el-rate
-                  v-model="value5"
-                  disabled
-                  show-score
-                  text-color="#ff9900"
-                  score-template="{value}">
-                </el-rate>
-              </div>
-              <!--描述-->
-              <div class="HotMovieDec">你，温暖美丽</div>
-              <!--其他-->
-              <div class="HotOtherInmation">
-                <div class="BoxBottom">
-                  <span>2018-04-15</span>
-                  <!--点赞、评论-->
-                  <div class="HotBottomIconCont">
-                    <span class="el-icon-document">213</span>
-                    <span class="el-icon-star-on">32</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <!--星级精选-->
-        <div class="choose" v-show="mili.Select">
-          <!--排行选择-->
-          <div class="ChooseSel">
-            <dl>
-              <strong>排序:</strong>
-              <dd>最新发布</dd>
-              <dd>最高评分</dd>
-            </dl>
-          </div>
-          <div class="ChooseMovie" v-for="item in ChooseMovies">
-            <!--左边-->
-            <div class="ChooseLeft">
-              <img src="@/assets/img/hotRanking.jpg" alt="">
-              <span>04:00</span>
-            </div>
-            <!--右边-->
-            <div class="ChooseRight">
-              <div class="ChooseMovieName"><span>怀旧风叛逆少女回忆录《荼靡旧梦》</span>
-                <!--<button>来自新片场</button>-->
-              </div>
-              <!--热门评分-->
-              <div class="ChooseMovieReta">
-                <!--影片作者:石腾帅-->
-                <el-rate
-                  v-model="value5"
-                  disabled
-                  show-score
-                  text-color="#f90"
-                  score-template="{value}">
-                </el-rate>
-              </div>
-              <!--描述-->
-              <div class="ChooseMovieDec">你，温暖美丽</div>
-              <!--其他-->
-              <div class="ChooseOtherInmation">
-                <div class="BoxBot">
-                  <span>9小时前</span>
-                  <!--点赞、评论-->
-                  <div class="ChooseBottomIconCont">
-                    <span class="el-icon-document">213</span>
-                    <span class="el-icon-star-on">32</span>
-                  </div>
-                </div>
-              </div>
-            </div>
         </div>
       </div>
-        <!--随便看看-->
-        <div class="lookAround" v-show="mili.Watching">
-          <!--电影-->
-          <div class="WatchMovies" v-for="item in WatchMovies">
-            <!--左边-->
-            <div class="WatchMovieleft">
-              <img src="@/assets/img/hotRanking.jpg" alt="">
-              <span>04:00</span>
+      <!--热门排行-->
+      <div class="HotRanking" v-show="mili.Ranking">
+        <!--排行选择-->
+        <div class="RankingSel">
+          <dl>
+            <strong>排序:</strong>
+            <dd v-for="item in RankingSels">{{item}}</dd>
+          </dl>
+        </div>
+        <!--热门电影-->
+        <div class="HotMovie" v-for="item in MovieHomePageList">
+          <!--左边-->
+          <div class="HotLeft">
+            <img v-lazy="item.vf_vo_ImageURL" alt="" style="height: 198px">
+            <span>{{item.timeLength}}</span>
+          </div>
+          <!--右边-->
+          <div class="HotRight">
+            <div class="HotMovieName">
+              <span>{{item.vf_vo_Title}}</span>
             </div>
-            <!--右边-->
-            <div class="WatchMovieRight">
-              <div class="WatchMovieName">怀旧风叛逆少女回忆录《荼靡旧梦》</div>
-              <!--评分-->
-              <div class="WatchMovieReta">
-                <el-rate
-                  v-model="value5"
-                  disabled
-                  show-score
-                  text-color="#ff9900"
-                  score-template="{value}">
-                </el-rate>
-              </div>
-              <!--描述-->
-              <div class="WatchMovieDescribe">你，温暖美丽</div>
-              <!--其他-->
-              <div class="WatchMovieOther">
-                <div class="BoxBtm">
-                  <span>2018-04-15</span>
-                  <!--点赞、评论-->
-                  <div class="WatchBottomIconCont">
-                    <span class="el-icon-document">213</span>
-                    <span class="el-icon-star-on">32</span>
-                  </div>
+            <!--热门评分-->
+            <div class="HotMovieReta">
+              <!--影片作者-->
+              {{item.vf_vo_AuthorName}}
+              <el-rate
+                v-model="value5"
+                disabled
+                show-score
+                text-color="#ff9900"
+                score-template="{value}">
+              </el-rate>
+            </div>
+            <!--简介描述-->
+            <div class="HotMovieDec">{{item.vf_vo_Introduce}}</div>
+            <!--其他-->
+            <div class="HotOtherInmation">
+              <div class="BoxBottom">
+                <span>2018-04-15</span>
+                <!--点赞、评论-->
+                <div class="HotBottomIconCont">
+                  <span class="el-icon-document"> 213</span>
+                  <span class="icon-heart5"> {{item.count_pointGood}}</span>
+                  <span class="el-icon-share">121</span>
                 </div>
               </div>
             </div>
           </div>
         </div>
+      </div>
+      <!--星级精选-->
+      <div class="choose" v-show="mili.Select">
+        <!--排行选择-->
+        <div class="ChooseSel">
+          <dl>
+            <strong>排序:</strong>
+            <dd>最新发布</dd>
+            <dd>最高评分</dd>
+          </dl>
+        </div>
+        <!--星级电影-->
+        <div class="ChooseMovie" v-for="item in MovieHomePageList">
+          <!--左边-->
+          <div class="ChooseLeft">
+            <img v-lazy="item.vf_vo_ImageURL" alt="" style="height: 198px">
+            <!--时长-->
+            <span>{{item.timeLength}}</span>
+          </div>
+          <!--右边-->
+          <div class="ChooseRight">
+            <!--标题-->
+            <div class="ChooseMovieName"><span>{{item.vf_vo_Title}}</span>
+              <!--<button>来自新片场</button>-->
+            </div>
+            <!--热门评分-->
+            <div class="ChooseMovieReta">
+              <!--影片作者-->
+              {{item.vf_vo_AuthorName}}
+              <el-rate
+                v-model="value5"
+                disabled
+                show-score
+                text-color="#f90"
+                score-template="{value}">
+              </el-rate>
+            </div>
+            <!--简介描述-->
+            <div class="ChooseMovieDec">{{item.vf_vo_Introduce}}</div>
+            <!--其他-->
+            <div class="ChooseOtherInmation">
+              <div class="BoxBot">
+                <!--创建时间-->
+                <span>{{item.vf_vo_CreateTime}}</span>
+                <!--点赞、评论-->
+                <div class="ChooseBottomIconCont">
+                  <span class="el-icon-document"> 213</span>
+                  <span class="icon-heart5"> {{item.count_pointGood}}</span>
+                  <span class="el-icon-share">121</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!--随便看看-->
+      <div class="lookAround" v-show="mili.Watching">
+        <!--随便看看电影-->
+        <div class="WatchMovies" v-for="item in MovieHomePageList">
+          <!--左边-->
+          <div class="WatchMovieleft">
+            <img v-lazy="item.vf_vo_ImageURL" alt="" style="height: 198px">
+            <span>{{item.timeLength}}</span>
+          </div>
+          <!--右边-->
+          <div class="WatchMovieRight">
+            <!--标题-->
+            <div class="WatchMovieName">{{item.vf_vo_Title}}</div>
+            <!--评分-->
+            <div class="WatchMovieReta">
+              <!--影片作者-->
+              {{item.vf_vo_AuthorName}}
+              <el-rate
+                v-model="value5"
+                disabled
+                show-score
+                text-color="#ff9900"
+                score-template="{value}">
+              </el-rate>
+            </div>
+            <!--简介描述-->
+            <div class="WatchMovieDescribe">{{item.vf_vo_Introduce}}</div>
+            <!--其他-->
+            <div class="WatchMovieOther">
+              <div class="BoxBtm">
+                <!--创建时间-->
+                <span>{{item.vf_vo_CreateTime}}</span>
+                <!--点赞、评论-->
+                <div class="WatchBottomIconCont">
+                  <!--评论-->
+                  <span class="el-icon-document"> 213</span>
+                  <!--点赞-->
+                  <span class="icon-heart5"> {{item.count_pointGood}}</span>
+                  <!--分享-->
+                  <span class="el-icon-share">121</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-    export default {
-      data(){
-        return{
-          value5: 4.4,
-          x:0,
-          Movies:[{},{},{},],
-          HotMovies:[{},{},{},],
-          ChooseMovies:[{},{},{},],
-          WatchMovies:[{},{},{},],
-          switchList:["最新推荐","热门排行","星级精选","随便看看"],
-          RankingSels:["本周","本月","近三月","近一年"],
-          mili:{Recommend:true,Select:false,Watching:false,Ranking:false},
+  import {mapGetters} from 'vuex'
+  export default {
+    computed:mapGetters([
+      'MovieHomePageList',
+    ]),
+    data(){
+      return{
+        value5: 4.4,
+        x:0,
+        switchList:["最新推荐","热门排行","星级精选","随便看看"],
+        RankingSels:["本周","本月","近三月","近一年"],
+        mili:{Recommend:true,Select:false,Watching:false,Ranking:false},
+      }
+    },
+    methods:{
+      init(){
+        this.mili.Recommend=false;
+        this.mili.Select=false;
+        this.mili.Watching=false;
+        this.mili.Ranking=false;
+      },
+      //切换
+      Switch(index){
+        this.x=index;
+        if(index==0){
+          this.init();
+          this.initData(42);
+          this.mili.Recommend=true;
+        }
+        else if(index==1){
+          this.init();
+          this.initData(41);
+          this.mili.Ranking=true;
+        }
+        else if(index==2){
+          this.init();
+          this.initData(40);
+          this.mili.Select=true;
+        }
+        else{
+          this.init();
+          this.initData();
+          this.mili.Watching=true;
         }
       },
-      methods:{
-        init(){
-          this.mili.Recommend=false;
-          this.mili.Select=false;
-          this.mili.Watching=false;
-          this.mili.Ranking=false;
-        },
-        //切换
-        Switch(index){
-          this.x=index;
-          if(index==0){
-            this.init();
-            this.mili.Recommend=true;
-          }
-          else if(index==1){
-            this.init();
-            this.mili.Ranking=true;
-          }
-          else if(index==2){
-            this.init();
-            this.mili.Select=true;
-          }
-          else{
-            this.init();
-            this.mili.Watching=true;
-          }
-          // console.log(index);
-          // if(index==0){
-          //   this.Recommend=true;
-          //   this.Ranking=false;
-          //   this.Select=false;
-          //   this.watching=false;
-          //   this.x=index;
-          // }
-          // else if(index==1){
-          //   this.Recommend=false;
-          //   this.Select=false;
-          //   this.Watching=false;
-          //   this.Ranking= true;
-          //   this.x=index;
-          // }
-          // else if(index==2){
-          //   this.Recommend=false;
-          //   this.Ranking=false;
-          //   this.Watching=false;
-          //   this.Select=true;
-          //   this.x=index;
-          // }
-          // else {
-          //   this.Recommend=false;
-          //   this.Select=false;
-          //   this.Ranking=false;
-          //   this.Watching=true;
-          //   this.x=index;
-          // }
+      initData(num){
+        let initOption={
+          "loginUserID": "huileyou",
+          "loginUserPass": "123",
+          "operateUserID": "",//操作员编码
+          "operateUserName": "",//操作员名称
+          "pcName": "",
+          "vf_vt_TypeID": num, //40精选 41热门 42 推荐  空为随机
+          "page": 1,//页码
+          "rows": 10//条数
+
         }
+        this.$store.dispatch("initMovieHomePageList",initOption)
       }
+    },
+    created(){
+      this.initData(42);
     }
+  }
 </script>
 
-<style lang="less" scoped type="text/less">
+<style lang="less" scoped>
   .active{
     background-color: #fff;
   }
   .MovieHomePage{
     width: 100%;
-    height: 1600px;
+    height: 3400px;
     .logo{
       width: 1400px;
       /*height: 540px;*/
@@ -286,13 +300,14 @@
     }
     .content{
       width: 1198px;
-      height: 1020px;
+      height: 2860px;
       margin: 40px auto 0px;
       border: 1px #ddd solid;
       ul{
         width: 100%;
         height: 50px;
         background-color: #f9f9f9;
+        //切换器
         li{
           width: 120px;
           height: 100%;
@@ -311,7 +326,7 @@
       }
       //最新推荐
       .MovieList{
-        height: 1000px;
+        height: 100%;
         width: 100%;
         margin-top: 18px;
         .Movies{
@@ -324,9 +339,15 @@
             width: 300px;
             height: 200px;
             position: relative;
+            overflow: hidden;
             img{
               width: 100%;
               height: 100%;
+              transition: all 1s linear;
+              transition-delay: .2s;
+              &:hover{
+                transform: scale(1.05,1.05);
+              }
             }
             span{
               position: absolute;
@@ -426,9 +447,15 @@
           .HotLeft{
             margin-right: 30px;
             position: relative;
+            overflow: hidden;
             img{
               width: 300px;
               height: 100%;
+              transition: all 1s linear;
+              transition-delay: .2s;
+              &:hover{
+                transform: scale(1.05,1.05);
+              }
             }
             span{
               position: absolute;
@@ -539,9 +566,15 @@
         .ChooseLeft{
           margin-right: 30px;
           position: relative;
+          overflow: hidden;
           img{
             width: 300px;
             height: 100%;
+            transition: all 1s linear;
+            transition-delay: .2s;
+            &:hover{
+              transform: scale(1.05,1.05);
+            }
           }
           span{
             position: absolute;
@@ -629,9 +662,15 @@
             width: 300px;
             height: 200px;
             position: relative;
+            overflow: hidden;
             img{
               width: 100%;
               height: 100%;
+              transition: all 1s linear;
+              transition-delay: .2s;
+              &:hover{
+                transform: scale(1.05,1.05);
+              }
             }
             span{
               position: absolute;

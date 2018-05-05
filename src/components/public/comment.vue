@@ -6,19 +6,12 @@
       <img src="@/assets/img/movieLogo.png" alt="">
       <!--导航-->
       <ul>
-        <!--<li @click="HomePage">首页</li>-->
         <li :class="{active:index==n}" v-for="item,index in toArr" @click="toPath(index,item)">{{item.name}}</li>
         <li>教育</li>
-        <!--<li @click="Channel">频道</li>-->
-        <!--<li @click="Series">系列</li>-->
-        <!--<li>教育</li>-->
       </ul>
     </div>
-    <!--需要修改-->
     <router-view name="Home"></router-view>
-    <!--<MovieHomePage v-show="HomePageShow"></MovieHomePage>-->
-    <!--<MovieSeries v-show="SeriesShow"></MovieSeries>-->
-    <!--<MovieChannel v-show="ChannelShow"></MovieChannel>-->
+
     <!--尾部-->
     <div class="PageFooter">
       <!--版权信息-->
@@ -28,9 +21,6 @@
 </template>
 
 <script>
-  import MovieSeries from '@/components/Movie/MovieSeries'
-  import MovieChannel from '@/components/Movie/MovieChannel'
-  import MovieHomePage from '@/components/Movie/MovieHomePage'
 
   export default {
     data(){
@@ -58,24 +48,8 @@
         sessionStorage.setItem('n',index);
         this.n = index;
       }
-//      Series(){
-//        this.SeriesShow= true;
-//        this.ChannelShow= false;
-//        this.HomePageShow=false;
-//      },
-//      Channel(){
-//        this.ChannelShow= true;
-//        this.SeriesShow= false;
-//        this.HomePageShow=false;
-//      },
-//      HomePage(){
-//        this.HomePageShow= true;
-//        this.ChannelShow=false;
-//        this.SeriesShow=false;
-//      }
     },
     created(){
-//      this.HomePage();
       let n = sessionStorage.getItem('n');
       if(n==0||n){
         this.n = n;

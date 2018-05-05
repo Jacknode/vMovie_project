@@ -8,15 +8,16 @@
         <span>频道分类 </span>
         <span>分享浏览优秀短片</span>
       </p>
-      <!--电影短片-->
+      <!--电影短片类型-->
       <div class="MovieShort">
         <ul>
-          <li v-for="item,index in mili" @mouseover="OpenShow(index)" @mouseout="CloseShow(index)"
-              :class="{Open:index==n,Close:index==m}">
+          <!--类型分类-->
+          <li v-for="item,index in MovieChannelList" @mouseenter="OpenShow(index)" @mouseleave="CloseShow(index)">
             <a href="#" class="el-icon-arrow-right"></a>
             <div class="ShortBtn">
-              <img src="@/assets/img/MovieImg.jpg" alt="">
-              <p>#{{item}}#</p>
+              <!--类型分类图片-->
+              <img v-lazy="item.vf_te_TypeImage" alt="">
+              <p>#{{item.vf_te_Name}}#</p>
             </div>
           </li>
         </ul>
@@ -28,91 +29,91 @@
 <script>
   import {mapGetters} from 'vuex'
   export default {
-    computed: mapGetters([
-      'isLoading'
+    computed:mapGetters([
+      'MovieChannelList'
     ]),
     data(){
-      return {
-        n: null,
-        m: null,
-        mili: ['创意', '励志', '搞笑', '广告', '旅行', '爱情', '剧情', '运动', '动画', '音乐', '科幻', '预告'],
+      return{
+        n:null,
+        m:null,
       }
     },
-    methods: {
+    methods:{
       OpenShow(index){
-        this.n = index;
-        this.m = null;
+        this.n=index;
       },
       CloseShow(index){
-        this.m = index;
-        this.n = null;
+        this.m=index;
       },
+      //初始化
+      initData(){
+        let initOption={
+          "loginUserID": "huileyou",
+          "loginUserPass": "123",
+          "operateUserID": "",//操作员编码
+          "operateUserName": "",//操作员名称
+          "pcName": "",
+        }
+        this.$store.dispatch('initMovieChannelList',initOption)
+      }
+    },
+    created(){
+      this.initData();
     }
   }
 </script>
 
-<style lang="less" scoped type="text/less">
-  .Open {
-    .ShortBtn {
-      right: 52px;
-    }
-  }
-
-  .Close {
-    .ShortBtn {
-      right: 0px;
-    }
-  }
-
-  .ChannelPage {
+<style lang="less" scoped>
+  .ChannelPage{
     width: 100%;
-    height: 1000px;
-    .content {
+    height: 1200px;
+    .content{
       width: 1200px;
       height: 100%;
       margin: 0px auto;
-      p {
+      p{
         margin-top: 20px;
-        span {
-          &:nth-of-type(1) {
+        span{
+          &:nth-of-type(1){
             font-size: 26px;
             color: #666;
             font-family: "WenQuanYi Micro Hei";
           }
-          &:nth-of-type(2) {
+          &:nth-of-type(2){
             color: #888;
             margin-left: 60px;
             font-size: 18px;
           }
         }
       }
-      .MovieShort {
+      .MovieShort{
         margin-top: 10px;
         width: 100%;
-        ul {
+        ul{
           list-style: none;
-          //从这里开始修改
-          li {
+          li{
             float: left;
             width: 340px;
             height: 200px;
             margin: 35px 30px 0px 30px;
             overflow: hidden;
             position: relative;
-            .ShortBtn {
+            .ShortBtn{
               width: 100%;
               height: 100%;
               display: flex;
               position: relative;
-              transition: all .6s linear;
-              transition-delay: .12s;
-              img {
+              img{
                 width: 100%;
                 height: 100%;
                 position: absolute;
-
+                transition: all .4s linear;
+                transition-delay: .12s;
+                &:hover{
+                  transform: translateX(-52px);
+                }
               }
-              p {
+              p{
                 position: absolute;
                 top: 31%;
                 left: 37%;
@@ -121,7 +122,7 @@
                 font-size: 24px;
               }
             }
-            a {
+            a{
               width: 52px;
               height: 200px;
               color: #fff;
