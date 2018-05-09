@@ -4,7 +4,7 @@ import MovieChannel from '@/components/Movie/MovieChannel'
 import MovieChannelList from '@/components/Movie/MovieChannelList'
 
 import Comment from '@/components/public/comment'
-
+import Video from '@/components/Movie/Video'
 
 export default [
   {
@@ -50,6 +50,11 @@ export default [
     path: '/',
     hidden: true,
     redirect: {name: 'MovieHomePage'}
+  },
+  {
+    path: '/video',
+    name: 'Video',
+    component: Video
   },
   {
     path: '*',

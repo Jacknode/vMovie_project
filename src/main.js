@@ -11,6 +11,11 @@ import 'element-ui/lib/theme-chalk/index.css'
 import * as filters from './filters'
 import App from './App'
 
+import VueVideoPlayer from 'vue-video-player'
+import 'video.js/dist/video-js.css'
+
+Vue.use(VueVideoPlayer)
+
 Object.keys(filters).forEach((key) => {
   Vue.filter(key, filters[key]);
 })
