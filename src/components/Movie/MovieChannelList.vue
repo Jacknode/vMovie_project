@@ -1,5 +1,4 @@
 <template>
-  <!--快捷导航需要修改-->
   <!--频道页面的视频列表-->
   <div class="MovieChannelList">
     <!--顶部信息-->

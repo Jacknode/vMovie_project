@@ -1,5 +1,5 @@
 <template>
-  <!--系列中的视频的内容--可以提交-->
+  <!--系列中的视频的内容-->
   <div class="SeriesCont">
     <!--视频部分-->
     <div class="MoviePlay">
