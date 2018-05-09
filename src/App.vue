@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <!--loading加载-->
-    <div class="loadingMask" v-show="isLoading">
+    <div class="loadingMask" v-show="">
       <div class="loadingMaskBox"></div>
       <div class="loadingContentBox">
         <i></i>

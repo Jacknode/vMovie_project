@@ -6,12 +6,10 @@
       <img src="@/assets/img/movieLogo.png" alt="">
       <!--导航-->
       <ul>
-        <!--<li @click="HomePage">首页</li>-->
         <li :class="{active:index==n}" v-for="item,index in toArr" @click="toPath(index,item)">{{item.name}}</li>
         <li>教育</li>
       </ul>
     </div>
-    <!--需要修改-->
     <router-view name="Home"></router-view>
     <!--尾部-->
     <div class="PageFooter">
@@ -22,9 +20,6 @@
 </template>
 
 <script>
-  import MovieSeries from '@/components/Movie/MovieSeries'
-  import MovieChannel from '@/components/Movie/MovieChannel'
-  import MovieHomePage from '@/components/Movie/MovieHomePage'
 
   export default {
     data(){
