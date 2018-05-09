@@ -1,5 +1,5 @@
 <template>
-  <!--视频详情-->
+  <!--视频详情---评论区重做中-->
   <div class="ListDetail">
     <!--视频详情区-->
     <div class="MovieDetail">
@@ -64,11 +64,11 @@
         <span>已有67条点评</span>
         <button>快速点评</button>
       </div>
-      <!--评论区-->
-      <div class="DiscussCont">
+      <!--评论-->
+      <div class="DiscussCont" v-for="item in Boxs">
         <!--评论头像-->
         <div class="DiscussUser">
-          <img src="" alt="">
+          <img src="@/assets/img/HeaderPortrait.jpg" alt="" style="width: 50px; height: 50px">
         </div>
         <!--评论详情-->
         <div class="DiscussDetail">
@@ -85,6 +85,33 @@
             </strong>
           </div>
         </div>
+
+
+
+
+
+        <!--评论回复-->
+        <!--<div class="DiscussReply" v-for="item in Replys">-->
+          <!--&lt;!&ndash;评论头像&ndash;&gt;-->
+          <!--<div class="ReplyUser">-->
+          <!--<img src="@/assets/img/HeaderPortrait.jpg" alt="" style="width: 50px; height: 50px">-->
+          <!--</div>-->
+          <!--&lt;!&ndash;评论详情&ndash;&gt;-->
+          <!--<div class="ReplyDetail">-->
+          <!--&lt;!&ndash;评论id&ndash;&gt;-->
+          <!--<div class="ReplyID">萝卜白菜</div>-->
+          <!--&lt;!&ndash;评论信息&ndash;&gt;-->
+          <!--<div class="ReplyInformation">打死不爱</div>-->
+          <!--&lt;!&ndash;评论时间/来源&ndash;&gt;-->
+          <!--<div class="ReplyTime">-->
+          <!--<span>4天前</span>来自<span>V电影</span>-->
+          <!--<strong>-->
+          <!--<a>回复</a>-->
+          <!--<a>赞</a>-->
+          <!--</strong>-->
+          <!--</div>-->
+          <!--</div>-->
+        <!--</div>-->
       </div>
     </div>
   </div>
@@ -95,6 +122,8 @@
     data(){
       return{
         value5:2.7,
+        Boxs:["",],
+        Replys:["",""]
       }
     }
   }
@@ -104,7 +133,7 @@
   //电影列表详情
   .ListDetail{
     width: 1000px;
-    height: 1900px;
+    height: 2200px;
     margin: 0px auto;
     //视频详情
     .MovieDetail{
@@ -144,7 +173,7 @@
         //版权
         .CopyRight{
           width: 900px;
-          margin-left: 30px;
+          margin-left: 50px;
           margin-top: 20px;
           height: 30px;
           line-height: 30px;
@@ -161,94 +190,135 @@
     }
     //评论区
     .MovieDiscuss{
-      width: 1000px;
-      height: 1000px;
-      //顶部
+      width: 100%;
+      border: 1px solid #eee;
+      //评论顶部
       .DiscussTop{
-        height: 40px;
-        width: 100%;
+        height: 50px;
+        width: 90%;
+        line-height: 50px;
+        margin-left: 50px;
         border-bottom: 1px solid #eee;
+        /*background-color: #fec;*/
         strong{
-          font-size: 20px;
-          font-weight: bold;
-          margin-left: 10px;
-          margin-right: 20px;
-        }
-        strong,span{
-          float: left;
+          font-family: "Microsoft YaHei";
+          font-size: 18px;
         }
         span{
-          height: 40px;
-          line-height: 20px;
+          font-size: 16px;
+          font-family: "Microsoft YaHei";
+          color: #999;
+          margin-left: 20px;
         }
         button{
-          width: 90px;
+          width: 100px;
           height: 30px;
-          float: right;
-          border: none;
           outline: none;
-          font-size: 16px;
-          margin-right: 100px;
-          font-family: "Microsoft YaHei";
+          border: none;
           color: #fff;
+          font-family: "Microsoft YaHei";
+          font-size: 16px;
           background-color: #3498db;
+          margin-left: 530px;
           &:hover{
-            opacity: .7;
+            opacity: .8;
           }
         }
       }
       //评论
       .DiscussCont{
-        width: 1000px;
-        height: 140px;
-        border-bottom: 1px solid #eee;
-        //评论者头像
+        width: 90%;
+        height: 150px;
+        /*display: flex;*/
+        position: relative;
+        z-index: 100;
+        margin:20px 0px 150px 50px;
+        /*background-color: #fbe;*/
+        //评论人头像
         .DiscussUser{
           height: 100%;
-          width: 140px;
-          margin-left: 20px;
-          margin-right: 18px;
-          float: left;
+          width: 80px;
+          /*background-color: #fcc;*/
           img{
-            width: 70px;
-            height: 70px;
-            margin-top: 30px;
+            margin: 10px 0px 0px 30px;
           }
         }
+        //评论详情
         .DiscussDetail{
-          width: 820px;
-          height: 140px;
-          float: right;
-          position: relative;
-          //评论id
+          width: 800px;
+          height: 100%;
+          position: absolute;
+          z-index: 100;
+          right: 0px;
+          top: 0px;
+          /*background-color: #f00;*/
+          margin-left: 20px;
+          //评论ID
           .DiscussID{
-            margin-top: 5px;
-            color: #ccc;
+            font-family: "Microsoft YaHei";
             font-size: 16px;
+            margin-top: 15px;
+            color: #999;
           }
-          //评论详情
+          //评论信息
           .DiscussInformation{
-            margin-top: 10px;
-            font-size: 14px;
+            height: 83px;
+            width: 100%;
             color: #444;
-            text-indent: 1em;
+            margin-top: 7px;
+            font-size: 14px;
+            /*background-color: #ffe;*/
           }
-          //评论时间\来源
+          //评论时间、来源
           .DiscussTime{
-            position: absolute;
-            bottom: 10px;
-            color: #ccc;
+            display: flex;
+            margin-left: 20px;
+            margin-top: 7px;
+            color: #999;
+            span{
+              margin-left: 10px;
+            }
             strong{
-              float: right;
-              margin-left: 580px;
+              margin-left: 470px;
+              display: flex;
               a{
-                display: inline-block;
-                color: #3498db;
+                margin-left: 20px;
               }
             }
           }
         }
+        //评论回复
+        /*.DiscussReply{*/
+          /*width: 700px;*/
+          /*height: 150px;*/
+          /*position: absolute;*/
+          /*right: 0px;*/
+          /*!*top: 150px;*!*/
+        /*}*/
       }
     }
   }
 </style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
