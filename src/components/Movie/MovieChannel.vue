@@ -12,7 +12,7 @@
       <div class="MovieShort">
         <ul>
           <!--类型分类-->
-          <li v-for="item,index in MovieChannelList" @mouseenter="OpenShow(index)" @mouseleave="CloseShow(index)">
+          <li v-for="item,index in MovieChannelList" @mouseenter="OpenShow(index)" @mouseleave="CloseShow(index)" @click="toMovieChannelList(item)">
             <a href="#" class="el-icon-arrow-right"></a>
             <div class="ShortBtn">
               <!--类型分类图片-->
@@ -55,6 +55,9 @@
           "pcName": "",
         }
         this.$store.dispatch('initMovieChannelList',initOption)
+      },
+      toMovieChannelList(item){
+        this.$router.push({name:'MovieChannelList',query:{id:item.vf_te_ID}})
       }
     },
     created(){
@@ -63,7 +66,7 @@
   }
 </script>
 
-<style lang="less" scoped>
+<style lang="less" scoped type="text/less">
   .ChannelPage{
     width: 100%;
     height: 1200px;

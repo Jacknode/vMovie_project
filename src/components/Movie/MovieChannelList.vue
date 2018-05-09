@@ -119,7 +119,7 @@
           "operateUserID": "",//操作员编码
           "operateUserName": "",//操作员名称
           "pcName": "",
-          "vf_vt_TypeID": "", //分类编号
+          "vf_vt_TypeID": this.$route.query.id, //分类编号
           "orderColumn": "",//排序字段vf_vo_CreateTime按时间，count_pointGood按点赞次数
           "page": 1,//页码
           "rows": 12//条数

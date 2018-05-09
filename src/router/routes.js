@@ -1,6 +1,7 @@
 import MovieHomePage from '@/components/Movie/MovieHomePage'
 import MovieSeries from '@/components/Movie/MovieSeries'
 import MovieChannel from '@/components/Movie/MovieChannel'
+import MovieChannelList from '@/components/Movie/MovieChannelList'
 
 import Comment from '@/components/public/comment'
 
@@ -25,6 +26,14 @@ export default [
         components: {
           default: Comment,
           Home: MovieChannel,
+        },
+      },
+      {
+        path: 'movieChannelList',
+        name: 'MovieChannelList',
+        components: {
+          default: Comment,
+          Home: MovieChannelList,
         },
       },
       {
