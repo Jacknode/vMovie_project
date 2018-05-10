@@ -10,5 +10,13 @@ export default {
   //类型列表
   initMovieChannelTypeList(state,data){
     state.MovieChannelTypeList=data;
+  },
+  //系列列表
+  initMovieSeriesList(state,data){
+    state.MovieSeriesList=data;
+  },
+  //电影详情
+  initMovieListDetail(state,data){
+    state.MovieListDetail=data;
   }
 }

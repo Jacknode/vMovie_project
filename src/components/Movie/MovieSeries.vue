@@ -26,8 +26,6 @@
           <div class="contDetail">
             <!--标题部分-->
             <div class="MovieName"><strong>{{item.vf_ss_Name}}</strong>{{item.vf_ss_UpdateTime}}</div>
-            <!--追剧-->
-            <div class="MovieLoading"><button>追剧</button><span>2333</span>人正在追</div>
             <!--描述-->
             <div class="Detail">{{item.vf_ss_Describ}}</div>
             <div class="MovieSection">
@@ -49,8 +47,6 @@
           <div class="contDetail">
             <!--标题-->
             <div class="MovieName"><strong>{{item.vf_ss_Name}}</strong>{{item.vf_ss_UpdateTime}}</div>
-            <!--追剧-->
-            <div class="MovieLoading"><button>追剧</button><span>2333</span>人正在追</div>
             <!--详情-->
             <div class="Detail">{{item.vf_ss_Describ}}</div>
             <div class="MovieSection">
@@ -73,8 +69,6 @@
           <div class="contDetail">
             <!--标题-->
             <div class="MovieName"><strong>{{item.vf_ss_Name}}</strong>{{item.vf_ss_UpdateTime}}</div>
-            <!--追剧-->
-            <div class="MovieLoading"><button>追剧</button><span>2333</span>人正在追</div>
             <!--详情-->
             <div class="Detail">{{item.vf_ss_Describ}}</div>
             <div class="MovieSection">
@@ -231,39 +225,24 @@
                 margin-right: 10px;
               }
             }
-            .MovieLoading{
-              height: 30px;
-              button{
-                width: 60px;
-                height: 26px;
-                color: #fff;
-                border: none;
-                outline: none;
-                font-size: 16px;
-                margin-right: 10px;
-                border-radius: 3px;
-                background-color: #3a8ee6;
-              }
-              span{
-                margin-right: 10px;
-                font-size: 16px;
-                color: #c8c8c8;
-              }
-            }
             .Detail{
               color: #c8c8c8;
-              height: 50px;
+              height: 80px;
               line-height: 16px;
               padding-top: 5px;
+              overflow: hidden;
             }
             .MovieSection{
+              margin-top: 10px;
               p{
                 height: 30px;
                 line-height: 30px;
                 margin-top: 10px;
+                font-size: 12px;
                 padding-left: 10px;
                 border-radius: 2px;
                 background-color: #c8c8c8;
+                overflow: hidden;
               }
             }
           }
