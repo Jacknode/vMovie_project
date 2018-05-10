@@ -74,7 +74,7 @@
       <div class="DiscussCont" v-for="item in Boxs">
         <!--评论头像-->
         <div class="DiscussUser">
-          <!--<img src="@/assets/img/HeaderPortrait.jpg" alt="" style="width: 50px; height: 50px">-->
+          <img src="@/assets/img/HeaderPortrait.jpg" alt="" style="width: 50px; height: 50px">
         </div>
         <!--评论详情-->
         <div class="DiscussDetail">
@@ -90,34 +90,34 @@
               <a>回复</a>
             </strong>
           </div>
+          <!--评论回复-->
+          <!--<div class="DiscussReply" v-for="ims in Replys" v-show="1">-->
+            <!--&lt;!&ndash;评论回复头像&ndash;&gt;-->
+            <!--<div class="ReplyUser">-->
+              <!--<img src="@/assets/img/HeaderPortrait.jpg" alt="" style="width: 50px; height: 50px">-->
+            <!--</div>-->
+            <!--&lt;!&ndash;回复详情&ndash;&gt;-->
+            <!--<div class="ReplyDetail">-->
+              <!--&lt;!&ndash;评论回复ID&ndash;&gt;-->
+              <!--<div class="ReplyID">不吃面包的笨蛋</div>-->
+              <!--&lt;!&ndash;回复信息&ndash;&gt;-->
+              <!--<div class="ReplyInformation">我不吃萝卜 也不吃白菜</div>-->
+              <!--&lt;!&ndash;回复时间/来源&ndash;&gt;-->
+              <!--<div class="ReplyTime">-->
+                <!--<span>4天前</span>来自<span>V电影</span>-->
+                <!--<strong>-->
+                  <!--<a>回复</a>-->
+                  <!--<a>赞</a>-->
+                <!--</strong>-->
+              <!--</div>-->
+            <!--</div>-->
+          <!--</div>-->
         </div>
 
 
 
 
 
-        <!--评论回复-->
-        <!--<div class="DiscussReply" v-for="item in Replys">-->
-        <!--&lt;!&ndash;评论头像&ndash;&gt;-->
-        <!--<div class="ReplyUser">-->
-        <!--<img src="@/assets/img/HeaderPortrait.jpg" alt="" style="width: 50px; height: 50px">-->
-        <!--</div>-->
-        <!--&lt;!&ndash;评论详情&ndash;&gt;-->
-        <!--<div class="ReplyDetail">-->
-        <!--&lt;!&ndash;评论id&ndash;&gt;-->
-        <!--<div class="ReplyID">萝卜白菜</div>-->
-        <!--&lt;!&ndash;评论信息&ndash;&gt;-->
-        <!--<div class="ReplyInformation">打死不爱</div>-->
-        <!--&lt;!&ndash;评论时间/来源&ndash;&gt;-->
-        <!--<div class="ReplyTime">-->
-        <!--<span>4天前</span>来自<span>V电影</span>-->
-        <!--<strong>-->
-        <!--<a>回复</a>-->
-        <!--<a>赞</a>-->
-        <!--</strong>-->
-        <!--</div>-->
-        <!--</div>-->
-        <!--</div>-->
       </div>
     </div>
   </div>
@@ -182,7 +182,6 @@
   //电影列表详情
   .ListDetail{
     width: 1000px;
-    height: 2200px;
     margin: 0px auto;
     //视频详情
     .MovieDetail{
@@ -330,16 +329,67 @@
               }
             }
           }
+          //评论回复
+          .DiscussReply{
+            width: 98%;
+            height: 150px;
+            margin-top: 10px;
+            margin-bottom: 10px;
+            &:after{
+              content: '';
+              height: 0;
+              display: block;
+              overflow: hidden;
+              clear: left;
+            }
+            //评论回复头像
+            .ReplyUser{
+              width: 80px;
+              height: 100%;
+              float: left;
+              img{
+                margin:10px 0px 0px 10px;
+              }
+            }
+            //回复详情
+            .ReplyDetail{
+              width: 700px;
+              height: 100%;
+              margin-left: 84px;
+              //评论回复ID
+              .ReplyID{
+                font-size: 16px;
+                color: #999;
+                padding-top: 15px;
+              }
+              //回复信息
+              .ReplyInformation{
+                margin-top: 7px;
+                color: #444;
+                width: 100%;
+                height: 83px;
+              }
+              //回复时间/来源
+              .ReplyTime{
+                display: flex;
+                margin-left: 20px;
+                margin-top: 7px;
+                margin-bottom: 10px;
+                color: #999;
+                span{
+                  margin-left: 10px;
+                }
+                strong{
+                  margin-left: 400px;
+                  display: flex;
+                  a{
+                    margin-left: 30px;
+                  }
+                }
+              }
+            }
+          }
         }
-        //评论回复
-        /*.DiscussReply{*/
-        /*width: 700px;*/
-        /*height: 150px;*/
-        /*position: absolute;*/
-        /*right: 0px;*/
-        /*!*top: 150px;*!*/
-        /*background-color: #fec;*/
-        /*}*/
       }
     }
   }

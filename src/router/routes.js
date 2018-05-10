@@ -1,11 +1,11 @@
-import MovieHomePage from '@/components/Movie/MovieHomePage'
-import MovieSeries from '@/components/Movie/MovieSeries'
-import MovieChannel from '@/components/Movie/MovieChannel'
-import MovieChannelList from '@/components/Movie/MovieChannelList'
+import MovieHomePage from '@/components/Movie/MovieHomePage'    //首页
+import MovieSeries from '@/components/Movie/MovieSeries'    //系列
+import MovieChannel from '@/components/Movie/MovieChannel'    //频道
+import MovieChannelList from '@/components/Movie/MovieChannelList'    //频道类型列表
 
-import MovieListDetail from '@/components/Movie/MovieListDetail'
+import MovieListDetail from '@/components/Movie/MovieListDetail'    //视频详情
 
-import Comment from '@/components/public/comment'
+import Comment from '@/components/public/comment'   //公共
 import Video from '@/components/Movie/Video'
 
 export default [

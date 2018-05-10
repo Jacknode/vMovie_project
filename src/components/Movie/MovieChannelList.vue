@@ -28,44 +28,19 @@
     </div>
     <!--内容->视频列表-->
     <div class="ChannelContList">
-      <!--视频-->
-      <!--<div class="MovieContent" v-for="item,index in Movies">-->
-      <!--<div class="ImgBox"><img src="@/assets/img/MovieChannel1.jpg" :class="{open:index==m,close:index==n}" @mouseenter="into(index)" @mouseleave="move(index)"></div>-->
-      <!--&lt;!&ndash;视频信息&ndash;&gt;-->
-      <!--<div class="MovieInformation">-->
-      <!--&lt;!&ndash;视频标题&ndash;&gt;-->
-      <!--<div class="MovieTitle">行为艺术实验短片《妄为》</div>-->
-      <!--&lt;!&ndash;其他信息->评论、评分、点赞&ndash;&gt;-->
-      <!--<div class="OtherInformation">-->
-      <!--<span class="el-icon-tickets"> 35</span>-->
-      <!--<span class="icon-heart5"> 233</span>-->
-      <!--<p>-->
-      <!--<el-rate-->
-      <!--v-model="value5"-->
-      <!--disabled-->
-      <!--show-score-->
-      <!--text-color="#ff9900"-->
-      <!--score-template="{value}">-->
-      <!--</el-rate>-->
-      <!--</p>-->
-      <!--</div>-->
-      <!--</div>-->
-      <!--</div>
+
       <!--视频-->
       <div class="MovieContent" v-for="item,index in MovieChannelTypeList" @click="toMovieListDetail(item)">
-        <!--<div class="ImgBox"><img src="@/assets/img/MovieChannel1.jpg" :class="{open:index==m,close:index==n}" @mouseenter="into(index)" @mouseleave="move(index)"></div>-->
         <div class="ImgBox"><img v-lazy="item.vf_vo_ImageURL" :class="{open:index==m,close:index==n}" @mouseenter="into(index)" @mouseleave="move(index)"></div>
         <!--视频信息-->
         <div class="MovieInformation">
           <!--视频标题-->
-          <!--<div class="MovieTitle">行为艺术实验短片《妄为》</div>-->
           <div class="MovieTitle">{{item.vf_vo_Title}}</div>
           <!--其他信息->评论、评分、点赞-->
           <div class="OtherInformation">
             <!--评论-->
             <span class="el-icon-tickets"> 35</span>
             <!--点赞-->
-            <!--<span class="icon-heart5"> 233</span>-->
             <span class="icon-heart5"> {{item.count_pointGood}}</span>
             <p>
               <el-rate
@@ -95,7 +70,6 @@
         m:null,
         n:null,
         MovieSort:['最新发布','最高评分','评论最多','喜欢最多',],
-        Movies:[{},{},{},{},{},{},{},{},{},{},{},{},],
         Listis:["创意","励志","搞笑","广告","旅行","爱情","剧情","运动","动画","音乐","实验","科幻"]
       }
     },
@@ -148,13 +122,19 @@
   //视频列表
   .MovieChannelList{
     width: 1200px;
-    height: 1160px;
     margin: 0px auto;
     //顶部信息
     .TopListInformation{
       width: 100%;
       height: 140px;
       margin-top: 20px;
+      &:after{
+        content: '';
+        display: block;
+        height: 0;
+        overflow: hidden;
+        clear: both;
+      }
       //标题
       .ChannelTitle{
         height: 50px;
@@ -249,16 +229,19 @@
     .ChannelContList{
       width: 100%;
       height: 1000px;
+      &:after{
+        content: '';
+        height: 0;
+        display: block;
+        height: 0;
+        clear: both;
+      }
       .MovieContent{
         width: 280px;
         height: 300px;
         float: left;
         background-color: #eee;
         margin: 30px 10px 0px 10px;
-        &:after{
-          content: '';
-          clear: both;
-        }
         .ImgBox{
           width: 100%;
           height: 180px;

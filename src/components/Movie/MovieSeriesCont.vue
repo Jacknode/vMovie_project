@@ -43,7 +43,7 @@
         <textarea type="text" class="Describe" placeholder="很不错"></textarea>
         <!--按钮-->
         <div class="DiscussBtn">
-          还可以输入<span>2000</span>个字
+          还可以输入<span>200</span>个字
           <button>发表评论</button>
         </div>
       </div>
@@ -59,7 +59,6 @@
 <style lang="less" scoped>
   .SeriesCont{
     width: 1000px;
-    height: 1500px;
     margin: 20px auto 0px;
     //视频部分
     MoviePlay{
@@ -171,6 +170,13 @@
         height: 200px;
         margin: 5px 0px 0px 60px;
         position: relative;
+        &:after{
+          content: '';
+          height: 0;
+          display: block;
+          overflow: hidden;
+          clear: right;
+        }
         img{
           margin: 20px 0px 0px 25px;
         }

@@ -10,7 +10,7 @@
       <!--菜单 快捷栏-->
       <div class="ShortcutBar">
         <ul>
-          <li v-for="item,index in Navs" @click="Switch(index)">{{item}}</li>
+          <li v-for="item,index in Navs" @click="Switch(index)" :class="{active:index==x}">{{item}}</li>
         </ul>
       </div>
       <!--内容部分-视频列表-全部系列-->
@@ -91,6 +91,7 @@
     ]),
     data(){
       return{
+        x:0,
         Navs:["全部系列","更新中","完结"],
         MovieType:{Alls:true,UpDates:false,ends:false},
       }
@@ -103,6 +104,7 @@
       },
       //切换
       Switch(index){
+        this.x=index;
         if(index==0){
           this.init();
           this.initData();
@@ -151,13 +153,24 @@
 </script>
 
 <style lang="less" scoped>
+  .active{
+    background-color: #0abda6;
+    color: #fff;
+    font-weight: bold;
+  }
   .SeriesPage{
     width: 1200px;
-    height: 900px;
     margin: 0px auto;
     .content{
       width: 100%;
       height: 100%;
+      &:after{
+        content: '';
+        height: 0;
+        display: block;
+        overflow: hidden;
+        clear: left;
+      }
       //顶部
       p{
         margin-top: 20px;
@@ -184,18 +197,17 @@
           li{
             font-family: "WenQuanYi Micro Hei";
             font-size: 14px;
-            font-weight: bold;
             text-align: center;
             line-height: 30px;
             border-radius: 5px;
             cursor: pointer;
-            color: #888;
             width: 70px;
             height: 30px;
             margin: 0px 10px 0px 10px;
-            &:nth-of-type(1),&:hover{
+            &:hover{
               background-color: #0abda6;
               color: #fff;
+              font-weight: bold;
             }
           }
         }

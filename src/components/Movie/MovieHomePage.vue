@@ -1,5 +1,5 @@
 <template>
-  <!--电影首页-->
+  <!--电影首页 评分?暂时没引入数据-->
   <div class="MovieHomePage">
     <!--轮播-->
     <div class="logo">
@@ -286,10 +286,8 @@
   }
   .MovieHomePage{
     width: 100%;
-    height: 3400px;
     .logo{
       width: 1400px;
-      /*height: 540px;*/
       margin: 0px auto;
       .el-carousel__item:nth-child(2n) {
         background-color: #99a9bf;
@@ -300,7 +298,6 @@
     }
     .content{
       width: 1198px;
-      height: 2860px;
       margin: 40px auto 0px;
       border: 1px #ddd solid;
       ul{
@@ -411,7 +408,6 @@
       //热门排行
       .HotRanking{
         width: 100%;
-        height: 1000px;
         margin-top: 18px;
         .RankingSel{
           width: 1000px;
@@ -649,7 +645,6 @@
       }
       //随便看看
       .lookAround{
-        height: 1000px;
         width: 100%;
         margin-top: 18px;
         .WatchMovies{

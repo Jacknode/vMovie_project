@@ -58,6 +58,9 @@
       },
       toMovieChannelList(item){
         this.$router.push({name:'MovieChannelList',query:{id:item.vf_te_ID}})
+        setTimeout(()=>{
+          window.location.reload();
+        },30)
       }
     },
     created(){
@@ -69,7 +72,6 @@
 <style lang="less" scoped type="text/less">
   .ChannelPage{
     width: 100%;
-    height: 1200px;
     .content{
       width: 1200px;
       height: 100%;
@@ -94,6 +96,13 @@
         width: 100%;
         ul{
           list-style: none;
+          &:after{
+            content: '';
+            height: 0;
+            display: block;
+            overflow: hidden;
+            clear: left;
+          }
           li{
             float: left;
             width: 340px;
