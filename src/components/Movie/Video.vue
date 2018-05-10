@@ -1,36 +1,31 @@
 <template>
-  <video-player  class="video-player-box"
+  <video-player  class="vjs-custom-skin"
                  ref="videoPlayer"
                  :options="playerOptions"
                  :playsinline="true"
                  customEventName="customstatechangedeventname"
-
                  @play="onPlayerPlay($event)"
                  @pause="onPlayerPause($event)"
                  @ended="onPlayerEnded($event)"
                  @waiting="onPlayerWaiting($event)"
-                 @playing="onPlayerPlaying($event)"
-                 @loadeddata="onPlayerLoadeddata($event)"
-                 @timeupdate="onPlayerTimeupdate($event)"
-                 @canplay="onPlayerCanplay($event)"
-                 @canplaythrough="onPlayerCanplaythrough($event)"
-
-                 @statechanged="playerStateChanged($event)"
-                 @ready="playerReadied">
+                 @ready="playerReadied"
+  >
   </video-player>
 </template>
 <script>
+  import '@/assets/css/custom-theme.css'
   export default {
     data() {
       return {
         playerOptions: {
           // videojs options
+          height: '500',
           muted: true,
-          language: 'en',
+          language: 'zh-CN',
           playbackRates: [0.7, 1.0, 1.5, 2.0],
           sources: [{
             type: "video/mp4",
-            src: "https://cdn.theguardian.tv/webM/2015/07/20/150716YesMen_synd_768k_vp8.webm"
+            src: "http://vjs.zencdn.net/v/oceans.mp4",
           }],
           poster: "/static/images/author.jpg",
         }

@@ -52,7 +52,7 @@
       <!--</div>-->
       <!--</div>
       <!--视频-->
-      <div class="MovieContent" v-for="item,index in MovieChannelTypeList">
+      <div class="MovieContent" v-for="item,index in MovieChannelTypeList" @click="toMovieListDetail(item)">
         <!--<div class="ImgBox"><img src="@/assets/img/MovieChannel1.jpg" :class="{open:index==m,close:index==n}" @mouseenter="into(index)" @mouseleave="move(index)"></div>-->
         <div class="ImgBox"><img v-lazy="item.vf_vo_ImageURL" :class="{open:index==m,close:index==n}" @mouseenter="into(index)" @mouseleave="move(index)"></div>
         <!--视频信息-->
@@ -125,6 +125,9 @@
           "rows": 12//条数
         }
         this.$store.dispatch("initMovieChannelTypeList",initOption)
+      },
+      toMovieListDetail(item){
+        this.$router.push({name:'MovieListDetail',query:{id:item.vf_vo_ID}})
       }
     },
     created(){
