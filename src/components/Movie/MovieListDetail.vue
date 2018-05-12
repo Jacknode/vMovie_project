@@ -34,7 +34,7 @@
             (已有<span>{{MovieListDetail.count_score}}</span>人评分)
             <!--提交评分-->
             <div class="commitRate" v-show="commitRates" @mouseleave="RateClose()">
-              <el-rate v-model="value1"></el-rate>
+              <!--<el-rate v-model="value1"></el-rate>-->
             </div>
           </div>
           <!--右边-->

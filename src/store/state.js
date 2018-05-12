@@ -1,4 +1,5 @@
 export default{
+  isLoading:false,
   MovieHomePageList:[],   //微电影首页列表
   MoviesHuffling:[],    //首页轮播
   MovieChannelList:[],    //微电影频道类型列表

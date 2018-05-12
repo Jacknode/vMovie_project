@@ -25,7 +25,19 @@ Object.keys(filters).forEach((key) => {
 Vue.prototype.$http = axios;
 Vue.use(ElementUI)
 
+axios.interceptors.request.use(function (config) {  //配置发送请求的信息
+  store.commit('showLoading')
+  return config;
+}, function (error) {
+  return Promise.reject(error);
+});
+axios.interceptors.response.use(function (response) { //配置请求回来的信息
+  store.commit('hideLoading')
+  return response;
+}, function (error) {
 
+  return Promise.reject(error);
+});
 
 
 import VueLazyLoad from 'vue-lazyload'

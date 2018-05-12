@@ -1,4 +1,11 @@
 export default {
+  //loading设置
+  showLoading(state) {
+    state.isLoading = true;
+  },
+  hideLoading(state) {
+    state.isLoading = false;
+  },
   //首页列表
   initMovieHomePageList(state,data){
     state.MovieHomePageList=data;
