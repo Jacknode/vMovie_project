@@ -21,7 +21,7 @@
             <!--视频类型-->
             <span>{{MovieListDetail.vf_te_Name}}</span>
             <!--评分-->
-            <span style="display: inline-block;">
+            <span style="display: inline-block;" @mouseenter="RateOpen()">
               <el-rate
                 v-model="MovieListDetail.a"
                 disabled
@@ -32,6 +32,10 @@
             <i>{{MovieListDetail.averageScore}}</i>
             <!--评分人数-->
             (已有<span>{{MovieListDetail.count_score}}</span>人评分)
+            <!--提交评分-->
+            <div class="commitRate" v-show="commitRates" @mouseleave="RateClose()">
+              <el-rate v-model="value1"></el-rate>
+            </div>
           </div>
           <!--右边-->
           <div class="MovieDataRight">
@@ -146,6 +150,7 @@
   export default {
     data(){
       return{
+        commitRates:false,
         playerOptions: {
           // videojs options
           height: '500',
@@ -203,6 +208,12 @@
             })
             this.playerOptions.poster = obj.vf_vo_ImageURL
           })
+      },
+      RateOpen(){
+        this.commitRates=true;
+      },
+      RateClose(){
+        this.commitRates=false;
       }
     },
     created(){
@@ -250,8 +261,15 @@
           .MovieDataLeft{
             float: left;
             margin-left: 20px;
+            position: relative;
             i{
               color: rgb(247,168,42);
+            }
+            //提交评分
+            .commitRate{
+              position: absolute;
+              top: 30px;
+              left: 300px;
             }
           }
           //右边
