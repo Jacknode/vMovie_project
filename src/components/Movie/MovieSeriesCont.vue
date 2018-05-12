@@ -3,7 +3,18 @@
   <div class="SeriesCont">
     <!--视频部分-->
     <div class="MoviePlay">
-      <video src="" poster="@/assets/img/MovieSeriesCont.jpg" style="width: 100%"></video>
+      <video-player  class="vjs-custom-skin"
+                     ref="videoPlayer"
+                     :options="playerOptions"
+                     :playsinline="true"
+                     customEventName="customstatechangedeventname"
+                     @play="onPlayerPlay($event)"
+                     @pause="onPlayerPause($event)"
+                     @ended="onPlayerEnded($event)"
+                     @waiting="onPlayerWaiting($event)"
+                     @ready="playerReadied"
+      >
+      </video-player>
     </div>
     <!--视频其他参数-->
     <div class="MovieOtherInformation">
@@ -11,7 +22,7 @@
       <div class="MovieTitle">
         <!--标题-->
         <div class="tLeft">
-          【魔力记录】定制婚纱
+          {{MovieSeriesContEpisode.vf_vo_Title}}
           <span>自制</span>
         </div>
         <!--分享图标-->
@@ -19,14 +30,13 @@
       </div>
       <!--更新-->
       <div class="MovieUpdata">
-        <button>追我</button>
-        <p style="display: inline-block;">已有<span>21345</span>人追过该系列</p>
-        <strong>每周二、五更新</strong>
+        <!--<button>追我</button>-->
+        <!--<p style="display: inline-block;">已有<span>21345</span>人追过该系列</p>-->
+        <strong>{{MovieSeriesCont.vf_ss_UpdateTime}}</strong>
       </div>
       <!--集数详情-->
       <div class="EpisodeDetail">
-        <a>1</a>
-        <a>2</a>
+        <a v-for="item in MovieSeriesNum">{{item.vf_fs_Level}}</a>
       </div>
     </div>
     <!--评论-->
@@ -43,7 +53,7 @@
         <textarea type="text" class="Describe" placeholder="很不错"></textarea>
         <!--按钮-->
         <div class="DiscussBtn">
-          还可以输入<span>200</span>个字
+          还可以输入<span>2000</span>个字
           <button>发表评论</button>
         </div>
       </div>
@@ -52,23 +62,91 @@
 </template>
 
 <script>
+  import {mapGetters} from 'vuex'
   export default {
+    computed: Object.assign({
+      player() {
+        return this.$refs.videoPlayer.player
+      }
+    },mapGetters([
+      'MovieSeriesCont',      //视频系列内容
+      'MovieSeriesNum',       //视频内容集数
+      'MovieSeriesContEpisode'    //视频集数内容
+    ])),
+    data(){
+      return{
+        playerOptions: {
+          // videojs options
+          height: '500',
+          muted: true,
+          language: 'zh-CN',
+          playbackRates: [0.7, 1.0, 1.5, 2.0],
+          sources: [
+          ],
+        },
+      }
+    },
+    methods:{
+      // listen event
+      onPlayerPlay(player) {
+        // console.log('player play!', player)
+      },
+      onPlayerPause(player) {
+        // console.log('player pause!', player)
+      },
+      // ...player event
+
+      // or listen state event
+      playerStateChanged(playerCurrentState) {
+        // console.log('player current update state', playerCurrentState)
+      },
+
+      // player is ready
+      playerReadied(player) {
+        console.log('the player is readied', player)
+        // you can use it to do something...
+        // player.[methods]
+      },
+      //初始化
+      initData(num){
+        let initOption={
+          "loginUserID": "huileyou",  //惠乐游用户ID
+          "loginUserPass": "123",  //惠乐游用户密码
+          "operateUserID": "",//操作员编码
+          "operateUserName": "",//操作员名称
+          "pcName": "",  //机器码
+          "vf_ss_ID": this.$route.query.id,//系列编号
+          "vf_fs_Level": num,//当前集或最新集
+        }
+        this.$store.dispatch('initMovieSeriesCont',initOption)
+          .then(()=>{
+            this.playerOptions.sources.push({
+              type:'video/'+this.MovieSeriesContEpisode.vf_vo_Extend,
+              src:this.MovieSeriesContEpisode.vf_vo_FileURL
+            })
+            this.playerOptions.poster = this.MovieSeriesContEpisode.vf_vo_ImageURL
+          })
+      }
+    },
+    created(){
+      this.initData();
+    }
   }
 </script>
 
-<style lang="less" scoped>
+<style lang="less" scoped type="text/less">
   .SeriesCont{
     width: 1000px;
     margin: 20px auto 0px;
     //视频部分
-    MoviePlay{
+    .MoviePlay{
       width: 100%;
       height: 600px;
     }
     //视频其他参数
     .MovieOtherInformation{
       width: 100%;
-      height: 540px;
+      min-height: 200px;
       background-color: #eee;
       margin-top: 30px;
       //标题
@@ -130,7 +208,6 @@
       //集数详情
       .EpisodeDetail{
         width: 680px;
-        height: 400px;
         margin: 20px 0px 0px 120px;
         a{
           width: 28px;
@@ -138,7 +215,7 @@
           background-color: #fff;
           text-align: center;
           line-height: 28px;
-          margin: 10px 0px 0px 5px;
+          margin: 15px 5px 0px 5px;
           box-shadow: 1px 2px #c8c8c8;
           display: inline-block;
         }
@@ -185,10 +262,10 @@
           width: 780px;
           height: 150px;
           resize: none;
+          float: right;
+          font-size: 16px;
           text-indent: 1em;
           padding-top: 5px;
-          font-size: 16px;
-          float: right;
           border: 1px solid #eee;
         }
         //按钮

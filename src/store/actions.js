@@ -11,9 +11,13 @@ export default {
       })
         .then(data=>{
           var data = data.data;
-          // console.log(123,data);
           if( Number(data.resultcode) == 200 ){
-            commit('initMovieHomePageList',data.data)
+            //评分处理
+            for(let i=0;i < data.data.length;i++){
+              data.data[i].a = data.data[i].averageScore/2
+            }
+            commit('initMovieHomePageList',data.data);
+            commit('MoviesHuffling',data.topBigImageList);
             relove();
           }else{
             reject(data.resultcontent)
@@ -31,7 +35,6 @@ export default {
       })
         .then(data=>{
           var data = data.data;
-          // console.log(data);
           if( Number(data.resultcode) == 200 ){
             commit('initMovieChannelList',data.data)
             relove();
@@ -51,9 +54,9 @@ export default {
       })
         .then(data=>{
           var data = data.data;
-          // console.log(data);
           if( Number(data.resultcode) == 200 ){
-            commit('initMovieChannelTypeList',data.data)
+            commit('initMovieChannelTypeList',data.data);
+            commit('MovieChannelTypeObj',data.data[0]);
             relove();
           }else{
             reject(data.resultcontent)
@@ -71,7 +74,6 @@ export default {
       })
         .then(data=>{
           var data = data.data;
-          // console.log(data);
           if( Number(data.resultcode) == 200 ){
             commit('initMovieSeriesList',data.data)
             relove();
@@ -91,14 +93,35 @@ export default {
       })
         .then(data=>{
           var data = data.data;
-          console.log(111,data);
           if( Number(data.resultcode) == 200 ){
-            commit('initMovieListDetail',data.data)
+            data.data.a = data.data.averageScore/2;
+            commit('initMovieListDetail',data.data);
+            relove(data.data);
+          }else{
+            reject(data.resultcontent)
+          }
+        })
+    })
+  },
+  //系列视频内容
+  initMovieSeriesCont({commit},data){
+    return new Promise(function (relove, reject) {
+      axios.post('http://webservice.1000da.com.cn/VWebPage/SeriesList',JSON.stringify(data),{
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded'
+        }
+      })
+        .then(data=>{
+          var data = data.data;
+          if( Number(data.resultcode) == 200 ){
+            commit('initMovieSeriesCont',data.data[0]);
+            commit('MovieSeriesNum',data.data[0].vf_FilmSeries)
+            commit('MovieSeriesContEpisode',data.data[0].vf_FilmSeries[0].vf_Vedio[0])
             relove();
           }else{
             reject(data.resultcontent)
           }
         })
     })
-  }
+  },
 }

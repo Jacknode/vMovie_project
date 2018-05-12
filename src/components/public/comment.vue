@@ -61,7 +61,7 @@
   .comment{
     width: 100%;
     height: 65px;
-    background-color: #c8c8c8;
+    background-color: #ececec;
     //顶部
     .PageTop{
       margin: 0px auto;
@@ -97,7 +97,7 @@
     .PageFooter{
       width: 100%;
       height: 140px;
-      background-color: #c8c8c8;
+      background-color: #ececec;
       margin-top: 60px;
       .copyright{
         width: 1200px;

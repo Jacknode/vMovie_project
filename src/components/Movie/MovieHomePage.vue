@@ -1,11 +1,11 @@
 <template>
-  <!--电影首页 评分?暂时没引入数据-->
+  <!--电影首页-->
   <div class="MovieHomePage">
     <!--轮播-->
     <div class="logo">
       <el-carousel trigger="click" :interval="5000" height="540px">
-        <el-carousel-item v-for="item in 4" :key="item">
-          <img src="@/assets/img/MovieBanner.jpg" alt="">
+        <el-carousel-item v-for="item in MoviesHuffling" :key="null">
+          <img :src="item.vf_vo_TomImageURL" alt="" style="width: 1400px; height: 540px" @click="toMovieDetail(item)">
         </el-carousel-item>
       </el-carousel>
     </div>
@@ -13,7 +13,7 @@
     <div class="content">
       <ul>
         <!--切换器-->
-        <li :class="{active:index==x}" v-for="item,index in switchList" @click="Switch(index)" ref="active">{{item}}</li>
+        <li :class="{active:index==x}" v-for="item,index in switchList" @click="Switch(index)">{{item}}</li>
       </ul>
       <!--最新推荐-->
       <!--切换的内容-->
@@ -22,23 +22,23 @@
         <div class="Movies" v-for="item in MovieHomePageList">
           <!--左边-->
           <div class="Movieleft">
-            <img v-lazy="item.vf_vo_ImageURL" alt="" style="height: 198px">
+            <img v-lazy="item.vf_vo_ImageURL" alt="" style="height: 198px" @click="toMovieHomePage(item)">
             <!--时长-->
             <span>{{item.timeLength}}</span>
           </div>
           <!--右边-->
           <div class="MovieRight">
             <!--标题-->
-            <div class="MovieName">{{item.vf_vo_Title}}</div>
+            <div class="MovieName" @click="toMovieHomePage(item)">{{item.vf_vo_Title}}</div>
             <!--评分-->
             <div class="MovieReta">
               <el-rate
-                v-model="value5"
+                v-model="item.a"
                 disabled
-                show-score
                 text-color="#ff9900"
                 score-template="{value}">
               </el-rate>
+              <span>{{item.averageScore}}</span>
             </div>
             <!--简介描述-->
             <div class="MovieDescribe">{{item.vf_vo_Introduce}}</div>
@@ -65,32 +65,33 @@
         <div class="RankingSel">
           <dl>
             <strong>排序:</strong>
-            <dd v-for="item in RankingSels">{{item}}</dd>
+            <dd :class="{HotRank:index==R}" v-for="item,index in RankingSels" @click="HotRanks(index)">{{item}}</dd>
           </dl>
         </div>
         <!--热门电影-->
         <div class="HotMovie" v-for="item in MovieHomePageList">
           <!--左边-->
           <div class="HotLeft">
-            <img v-lazy="item.vf_vo_ImageURL" alt="" style="height: 198px">
+            <img v-lazy="item.vf_vo_ImageURL" alt="" style="height: 198px" @click="toMovieHomePage(item)">
             <span>{{item.timeLength}}</span>
           </div>
           <!--右边-->
           <div class="HotRight">
             <div class="HotMovieName">
-              <span>{{item.vf_vo_Title}}</span>
+              <!--标题-->
+              <span  @click="toMovieHomePage(item)">{{item.vf_vo_Title}}</span>
             </div>
             <!--热门评分-->
             <div class="HotMovieReta">
               <!--影片作者-->
               {{item.vf_vo_AuthorName}}
               <el-rate
-                v-model="value5"
+                v-model="item.a"
                 disabled
-                show-score
                 text-color="#ff9900"
                 score-template="{value}">
               </el-rate>
+              <span>{{item.averageScore}}</span>
             </div>
             <!--简介描述-->
             <div class="HotMovieDec">{{item.vf_vo_Introduce}}</div>
@@ -115,35 +116,34 @@
         <div class="ChooseSel">
           <dl>
             <strong>排序:</strong>
-            <dd>最新发布</dd>
-            <dd>最高评分</dd>
+            <dd :class="{ChoosesCont:index==C}" v-for="itm,index in Chooses" @click="ChoosesContent(index)">{{itm}}</dd>
           </dl>
         </div>
         <!--星级电影-->
         <div class="ChooseMovie" v-for="item in MovieHomePageList">
           <!--左边-->
           <div class="ChooseLeft">
-            <img v-lazy="item.vf_vo_ImageURL" alt="" style="height: 198px">
+            <img v-lazy="item.vf_vo_ImageURL" alt="" style="height: 198px" @click="toMovieHomePage(item)">
             <!--时长-->
             <span>{{item.timeLength}}</span>
           </div>
           <!--右边-->
           <div class="ChooseRight">
             <!--标题-->
-            <div class="ChooseMovieName"><span>{{item.vf_vo_Title}}</span>
+            <div class="ChooseMovieName" @click="toMovieHomePage(item)"><span>{{item.vf_vo_Title}}</span>
               <!--<button>来自新片场</button>-->
             </div>
-            <!--热门评分-->
+            <!--星级评分-->
             <div class="ChooseMovieReta">
               <!--影片作者-->
               {{item.vf_vo_AuthorName}}
               <el-rate
-                v-model="value5"
+                v-model="item.a"
                 disabled
-                show-score
                 text-color="#f90"
                 score-template="{value}">
               </el-rate>
+              <span>{{item.averageScore}}</span>
             </div>
             <!--简介描述-->
             <div class="ChooseMovieDec">{{item.vf_vo_Introduce}}</div>
@@ -169,24 +169,24 @@
         <div class="WatchMovies" v-for="item in MovieHomePageList">
           <!--左边-->
           <div class="WatchMovieleft">
-            <img v-lazy="item.vf_vo_ImageURL" alt="" style="height: 198px">
+            <img v-lazy="item.vf_vo_ImageURL" alt="" style="height: 198px" @click="toMovieHomePage(item)">
             <span>{{item.timeLength}}</span>
           </div>
           <!--右边-->
           <div class="WatchMovieRight">
             <!--标题-->
-            <div class="WatchMovieName">{{item.vf_vo_Title}}</div>
+            <div class="WatchMovieName" @click="toMovieHomePage(item)">{{item.vf_vo_Title}}</div>
             <!--评分-->
             <div class="WatchMovieReta">
               <!--影片作者-->
               {{item.vf_vo_AuthorName}}
               <el-rate
-                v-model="value5"
+                v-model="item.a"
                 disabled
-                show-score
                 text-color="#ff9900"
                 score-template="{value}">
               </el-rate>
+              <span>{{item.averageScore}}</span>
             </div>
             <!--简介描述-->
             <div class="WatchMovieDescribe">{{item.vf_vo_Introduce}}</div>
@@ -197,11 +197,11 @@
                 <span>{{item.vf_vo_CreateTime}}</span>
                 <!--点赞、评论-->
                 <div class="WatchBottomIconCont">
-                  <!--评论-->
+                  <!--评论次数-->
                   <span class="el-icon-document"> 213</span>
-                  <!--点赞-->
+                  <!--点赞次数-->
                   <span class="icon-heart5"> {{item.count_pointGood}}</span>
-                  <!--分享-->
+                  <!--分享次数-->
                   <span class="el-icon-share">121</span>
                 </div>
               </div>
@@ -218,11 +218,14 @@
   export default {
     computed:mapGetters([
       'MovieHomePageList',
+      'MoviesHuffling'
     ]),
     data(){
       return{
-        value5: 4.4,
         x:0,
+        R:0,
+        C:0,
+        Chooses:["最新发布","最高评分"],
         switchList:["最新推荐","热门排行","星级精选","随便看看"],
         RankingSels:["本周","本月","近三月","近一年"],
         mili:{Recommend:true,Select:false,Watching:false,Ranking:false},
@@ -234,6 +237,13 @@
         this.mili.Select=false;
         this.mili.Watching=false;
         this.mili.Ranking=false;
+      },
+      //轮播跳转
+      toMovieDetail(item){
+        this.$router.push({name:"MovieListDetail",query:{id:item.vf_vo_ID}});
+        setTimeout(()=>{
+          window.location.reload();
+        },10)
       },
       //切换
       Switch(index){
@@ -259,6 +269,21 @@
           this.mili.Watching=true;
         }
       },
+      //热门筛选
+      HotRanks(index){
+        this.R=index;
+      },
+      //星级筛选
+      ChoosesContent(index){
+        this.C=index;
+      },
+      //跳转
+      toMovieHomePage(item){
+        this.$router.push({name:"MovieListDetail",query:{id:item.vf_vo_ID}});
+        setTimeout(()=>{
+          window.location.reload();
+        },10)
+      },
       initData(num){
         let initOption={
           "loginUserID": "huileyou",
@@ -272,7 +297,7 @@
 
         }
         this.$store.dispatch("initMovieHomePageList",initOption)
-      }
+      },
     },
     created(){
       this.initData(42);
@@ -283,6 +308,10 @@
 <style lang="less" scoped type="text/less">
   .active{
     background-color: #fff;
+  }
+  .HotRank,.ChoosesCont{
+    color: #f00;
+    font-weight: bold;
   }
   .MovieHomePage{
     width: 100%;
@@ -360,14 +389,25 @@
             width: 670px;
             height: 200px;
             position: relative;
+            //标题
             .MovieName{
               margin-top: 10px;
               font-weight: bold;
               font-size: 20px;
               font-family: "Microsoft YaHei";
+              &:hover{
+                opacity: .6;
+              }
             }
             .MovieReta{
               margin-top: 15px;
+              position: relative;
+              span{
+                position: absolute;
+                top: 1px;
+                left: 130px;
+                color: rgb(247,168,42);
+              }
             }
             .MovieDescribe{
               margin-top: 10px;
@@ -377,7 +417,7 @@
             }
             .MovieOther{
               .BoxBtm{
-                width: 100%;
+                width: 663px;
                 height: 30px;
                 line-height: 30px;
                 position: absolute;
@@ -468,10 +508,14 @@
             position: relative;
             .HotMovieName{
               margin-top: 10px;
+              //标题
               span{
                 font-weight: bold;
                 font-size: 20px;
                 font-family: "Microsoft YaHei";
+                &:hover{
+                  opacity: .6;
+                }
               }
               button{
                 border: none;
@@ -488,6 +532,13 @@
               margin-top: 15px;
               color: #999;
               line-height: 18px;
+              position: relative;
+              span{
+                position: absolute;
+                top: 1px;
+                left: 130px;
+                color: rgb(247,168,42);
+              }
             }
             .HotMovieDec{
               font-size: 14px;
@@ -497,7 +548,7 @@
             }
             .HotOtherInmation{
               .BoxBottom{
-                width: 100%;
+                width: 663px;
                 height: 30px;
                 line-height: 30px;
                 position: absolute;
@@ -587,10 +638,14 @@
           position: relative;
           .ChooseMovieName{
             margin-top: 10px;
+            //标题
             span{
               font-weight: bold;
               font-size: 20px;
               font-family: "Microsoft YaHei";
+              &:hover{
+                opacity: .6;
+              }
             }
             button{
               border: none;
@@ -607,6 +662,13 @@
             margin-top: 15px;
             color: #999;
             line-height: 18px;
+            position: relative;
+            span{
+              position: absolute;
+              top: 1px;
+              left: 130px;
+              color: rgb(247,168,42);
+            }
           }
           .ChooseMovieDec{
             font-size: 14px;
@@ -616,7 +678,7 @@
           }
           .ChooseOtherInmation{
             .BoxBot{
-              width: 100%;
+              width: 663px;
               height: 30px;
               line-height: 30px;
               position: absolute;
@@ -681,14 +743,26 @@
             width: 670px;
             height: 200px;
             position: relative;
+            //标题
             .WatchMovieName{
               margin-top: 10px;
               font-weight: bold;
               font-size: 20px;
               font-family: "Microsoft YaHei";
+              &:hover{
+                opacity: .6;
+              }
             }
+            //评分
             .WatchMovieReta{
               margin-top: 15px;
+              position: relative;
+              span{
+                position: absolute;
+                top: 3px;
+                left: 130px;
+                color: rgb(247,168,42);
+              }
             }
             .WatchMovieDescribe{
               margin-top: 10px;
@@ -698,7 +772,7 @@
             }
             .WatchMovieOther{
               .BoxBtm{
-                width: 100%;
+                width: 663px;
                 height: 30px;
                 line-height: 30px;
                 position: absolute;

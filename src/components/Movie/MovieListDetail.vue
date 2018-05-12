@@ -23,18 +23,25 @@
             <!--评分-->
             <span style="display: inline-block;">
               <el-rate
-                v-model="MovieListDetail.averageScore"
+                v-model="MovieListDetail.a"
                 disabled
-                show-score
                 text-color="#ff9900"
                 score-template="{value}">
                 </el-rate>
             </span>
+            <i>{{MovieListDetail.averageScore}}</i>
             <!--评分人数-->
             (已有<span>{{MovieListDetail.count_score}}</span>人评分)
           </div>
           <!--右边-->
-          <div class="MovieDataRight"></div>
+          <div class="MovieDataRight">
+            <!--评论次数-->
+            <span class="el-icon-document"> {{MovieListDetail.count_score}}</span>
+            <!--点赞次数-->
+            <span class="icon-heart5"> {{MovieListDetail.count_pointGood}}</span>
+            <!--分享次数-->
+            <span class="el-icon-share"> 1212</span>
+          </div>
         </div>
       </div>
       <!--视频详情-->
@@ -56,10 +63,10 @@
         <!--版权-->
         <div class="CopyRight">本文文字内容归本站版权所有，转载请注明来自V电影</div>
         <!--标签-->
-        <div class="MovieLabel">
-          标签：
-          <span>励志</span>
-        </div>
+        <!--<div class="MovieLabel">-->
+          <!--标签：-->
+          <!--<span>励志</span>-->
+        <!--</div>-->
       </div>
     </div>
     <!--评论区-->
@@ -71,7 +78,7 @@
         <button>快速点评</button>
       </div>
       <!--评论-->
-      <div class="DiscussCont" v-for="item in Boxs">
+      <div class="DiscussCont">
         <!--评论头像-->
         <div class="DiscussUser">
           <img src="@/assets/img/HeaderPortrait.jpg" alt="" style="width: 50px; height: 50px">
@@ -91,33 +98,43 @@
             </strong>
           </div>
           <!--评论回复-->
-          <!--<div class="DiscussReply" v-for="ims in Replys" v-show="1">-->
-            <!--&lt;!&ndash;评论回复头像&ndash;&gt;-->
-            <!--<div class="ReplyUser">-->
-              <!--<img src="@/assets/img/HeaderPortrait.jpg" alt="" style="width: 50px; height: 50px">-->
-            <!--</div>-->
-            <!--&lt;!&ndash;回复详情&ndash;&gt;-->
-            <!--<div class="ReplyDetail">-->
-              <!--&lt;!&ndash;评论回复ID&ndash;&gt;-->
-              <!--<div class="ReplyID">不吃面包的笨蛋</div>-->
-              <!--&lt;!&ndash;回复信息&ndash;&gt;-->
-              <!--<div class="ReplyInformation">我不吃萝卜 也不吃白菜</div>-->
-              <!--&lt;!&ndash;回复时间/来源&ndash;&gt;-->
-              <!--<div class="ReplyTime">-->
-                <!--<span>4天前</span>来自<span>V电影</span>-->
-                <!--<strong>-->
-                  <!--<a>回复</a>-->
-                  <!--<a>赞</a>-->
-                <!--</strong>-->
-              <!--</div>-->
-            <!--</div>-->
-          <!--</div>-->
+          <div class="DiscussReply">
+            <!--评论回复头像-->
+            <div class="ReplyUser">
+              <img src="@/assets/img/HeaderPortrait.jpg" alt="" style="width: 50px; height: 50px">
+            </div>
+            <!--回复详情-->
+            <div class="ReplyDetail">
+              <!--评论回复ID-->
+              <div class="ReplyID">不吃面包的笨蛋</div>
+              <!--回复信息-->
+              <div class="ReplyInformation">我不吃萝卜 也不吃白菜</div>
+              <!--回复时间/来源-->
+              <div class="ReplyTime">
+                <span>4天前</span>来自<span>V电影</span>
+                <strong>
+                  <a>回复</a>
+                  <a>赞</a>
+                </strong>
+              </div>
+            </div>
+          </div>
         </div>
-
-
-
-
-
+      </div>
+      <!--发表评论-->
+      <div class="MakeComment">
+        <!--内容-->
+        <textarea class="DiscussContent"></textarea>
+        <!--按钮-->
+        <div class="DiscussBtn">
+          <!--左边评论图标-->
+          <!--<div></div>-->
+          <!--右边提交评论-->
+          <div class="CommitBtn">
+            <span>还可以输入<i>200</i>个字</span>
+            <button>发表评论</button>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -135,15 +152,10 @@
           muted: true,
           language: 'zh-CN',
           playbackRates: [0.7, 1.0, 1.5, 2.0],
-          sources: [{
-            type: "video/mp4",
-            src: "http://vjs.zencdn.net/v/oceans.mp4",
-          }],
-          poster: "/static/images/author.jpg",
+          sources: [
+          ],
         },
         value5:2.7,
-        Boxs:["",],
-        Replys:["",""]
       }
     },
     computed: Object.assign({
@@ -173,7 +185,28 @@
         console.log('the player is readied', player)
         // you can use it to do something...
         // player.[methods]
+      },
+      initData(){
+        let initOption={
+          "loginUserID": "huileyou",  //惠乐游用户ID
+          "loginUserPass": "123",  //惠乐游用户密码
+          "operateUserID": "",//操作员编码
+          "operateUserName": "",//操作员名称
+          "pcName": "",  //机器码
+          "vf_vo_ID": this.$route.query.id,//视频编号
+        }
+        this.$store.dispatch("initMovieListDetail",initOption)
+          .then((obj)=>{
+              this.playerOptions.sources.push({
+              type:'video/'+obj.vf_vo_Extend,
+              src:obj.vf_vo_FileURL
+            })
+            this.playerOptions.poster = obj.vf_vo_ImageURL
+          })
       }
+    },
+    created(){
+      this.initData();
     }
   }
 </script>
@@ -186,7 +219,8 @@
     //视频详情
     .MovieDetail{
       width: 100%;
-      height: 1000px;
+      /*height: 1000px;*/
+      margin-bottom: 20px;
       //视频顶部
       .MovieTop{
         width: 100%;
@@ -200,16 +234,43 @@
           line-height: 80px;
         }
         //视频资料
-        .MovieData{}
+        .MovieData{
+          color: #999;
+          width: 100%;
+          height: 30px;
+          line-height: 30px;
+          &:after{
+            content: '';
+            display: block;
+            height: 0;
+            overflow: hidden;
+            clear: both;
+          }
+          //左边
+          .MovieDataLeft{
+            float: left;
+            margin-left: 20px;
+            i{
+              color: rgb(247,168,42);
+            }
+          }
+          //右边
+          .MovieDataRight{
+            float: right;
+            color: #c8c8c8;
+            margin-right: 50px;
+            span{
+              margin: 0px 3px 0px 3px;
+              &:nth-of-type(1),&:nth-of-type(3){
+                line-height: 20px;
+              }
+            }
+          }
+        }
       }
       //视频内容
       .MovieCont{
-        //视频
-        video{
-          width: 700px;
-          height: 467px;
-          margin-left: 150px;
-        }
+        height: 100%;
         //内容概要
         .ContentAbstract{
           width: 1000px;
@@ -232,9 +293,9 @@
           background-color: #eee;
         }
         //标签
-        .MovieLabel{
-          margin-top: 10px;
-        }
+        /*.MovieLabel{*/
+          /*margin-top: 10px;*/
+        /*}*/
       }
     }
     //评论区
@@ -276,14 +337,18 @@
       //评论
       .DiscussCont{
         width: 90%;
-        height: 150px;
-        position: relative;
-        z-index: 100;
-        margin:20px 0px 150px 50px;
+        margin:20px 0px 50px 50px;
+        &:after{
+          content: '';
+          height: 0;
+          overflow: hidden;
+          display: block;
+          clear: left;
+        }
         //评论人头像
         .DiscussUser{
-          height: 100%;
           width: 80px;
+          float: left;
           img{
             margin: 10px 0px 0px 30px;
           }
@@ -291,12 +356,8 @@
         //评论详情
         .DiscussDetail{
           width: 800px;
-          height: 100%;
-          position: absolute;
-          z-index: 100;
-          right: 0px;
-          top: 0px;
-          margin-left: 20px;
+          margin-left: 100px;
+
           //评论ID
           .DiscussID{
             font-family: "Microsoft YaHei";
@@ -335,17 +396,9 @@
             height: 150px;
             margin-top: 10px;
             margin-bottom: 10px;
-            &:after{
-              content: '';
-              height: 0;
-              display: block;
-              overflow: hidden;
-              clear: left;
-            }
             //评论回复头像
             .ReplyUser{
               width: 80px;
-              height: 100%;
               float: left;
               img{
                 margin:10px 0px 0px 10px;
@@ -354,7 +407,6 @@
             //回复详情
             .ReplyDetail{
               width: 700px;
-              height: 100%;
               margin-left: 84px;
               //评论回复ID
               .ReplyID{
@@ -386,6 +438,61 @@
                     margin-left: 30px;
                   }
                 }
+              }
+            }
+          }
+        }
+      }
+      //发表评论
+      .MakeComment{
+        width: 900px;
+        /*height: 200px;*/
+        margin:0px 0px 10px 50px;
+        //内容
+        .DiscussContent{
+          width: 100%;
+          height: 100px;
+          font-size: 16px;
+          resize: none;
+          border-color: #eee;
+          outline: none;
+          color: #666;
+          padding: 5px 7px 5px 7px;
+          &:after{
+            content: "";
+            height: 0;
+            display: block;
+            overflow: hidden;
+            clear: both;
+          }
+        }
+        //按钮
+        .DiscussBtn{
+          width: 100%;
+          height: 40px;
+          line-height: 40px;
+          //右边提交按钮
+          .CommitBtn{
+            float: right;
+            width: 300px;
+            height: 30px;
+            span{
+              color: #999;
+              i{
+                color: #F00;
+              }
+            }
+            button{
+              width: 100px;
+              height: 30px;
+              outline: none;
+              border: none;
+              color: #fff;
+              font-size: 18px;
+              margin: 0px 5px 0px 15px;
+              background-color: #3498DB;
+              &:hover{
+                opacity: .8;
               }
             }
           }

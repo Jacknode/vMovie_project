@@ -11,6 +11,9 @@ import 'element-ui/lib/theme-chalk/index.css'
 import * as filters from './filters'
 import App from './App'
 
+import '@/assets/css/icons/icomoon/styles.css'
+import '@/assets/css/icons/fontawesome/styles.min.css'
+
 import VueVideoPlayer from 'vue-video-player'
 import 'video.js/dist/video-js.css'
 

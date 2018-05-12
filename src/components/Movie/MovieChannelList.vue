@@ -6,15 +6,15 @@
       <!--标题-->
       <div class="ChannelTitle">
         <!--类型-->
-        <span>实验</span>
-        <p>当前共有影片<strong>250</strong>部</p>
+        <span>{{MovieChannelTypeObj.vf_te_Name}}</span>
+        <p>当前共有影片<strong>110</strong>部</p>
       </div>
       <!--排序和快捷导航-->
       <div class="SortNav">
         <!--排序-->
         <ul>
           <strong>排序:</strong>
-          <li v-for="item in MovieSort">{{item}}</li>
+          <li :class="{active:index==x}" v-for="item,index in MovieSort" @click="SortMovie(index)">{{item}}</li>
         </ul>
         <!--快捷导航-->
         <div class="ChannelTypeNav" @mouseover="BoxShow" @mouseleave='BoxClose'>所有频道<span class="el-icon-caret-right"></span></div>
@@ -62,13 +62,15 @@
   import {mapGetters} from 'vuex'
   export default {
     computed:mapGetters([
-      'MovieChannelTypeList'
+      'MovieChannelTypeList',
+      'MovieChannelTypeObj'
     ]),
     data(){
       return{
         value5:3.1,
         m:null,
         n:null,
+        x:0,
         MovieSort:['最新发布','最高评分','评论最多','喜欢最多',],
         Listis:["创意","励志","搞笑","广告","旅行","爱情","剧情","运动","动画","音乐","实验","科幻"]
       }
@@ -86,7 +88,18 @@
       BoxClose(){
         this.$refs.show.style.display='none';
       },
-      initData(){
+      //筛选排序
+      SortMovie(index){
+        this.x=index;
+        if(index==0){
+          this.initData(1);
+        }
+        else if(index==2){
+          this.initData(2);
+        }
+      },
+      //初始化
+      initData(num){
         let initOption={
           "loginUserID": "huileyou",
           "loginUserPass": "123",
@@ -94,18 +107,21 @@
           "operateUserName": "",//操作员名称
           "pcName": "",
           "vf_vt_TypeID": this.$route.query.id, //分类编号
-          "orderColumn": "",//排序字段vf_vo_CreateTime按时间，count_pointGood按点赞次数
+          "orderColumn": num,//排序字段,1按时间，2点赞次数
           "page": 1,//页码
           "rows": 12//条数
         }
         this.$store.dispatch("initMovieChannelTypeList",initOption)
       },
       toMovieListDetail(item){
-        this.$router.push({name:'MovieListDetail',query:{id:item.vf_vo_ID}})
+        this.$router.push({name:'MovieListDetail',query:{id:item.vf_vo_ID}});
+        setTimeout(()=>{
+          window.location.reload();
+        },30)
       }
     },
     created(){
-      this.initData();
+      this.initData(1);
     }
   }
 </script>
@@ -118,6 +134,10 @@
   .close{
     width: 280px;
     height: 180px;
+  }
+  .active{
+    color: #f00;
+    font-weight: bold;
   }
   //视频列表
   .MovieChannelList{

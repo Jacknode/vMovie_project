@@ -4,6 +4,7 @@ import MovieChannel from '@/components/Movie/MovieChannel'    //频道
 import MovieChannelList from '@/components/Movie/MovieChannelList'    //频道类型列表
 
 import MovieListDetail from '@/components/Movie/MovieListDetail'    //视频详情
+import MovieSeriesCont from '@/components/Movie/MovieSeriesCont'    //系列视频内容
 
 import Comment from '@/components/public/comment'   //公共
 import Video from '@/components/Movie/Video'
@@ -52,6 +53,14 @@ export default [
         components: {
           default: Comment,
           Home: MovieListDetail,
+        },
+      },
+      {
+        path: 'movieSeriesCont',
+        name: 'MovieSeriesCont',
+        components: {
+          default: Comment,
+          Home: MovieSeriesCont,
         },
       },
     ]

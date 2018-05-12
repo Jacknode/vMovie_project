@@ -3,6 +3,10 @@ export default {
   initMovieHomePageList(state,data){
     state.MovieHomePageList=data;
   },
+  //首页轮播
+  MoviesHuffling(state,data){
+    state.MoviesHuffling=data;
+  },
   //频道列表
   initMovieChannelList(state,data){
     state.MovieChannelList=data;
@@ -11,6 +15,10 @@ export default {
   initMovieChannelTypeList(state,data){
     state.MovieChannelTypeList=data;
   },
+  //类型名
+  MovieChannelTypeObj(state,data){
+    state.MovieChannelTypeObj=data;
+  },
   //系列列表
   initMovieSeriesList(state,data){
     state.MovieSeriesList=data;
@@ -18,5 +26,17 @@ export default {
   //电影详情
   initMovieListDetail(state,data){
     state.MovieListDetail=data;
+  },
+  //系列视频内容
+  initMovieSeriesCont(state,data){
+    state.MovieSeriesCont=data;
+  },
+  //系列视频集数
+  MovieSeriesNum(state,data){
+    state.MovieSeriesNum=data;
+  },
+  //系列视频集数内容
+  MovieSeriesContEpisode(state,data){
+    state.MovieSeriesContEpisode=data;
   }
 }

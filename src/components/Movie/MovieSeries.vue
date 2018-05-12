@@ -18,14 +18,14 @@
         <!--视频详情-->
         <div class="MovieDetail">
           <!--左边图片-->
-          <div class="imageBox">
+          <div class="imageBox" @click="toMovieSeries(item)">
             <!--图片-->
             <img v-lazy="item.vf_ss_SeriesImageURL" alt="" style="width: 150px; height: 200px">
           </div>
           <!--右边详情detail-->
           <div class="contDetail">
             <!--标题部分-->
-            <div class="MovieName"><strong>{{item.vf_ss_Name}}</strong>{{item.vf_ss_UpdateTime}}</div>
+            <div class="MovieName"><strong @click="toMovieSeries(item)">{{item.vf_ss_Name}}</strong>{{item.vf_ss_UpdateTime}}</div>
             <!--描述-->
             <div class="Detail">{{item.vf_ss_Describ}}</div>
             <div class="MovieSection">
@@ -40,13 +40,13 @@
         <!--视频详情-->
         <div class="MovieDetail">
           <!--左边图片-->
-          <div class="imageBox">
+          <div class="imageBox" @click="toMovieSeries(item)">
             <img v-lazy="item.vf_ss_SeriesImageURL" alt="" style="width: 150px; height: 200px">
           </div>
           <!--右边详情detail-->
           <div class="contDetail">
             <!--标题-->
-            <div class="MovieName"><strong>{{item.vf_ss_Name}}</strong>{{item.vf_ss_UpdateTime}}</div>
+            <div class="MovieName"><strong @click="toMovieSeries(item)">{{item.vf_ss_Name}}</strong>{{item.vf_ss_UpdateTime}}</div>
             <!--详情-->
             <div class="Detail">{{item.vf_ss_Describ}}</div>
             <div class="MovieSection">
@@ -61,14 +61,14 @@
         <!--视频详情-->
         <div class="MovieDetail">
           <!--左边图片-->
-          <div class="imageBox">
+          <div class="imageBox" @click="toMovieSeries(item)">
             <!--图片-->
             <img v-lazy="item.vf_ss_SeriesImageURL" alt="" style="width: 150px; height: 200px">
           </div>
           <!--右边详情detail-->
           <div class="contDetail">
             <!--标题-->
-            <div class="MovieName"><strong>{{item.vf_ss_Name}}</strong>{{item.vf_ss_UpdateTime}}</div>
+            <div class="MovieName"><strong @click="toMovieSeries(item)">{{item.vf_ss_Name}}</strong>{{item.vf_ss_UpdateTime}}</div>
             <!--详情-->
             <div class="Detail">{{item.vf_ss_Describ}}</div>
             <div class="MovieSection">
@@ -128,6 +128,14 @@
       //完结
       end(){
         this.initData(1);
+      },
+      //跳转
+      toMovieSeries(item){
+        this.$router.push({name:'MovieSeriesCont',query:{id:item.vf_ss_ID}});
+        setTimeout(()=>{
+          window.location.reload();
+        },60);
+        console.log(item.vf_ss_ID)
       },
       //初始化
       initData(num){
@@ -235,6 +243,9 @@
                 font-size: 18px;
                 font-weight: bold;
                 margin-right: 10px;
+                &:hover{
+                  color: #3498db;
+                }
               }
             }
             .Detail{
