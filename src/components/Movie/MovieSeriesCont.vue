@@ -34,7 +34,7 @@
       </div>
       <!--集数详情-->
       <div class="EpisodeDetail">
-        <a v-for="item in MovieSeriesNum">{{item.vf_fs_Level}}</a>
+        <a v-for="item,index in MovieSeriesNum.length" @click="toReload(index+1)" :class="{active:index==n}">{{index+1}}</a>
       </div>
     </div>
     <!--评论-->
@@ -124,10 +124,21 @@
             })
             this.playerOptions.poster = this.MovieSeriesContEpisode.vf_vo_ImageURL
           })
+      },
+      toReload(index){
+        sessionStorage.setItem('index',index)
+        window.location.reload()
       }
     },
     created(){
-      this.initData();
+      let index = sessionStorage.getItem('index');
+      if(index){
+        this.n = index-1;
+        this.initData(index);
+      }else{
+        this.initData();
+      }
+
     }
   }
 </script>
