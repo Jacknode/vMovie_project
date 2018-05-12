@@ -30,8 +30,6 @@
       </div>
       <!--更新-->
       <div class="MovieUpdata">
-        <!--<button>追我</button>-->
-        <!--<p style="display: inline-block;">已有<span>21345</span>人追过该系列</p>-->
         <strong>{{MovieSeriesCont.vf_ss_UpdateTime}}</strong>
       </div>
       <!--集数详情-->
@@ -179,26 +177,6 @@
         position: relative;
         line-height: 50px;
         margin: 0px 0px 0px 120px;
-        button{
-          outline: none;
-          border: none;
-          width: 50px;
-          height: 30px;
-          font-family: "Microsoft YaHei";
-          color: #fff;
-          border-radius: 2px;
-          background-color: #3498DB;
-          &:hover{
-            opacity: .8;
-          }
-        }
-        p{
-          span{
-            margin: 0px 4px 0px 4px;
-            color: #999;
-            font-size: 16px;
-          }
-        }
         strong{
           color: #999;
           position: absolute;
