@@ -54,13 +54,14 @@ export default {
         .then(data=>{
           var data = data.data;
           if( Number(data.resultcode) == 200 ){
-            for(let i=0;i < data.data.length;i++){
-              data.data[i].a = data.data[i].average_score/2
+            if( data.data.length){
+              for(let i=0;i < data.data.length;i++){
+                data.data[i].a = data.data[i].average_score/2
+              }
+              commit('initMovieChannelTypeListNum',data);
+              commit('initMovieChannelTypeList',data.data);
+              commit('initMovieChannelTypeObj',data.data[0]);
             }
-            commit('initMovieChannelTypeListNum',data);
-            commit('initMovieChannelTypeList',data.data);
-            commit('initMovieChannelTypeObj',data.data[0]);
-            console.log(113,data)
             relove();
           }else{
             reject(data.resultcontent)
@@ -248,7 +249,9 @@ export default {
           var data = data.data;
           if( Number(data.resultcode) == 200 ){
             commit('initMovieSeriesCont',data.data[0]);
-            commit('MovieSeriesNum',data.data[0].vf_FilmSeries)
+            let arr = data.data[0].vf_FilmSeries;
+            arr.reverse();
+            commit('MovieSeriesNum',arr);
             commit('MovieSeriesContEpisode',data.data[0].vf_FilmSeries[0].vf_Vedio[0])
             relove();
           }else{

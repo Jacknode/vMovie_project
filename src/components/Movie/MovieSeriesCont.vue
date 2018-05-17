@@ -3,16 +3,16 @@
   <div class="SeriesCont">
     <!--视频部分-->
     <div class="MoviePlay">
-      <video-player  class="vjs-custom-skin"
-                     ref="videoPlayer"
-                     :options="playerOptions"
-                     :playsinline="true"
-                     customEventName="customstatechangedeventname"
-                     @play="onPlayerPlay($event)"
-                     @pause="onPlayerPause($event)"
-                     @ended="onPlayerEnded($event)"
-                     @waiting="onPlayerWaiting($event)"
-                     @ready="playerReadied"
+      <video-player class="vjs-custom-skin"
+                    ref="videoPlayer"
+                    :options="playerOptions"
+                    :playsinline="true"
+                    customEventName="customstatechangedeventname"
+                    @play="onPlayerPlay($event)"
+                    @pause="onPlayerPause($event)"
+                    @ended="onPlayerEnded($event)"
+                    @waiting="onPlayerWaiting($event)"
+                    @ready="playerReadied"
       >
       </video-player>
     </div>
@@ -33,7 +33,7 @@
         <strong>{{MovieSeriesCont.vf_ss_UpdateTime}}</strong>
       </div>
       <!--集数详情-->
-      <div class="EpisodeDetail" v-for="item,index in MovieSeriesNum" @click="toReload(index+1,item)">
+      <div class="EpisodeDetail" v-for="item,index in MovieSeriesNum" @click="toReload(item.vf_fs_Level,item)">
         <el-popover
           placement="right"
           width="320"
@@ -119,28 +119,27 @@
       player() {
         return this.$refs.videoPlayer.player
       }
-    },mapGetters([
+    }, mapGetters([
       'MovieSeriesCont',      //视频系列内容
       'MovieSeriesNum',       //视频内容集数
       'MovieSeriesContEpisode',    //视频集数内容
       'MovieDetailComment'    //评论
     ])),
     data(){
-      return{
-        n:0,
-        content:'',
+      return {
+        n: 0,
+        content: '',
         playerOptions: {
           // videojs options
           height: '500',
           muted: true,
           language: 'zh-CN',
           playbackRates: [0.7, 1.0, 1.5, 2.0],
-          sources: [
-          ],
+          sources: [],
         },
       }
     },
-    methods:{
+    methods: {
       // listen event
       onPlayerPlay(player) {
         // console.log('player play!', player)
@@ -161,36 +160,42 @@
         // you can use it to do something...
         // player.[methods]
       },
+      onPlayerEnded(){},
+      onPlayerWaiting(){},
       //初始化
       initData(num){
-        let initOption={
+        let initOption = {
           "loginUserID": "huileyou",  //惠乐游用户ID
           "loginUserPass": "123",  //惠乐游用户密码
           "operateUserID": "",//操作员编码
           "operateUserName": "",//操作员名称
           "pcName": "",  //机器码
           "vf_ss_ID": this.$route.query.id,//系列编号
-          "vf_fs_Level": num?num:'',//当前集或最新集
+          "vf_fs_Level": num ? num : '',//当前集或最新集
         }
-        this.$store.dispatch('initMovieSeriesCont',initOption)
-          .then(()=>{
-            this.playerOptions.sources.push({
-              type:'video/'+this.MovieSeriesContEpisode.vf_vo_Extend,
-              src:this.MovieSeriesContEpisode.vf_vo_FileURL
-            })
-            this.playerOptions.poster = this.MovieSeriesContEpisode.vf_vo_ImageURL
+        this.$store.dispatch('initMovieSeriesCont', initOption)
+        .then(() => {
+          this.playerOptions.sources.push({
+            type: 'video/' + this.MovieSeriesContEpisode.vf_vo_Extend,
+            src: this.MovieSeriesContEpisode.vf_vo_FileURL
           })
+          this.playerOptions.poster = this.MovieSeriesContEpisode.vf_vo_ImageURL
+        })
       },
-      toReload(index,item){
+      toReload(index, item){
         // sessionStorage.setItem('index',index)
         // window.location.reload()
         //问题待处理，点击集数没有jump到对应的集数数据
         // console.log(11,this.MovieSeriesCont.vf_fs_Level)
-        console.log(1231,item.vf_Vedio[0].vf_vo_Title)
+        this.$router.push({name:'MovieSeriesCont',query:{id:item.vf_fs_SeriesID,Level:index}});
+        setTimeout(()=>{
+          window.location.reload()
+        },50)
+//        console.log(1231, item.vf_Vedio[0].vf_vo_Title)
       },
       //查询评论
       initComment(){
-        let initCommentOption={
+        let initCommentOption = {
           "loginUserID": "huileyou",  //惠乐游用户ID
           "loginUserPass": "123",  //惠乐游用户密码
           "operateUserID": "",  //操作员编码
@@ -202,7 +207,7 @@
           "page": 1,  //页码
           "rows": 10,  //条数
         }
-        this.$store.dispatch('initMovieDetailComment',initCommentOption)
+        this.$store.dispatch('initMovieDetailComment', initCommentOption)
       },
       //添加评论
       addComment() {
@@ -218,21 +223,21 @@
             "ts_ct_Content": this.content,//内容
           }
         }
-        this.$store.dispatch('AddMovieDetailComment',addCommentOption)
-          .then(()=>{
-            setTimeout(()=>{
-              this.initComment();
-            },30)
-          })
+        this.$store.dispatch('AddMovieDetailComment', addCommentOption)
+        .then(() => {
+          setTimeout(() => {
+            this.initComment();
+          }, 30)
+        })
       },
       //添加评论
       addComt(){
         this.addComment();
-        this.content="";
+        this.content = "";
       },
       //删除评论
       deteleComment(id){
-        let deteleComOption={
+        let deteleComOption = {
           "loginUserID": "huileyou",  //惠乐游用户ID
           "loginUserPass": "123",  //惠乐游用户密码
           "operateUserID": "",  //操作员编码
@@ -240,13 +245,13 @@
           "pcName": "",  //机器码
           "data": {
             "ts_ct_UserInfoID": "1",      //用户信息编码
-            "ts_ct_ID": id?id:'',          //视频评论编号
+            "ts_ct_ID": id ? id : '',          //视频评论编号
           }
         }
-        this.$store.dispatch('DeteleMovieDetailComment',deteleComOption)
-          .then(()=>{
-            this.initComment();
-          })
+        this.$store.dispatch('DeteleMovieDetailComment', deteleComOption)
+        .then(() => {
+          this.initComment();
+        })
       },
       //删除评论
       detele(item){
@@ -255,44 +260,52 @@
     },
     created(){
       let index = sessionStorage.getItem('index');
-      if(index){
-        this.n = index-1;
-        this.initData(index);
-      }else{
+      let Level = this.$route.query.Level;
+      if (Level) {
+        this.n = Level;
+        this.initData(Level);
+      }else {
         this.initData();
         this.initComment();
       }
+//      if (index) {
+//        this.n = index - 1;
+//        this.initData(index);
+//      } else {
+//        this.initData();
+//        this.initComment();
+//      }
 
     }
   }
 </script>
 
 <style lang="less" scoped type="text/less">
-  .SeriesCont{
+  .SeriesCont {
     width: 1000px;
     margin: 20px auto 0px;
     //视频部分
-    .MoviePlay{
+    .MoviePlay {
       width: 100%;
       height: 600px;
     }
     //视频其他参数
-    .MovieOtherInformation{
+    .MovieOtherInformation {
       width: 100%;
       min-height: 200px;
       background-color: #eee;
       margin-top: 30px;
       //标题
-      .MovieTitle{
+      .MovieTitle {
         width: 680px;
         height: 50px;
         margin: 0px 0px 0px 120px;
         line-height: 50px;
-        .tLeft{
+        .tLeft {
           font-family: "Microsoft YaHei";
           font-size: 20px;
           font-weight: bold;
-          span{
+          span {
             width: 40px;
             height: 20px;
             line-height: 20px;
@@ -306,29 +319,29 @@
         }
       }
       //更新
-      .MovieUpdata{
+      .MovieUpdata {
         width: 680px;
         height: 50px;
         position: relative;
         line-height: 50px;
         margin: 0px 0px 0px 120px;
-        strong{
+        strong {
           color: #999;
           position: absolute;
           right: 0px;
         }
       }
       //集数详情
-      .EpisodeDetail{
+      .EpisodeDetail {
         width: 680px;
         margin: 20px 0px 0px 120px;
-        button{
+        button {
           float: left;
           background-color: #fff;
           text-align: center;
           margin: 15px 10px 0px 10px;
           box-shadow: 1px 2px #c8c8c8;
-          &:after{
+          &:after {
             content: '';
             height: 0;
             display: block;
@@ -489,23 +502,23 @@
         }
       }
       //评论发表
-      .DiscussCommit{
+      .DiscussCommit {
         width: 880px;
         height: 200px;
         margin: 5px 0px 0px 60px;
         position: relative;
-        &:after{
+        &:after {
           content: '';
           height: 0;
           display: block;
           overflow: hidden;
           clear: right;
         }
-        img{
+        img {
           margin: 20px 0px 0px 25px;
         }
         //内容
-        .Describe{
+        .Describe {
           width: 780px;
           height: 150px;
           resize: none;
@@ -516,7 +529,7 @@
           border: 1px solid #eee;
         }
         //按钮
-        .DiscussBtn{
+        .DiscussBtn {
           width: 780px;
           height: 50px;
           line-height: 50px;
@@ -526,20 +539,20 @@
           color: #999;
           font-size: 16px;
           padding-left: 500px;
-          span{
+          span {
             color: #f00;
           }
-          button{
+          button {
             outline: none;
             border: none;
             width: 90px;
             height: 30px;
             color: #fff;
             font-size: 16px;
-            border-radius:2px;
+            border-radius: 2px;
             margin-left: 10px;
             background-color: #3498DB;
-            &:hover{
+            &:hover {
               opacity: .8;
             }
           }

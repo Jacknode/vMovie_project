@@ -6,8 +6,8 @@
       <!--标题-->
       <div class="ChannelTitle">
         <!--类型-->
-        <span>{{MovieChannelTypeObj.vf_te_Name}}</span>
-        <p>当前共有影片<strong>{{MovieChannelTypeListNum.totalRows}}</strong>部</p>
+        <span>{{MovieChannelTypeObj.vf_te_Name?MovieChannelTypeObj.vf_te_Name:'暂无名称'}}</span>
+        <p>当前共有影片<strong>{{MovieChannelTypeListNum.totalRows?MovieChannelTypeListNum.totalRows:'0'}}</strong>部</p>
       </div>
       <!--排序和快捷导航-->
       <div class="SortNav">
@@ -27,7 +27,7 @@
       </div>
     </div>
     <!--内容->视频列表-->
-    <div class="ChannelContList">
+    <div class="ChannelContList"  v-if="MovieChannelTypeList.length">
 
       <!--视频-->
       <div class="MovieContent" v-for="item,index in MovieChannelTypeList" @click="toMovieListDetail(item)">
@@ -55,6 +55,7 @@
         </div>
       </div>
     </div>
+    <div v-else style="text-align: center;font-weight: bold;font-size: 20px;">暂无数据</div>
   </div>
 </template>
 

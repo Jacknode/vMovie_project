@@ -156,7 +156,8 @@
           "rows": 8//条数
         }
         this.$store.dispatch("initMovieSeriesList",initOption)
-      }
+      },
+      onPlayerWaiting(){}
     },
     created(){
       this.initData();
@@ -164,7 +165,7 @@
   }
 </script>
 
-<style lang="less" scoped>
+<style lang="less" scoped type="text/less">
   .active{
     background-color: #0abda6;
     color: #fff;
