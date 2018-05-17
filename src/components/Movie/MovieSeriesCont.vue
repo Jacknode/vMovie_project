@@ -39,7 +39,8 @@
           width="320"
           trigger="hover"
           :content="MovieSeriesContEpisode.vf_vo_Remark">
-          <el-button slot="reference" :class="{active:index==n}">{{item.vf_fs_Level}}</el-button>
+          <!--<span slot="reference" :class="{active:item.vf_fs_Level==n}">{{item.vf_fs_Level}}</span>-->
+          <el-button slot="reference" :class="{active:item.vf_fs_Level==n}" size="small">{{item.vf_fs_Level}}</el-button>
         </el-popover>
       </div>
     </div>
@@ -339,8 +340,8 @@
           float: left;
           background-color: #fff;
           text-align: center;
-          margin: 15px 10px 0px 10px;
-          box-shadow: 1px 2px #c8c8c8;
+          margin: 15px 5px 0px 5px;
+          /*box-shadow: 1px 2px #c8c8c8;*/
           &:after {
             content: '';
             height: 0;
@@ -348,6 +349,11 @@
             overflow: hidden;
             clear: left;
           }
+        }
+        .active{
+          background: blue;
+          color: #fff;
+          box-shadow: none;
         }
       }
     }

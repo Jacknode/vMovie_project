@@ -11,142 +11,18 @@
   <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
   <script src="http://pv.sohu.com/cityjson?ie=utf-8"></script>
 
-  <style>
-    strong {
-      font-weight: normal;
-    }
-
-    html,
-    body,
-    #lodingMask {
-      width: 100%;
-      height: 100%;
-    }
-
-    #lodingMask {
-      position: relative;
-      background: rgba(254, 166, 5, .1);
-    }
-
-    .lodingMaskLogo {
-      width: 60px;
-      height: 60px;
-      background: url("./static/img/center.png");
-      -webkit-background-size: 100%;
-      background-size: 100%;
-      border-radius: 100%;
-      display: inline-block;
-      animation:autoPlay 1s infinite;
-      float: left;
-    }
-
-    .lodingMaskContent {
-      position: absolute;
-      top:50%;
-      left:50%;
-      transform: translateX(-50%);
-      line-height: 60px;
-    }
-
-    .lodingMaskContent > strong {
-      font-weight: bold;
-      color: #1986F7;
-      font-size: 20px;
-      float: left;
-      margin-left: 20px;
-    }
-
-    @keyframes autoPlay {
-      0% {
-        transform: translateY(0px);
-      }
-      50% {
-        transform: translateY(-20px);
-      }
-      100% {
-        transform: translateY(0px);
-      }
-    }
-
-    .activeflower {
-      display: none;
-    }
-  </style>
 </head>
 
 <body>
-
-<div id="lodingMask">
-  <div class="lodingMaskContent">
-    <div class="lodingMaskLogo"></div>
-    <strong>内容正在拼命的加载中=_=</strong>
-  </div>
-</div>
-
-
 <div id="app"></div>
 <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
 <script src="https://cdn.bootcss.com/axios/0.17.1/axios.min.js"></script>
 <script src="http://api.map.baidu.com/api?v=2.0&ak=bgZ7isSY7vGTwFSGaTMI8gmZoqZUCDIO"></script>
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+<script src="http://tuniu.1000da.com.cn/assets/public/lrz.bundle.js"></script>
+<script src="http://tuniu.1000da.com.cn/assets/public/qrcode.js"></script>
 <script src="https://unpkg.com/element-ui/lib/index.js"></script>
 <!-- 引入组件库 -->
 
-<script>
-  (function dynamicLoad() {
-    var _doc = document.getElementsByTagName('head')[0];
-//    //引入组件库
-//    var libScript = document.createElement('script');
-//    libScript.setAttribute('src', 'https://unpkg.com/element-ui/lib/index.js');
-//    _doc.appendChild(libScript);
-//    libScript.onload = libScript.onreadystatechange = function () {
-//      if (!this.readyState || this.readyState == 'loaded' || this.readyState == 'complete') {
-//        document.getElementById('lodingMask').className = 'activeflower';
-//      }
-//      libScript.onload = libScript.onreadystatechange = null;
-//    };
-    //jQuery
-    var jqScript = document.createElement('script');
-    jqScript.setAttribute('src', 'https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js');
-    _doc.appendChild(jqScript);
-    jqScript.onload = jqScript.onreadystatechange = function () {
-      if (!this.readyState || this.readyState == 'loaded' || this.readyState == 'complete') {
-        document.getElementById('lodingMask').className = 'activeflower';
-      }
-      jqScript.onload = jqScript.onreadystatechange = null;
-    };
-    //压缩
-    var lrzScript = document.createElement('script');
-    lrzScript.setAttribute('src', 'http://tuniu.1000da.com.cn/assets/public/lrz.bundle.js');
-    _doc.appendChild(lrzScript);
-    lrzScript.onload = lrzScript.onreadystatechange = function () {
-      if (!this.readyState || this.readyState == 'loaded' || this.readyState == 'complete') {
-        document.getElementById('lodingMask').className = 'activeflower';
-      }
-      lrzScript.onload = lrzScript.onreadystatechange = null;
-    };
-    //二维码
-    var qrcodeScript = document.createElement('script');
-    qrcodeScript.setAttribute('src', 'http://tuniu.1000da.com.cn/assets/public/qrcode.js');
-    _doc.appendChild(qrcodeScript);
-    qrcodeScript.onload = qrcodeScript.onreadystatechange = function () {
-      if (!this.readyState || this.readyState == 'loaded' || this.readyState == 'complete') {
-        document.getElementById('lodingMask').className = 'activeflower';
-      }
-      qrcodeScript.onload = qrcodeScript.onreadystatechange = null;
-    };
-    //地图
-//    var mapScript = document.createElement('script');
-//    mapScript.setAttribute('src', 'http://api.map.baidu.com/api?v=2.0&ak=bgZ7isSY7vGTwFSGaTMI8gmZoqZUCDIO');
-//    _doc.appendChild(mapScript);
-//    mapScript.onload = mapScript.onreadystatechange = function () {
-//      if (!this.readyState || this.readyState == 'loaded' || this.readyState == 'complete') {
-//        document.getElementById('lodingMask').className = 'activeflower';
-//      }
-//      mapScript.onload = mapScript.onreadystatechange = null;
-//    };
-//
-//    console.log(_doc)
-  })()
-</script>
 </body>
 </html>
