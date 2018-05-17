@@ -1,17 +1,16 @@
 // The Vue build version to load with the `import` command
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
-import Vue from 'vue'
-
+// import Vue from 'vue'
 import router from './router'
 import '@/assets/css/reset.css'
 import store from './store/index'
-import axios from 'axios'
-import ElementUI from 'element-ui'
-import 'element-ui/lib/theme-chalk/index.css'
+// import axios from 'axios'
+// import ElementUI from 'element-ui'
+// import 'element-ui/lib/theme-chalk/index.css'
 import * as filters from './filters'
 import App from './App'
 
-import '@/assets/css/icons/icomoon/styles.css'
+// import '@/assets/css/icons/icomoon/styles.css'
 import '@/assets/css/icons/fontawesome/styles.min.css'
 
 import VueVideoPlayer from 'vue-video-player'
@@ -23,7 +22,7 @@ Object.keys(filters).forEach((key) => {
   Vue.filter(key, filters[key]);
 })
 Vue.prototype.$http = axios;
-Vue.use(ElementUI)
+// Vue.use(ElementUI)
 
 axios.interceptors.request.use(function (config) {  //配置发送请求的信息
   store.commit('showLoading')

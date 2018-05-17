@@ -35,7 +35,7 @@ export default {
     text-align: center;
     color: #409eff;
     position: absolute;
-    z-index: 22;
+    z-index: 999;
     top: 50%;
   }
 
@@ -53,7 +53,8 @@ export default {
     left: 0;
     bottom: 0;
     right: 0;
-    background-color: #ccc;
+    z-index: 99999;
+    background-color: #fff;
     /*opacity: .9;*/
   }
   .el-loading-spinner .circular {

@@ -10,11 +10,9 @@
     "build": "node build/build.js"
   },
   "dependencies": {
-    "axios": "^0.18.0",
-    "element-ui": "^2.3.6",
+    "compression-webpack-plugin": "^1.1.11",
     "less": "^3.0.2",
     "less-loader": "^4.1.0",
-    "vue": "^2.5.2",
     "vue-lazyload": "^1.2.3",
     "vue-router": "^3.0.1",
     "vue-video-player": "^5.0.2",

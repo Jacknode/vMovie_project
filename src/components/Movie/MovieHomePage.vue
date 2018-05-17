@@ -3,8 +3,8 @@
   <div class="MovieHomePage">
     <!--轮播-->
     <div class="logo">
-      <el-carousel trigger="click" :interval="5000" height="540px">
-        <el-carousel-item v-for="item in MoviesHuffling" :key="null">
+      <el-carousel height="540px">
+        <el-carousel-item v-for="item,index in MoviesHuffling" :key="index">
           <img alt="" style="width: 1400px; height: 540px" @click="toMovieDetail(item)" v-lazy="item.vf_vo_TomImageURL">
         </el-carousel-item>
       </el-carousel>
