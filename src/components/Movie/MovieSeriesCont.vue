@@ -1,5 +1,5 @@
 <template>
-  <!--系列中的视频的内容-->
+  <!--系列中的视频的内容--集数标题 没有和集数对应?-->
   <div class="SeriesCont">
     <!--视频部分-->
     <div class="MoviePlay">
@@ -23,7 +23,7 @@
         <!--标题-->
         <div class="tLeft">
           {{MovieSeriesContEpisode.vf_vo_Title}}
-          <span>自制</span>
+          <!--<span>自制</span>-->
         </div>
         <!--分享图标-->
         <div class="tRight"></div>
@@ -33,26 +33,79 @@
         <strong>{{MovieSeriesCont.vf_ss_UpdateTime}}</strong>
       </div>
       <!--集数详情-->
-      <div class="EpisodeDetail">
-        <a v-for="item,index in MovieSeriesNum.length" @click="toReload(index+1)" :class="{active:index==n}">{{index+1}}</a>
+      <div class="EpisodeDetail" v-for="item,index in MovieSeriesNum" @click="toReload(index+1,item)">
+        <el-popover
+          placement="right"
+          width="320"
+          trigger="hover"
+          :content="MovieSeriesContEpisode.vf_vo_Remark">
+          <el-button slot="reference" :class="{active:index==n}">{{item.vf_fs_Level}}</el-button>
+        </el-popover>
       </div>
     </div>
     <!--评论-->
+    <!--评论区-->
     <div class="MovieDiscuss">
-      <!--评论细节-->
-      <div class="DiscussDes">
-        影片点评
-        <span>已有0条点评</span>
+      <!--评论顶部-->
+      <div class="DiscussTop">
+        <strong>影片点评</strong>
+        <span>已有{{MovieDetailComment.totalRows}}条点评</span>
+        <button>快速点评</button>
       </div>
-      <!--评论区-->
-      <div class="DiscussCont">
+      <!--评论-->
+      <div class="DiscussCont" v-for="item in MovieDetailComment.data">
+        <!--评论头像-->
+        <div class="DiscussUser">
+          <img src="@/assets/img/HeaderPortrait.jpg" alt="" style="width: 50px; height: 50px">
+        </div>
+        <!--评论详情-->
+        <div class="DiscussDetail">
+          <!--评论id-->
+          <div class="DiscussID">{{item.ts_ct_userName}}</div>
+          <!--评论信息-->
+          <div class="DiscussInformation">{{item.ts_ct_Content}}</div>
+          <!--评论时间/来源-->
+          <div class="DiscussTime">
+            <span>{{item.ts_ct_CreateTime}}</span>来自<span>V电影</span>
+            <strong>
+              <a @click="detele(item)">删除</a>
+              <a>评论</a>
+              <a>回复</a>
+            </strong>
+          </div>
+          <!--评论回复-->
+          <div class="DiscussReply" v-show="0">
+            <!--评论回复头像-->
+            <div class="ReplyUser">
+              <img src="@/assets/img/HeaderPortrait.jpg" alt="" style="width: 50px; height: 50px">
+            </div>
+            <!--回复详情-->
+            <div class="ReplyDetail">
+              <!--评论回复ID-->
+              <div class="ReplyID">不吃面包的笨蛋</div>
+              <!--回复信息-->
+              <div class="ReplyInformation">我不吃萝卜 也不吃白菜</div>
+              <!--回复时间/来源-->
+              <div class="ReplyTime">
+                <span>4天前</span>来自<span>V电影</span>
+                <strong>
+                  <a>回复</a>
+                  <a>赞</a>
+                </strong>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!--评论发表-->
+      <div class="DiscussCommit">
         <img src="@/assets/img/HeaderPortrait.jpg" alt="" style="width: 50px; height: 50px">
         <!--内容-->
-        <textarea type="text" class="Describe" placeholder="很不错"></textarea>
+        <textarea type="text" class="Describe" v-model="content"></textarea>
         <!--按钮-->
         <div class="DiscussBtn">
-          还可以输入<span>2000</span>个字
-          <button>发表评论</button>
+          还可以输入<span>200</span>个字
+          <button @click="addComt()">发表评论</button>
         </div>
       </div>
     </div>
@@ -69,10 +122,13 @@
     },mapGetters([
       'MovieSeriesCont',      //视频系列内容
       'MovieSeriesNum',       //视频内容集数
-      'MovieSeriesContEpisode'    //视频集数内容
+      'MovieSeriesContEpisode',    //视频集数内容
+      'MovieDetailComment'    //评论
     ])),
     data(){
       return{
+        n:0,
+        content:'',
         playerOptions: {
           // videojs options
           height: '500',
@@ -101,7 +157,7 @@
 
       // player is ready
       playerReadied(player) {
-        console.log('the player is readied', player)
+        // console.log('the player is readied', player)
         // you can use it to do something...
         // player.[methods]
       },
@@ -114,7 +170,7 @@
           "operateUserName": "",//操作员名称
           "pcName": "",  //机器码
           "vf_ss_ID": this.$route.query.id,//系列编号
-          "vf_fs_Level": num,//当前集或最新集
+          "vf_fs_Level": num?num:'',//当前集或最新集
         }
         this.$store.dispatch('initMovieSeriesCont',initOption)
           .then(()=>{
@@ -125,10 +181,77 @@
             this.playerOptions.poster = this.MovieSeriesContEpisode.vf_vo_ImageURL
           })
       },
-      toReload(index){
-        sessionStorage.setItem('index',index)
-        window.location.reload()
-      }
+      toReload(index,item){
+        // sessionStorage.setItem('index',index)
+        // window.location.reload()
+        //问题待处理，点击集数没有jump到对应的集数数据
+        // console.log(11,this.MovieSeriesCont.vf_fs_Level)
+        console.log(1231,item.vf_Vedio[0].vf_vo_Title)
+      },
+      //查询评论
+      initComment(){
+        let initCommentOption={
+          "loginUserID": "huileyou",  //惠乐游用户ID
+          "loginUserPass": "123",  //惠乐游用户密码
+          "operateUserID": "",  //操作员编码
+          "operateUserName": "",  //操作员名称
+          "pcName": "",  //机器码
+          "ts_ct_UserInfoID": "1",  //用户信息编码
+          "ts_ct_GoodID": this.$route.query.id,    //视频编号
+          "ts_ct_IsDelete": 0,  //是否有效
+          "page": 1,  //页码
+          "rows": 10,  //条数
+        }
+        this.$store.dispatch('initMovieDetailComment',initCommentOption)
+      },
+      //添加评论
+      addComment() {
+        let addCommentOption = {
+          "loginUserID": "huileyou",  //惠乐游用户ID
+          "loginUserPass": "123",  //惠乐游用户密码
+          "operateUserID": "",  //操作员编码
+          "operateUserName": "",  //操作员名称
+          "pcName": "",  //机器码
+          "data": {
+            "ts_ct_UserInfoID": 1,  //用户信息编码
+            "ts_ct_GoodID": this.$route.query.id,   //视频编号
+            "ts_ct_Content": this.content,//内容
+          }
+        }
+        this.$store.dispatch('AddMovieDetailComment',addCommentOption)
+          .then(()=>{
+            setTimeout(()=>{
+              this.initComment();
+            },30)
+          })
+      },
+      //添加评论
+      addComt(){
+        this.addComment();
+        this.content="";
+      },
+      //删除评论
+      deteleComment(id){
+        let deteleComOption={
+          "loginUserID": "huileyou",  //惠乐游用户ID
+          "loginUserPass": "123",  //惠乐游用户密码
+          "operateUserID": "",  //操作员编码
+          "operateUserName": "",  //操作员名称
+          "pcName": "",  //机器码
+          "data": {
+            "ts_ct_UserInfoID": "1",      //用户信息编码
+            "ts_ct_ID": id?id:'',          //视频评论编号
+          }
+        }
+        this.$store.dispatch('DeteleMovieDetailComment',deteleComOption)
+          .then(()=>{
+            this.initComment();
+          })
+      },
+      //删除评论
+      detele(item){
+        this.deteleComment(item.ts_ct_ID);
+      },
     },
     created(){
       let index = sessionStorage.getItem('index');
@@ -137,6 +260,7 @@
         this.initData(index);
       }else{
         this.initData();
+        this.initComment();
       }
 
     }
@@ -198,40 +322,174 @@
       .EpisodeDetail{
         width: 680px;
         margin: 20px 0px 0px 120px;
-        a{
-          width: 28px;
-          height: 28px;
+        button{
+          float: left;
           background-color: #fff;
           text-align: center;
-          line-height: 28px;
-          margin: 15px 5px 0px 5px;
+          margin: 15px 10px 0px 10px;
           box-shadow: 1px 2px #c8c8c8;
-          display: inline-block;
+          &:after{
+            content: '';
+            height: 0;
+            display: block;
+            overflow: hidden;
+            clear: left;
+          }
         }
       }
     }
-    //评论
-    .MovieDiscuss{
+    //评论区
+    .MovieDiscuss {
       width: 100%;
-      height: 270px;
-      margin-top: 10px;
-      border: 1px solid rgb(241,241,241);
-      //评论细节
-      .DiscussDes{
-        width: 880px;
-        height: 45px;
-        margin-left: 60px;
-        line-height: 45px;
-        font-size: 18px;
-        font-family: "Microsoft YaHei";
-        span{
+      border: 1px solid #eee;
+      //评论顶部
+      .DiscussTop {
+        height: 50px;
+        width: 90%;
+        line-height: 50px;
+        margin-left: 50px;
+        border-bottom: 1px solid #eee;
+        strong {
+          font-family: "Microsoft YaHei";
+          font-size: 18px;
+        }
+        span {
           font-size: 16px;
-          color: #c8c8c8;
+          font-family: "Microsoft YaHei";
+          color: #999;
           margin-left: 20px;
         }
+        button {
+          width: 100px;
+          height: 30px;
+          outline: none;
+          border: none;
+          color: #fff;
+          font-family: "Microsoft YaHei";
+          font-size: 16px;
+          background-color: #3498db;
+          margin-left: 530px;
+          &:hover {
+            opacity: .8;
+          }
+        }
       }
-      //评论区
-      .DiscussCont{
+      //评论
+      .DiscussCont {
+        width: 90%;
+        margin: 20px 0px 50px 50px;
+        &:after {
+          content: '';
+          height: 0;
+          overflow: hidden;
+          display: block;
+          clear: left;
+        }
+        //评论人头像
+        .DiscussUser {
+          width: 80px;
+          float: left;
+          img {
+            margin: 10px 0px 0px 30px;
+          }
+        }
+        //评论详情
+        .DiscussDetail {
+          width: 800px;
+          margin-left: 100px;
+
+          //评论ID
+          .DiscussID {
+            font-family: "Microsoft YaHei";
+            font-size: 16px;
+            margin-top: 15px;
+            color: #999;
+          }
+          //评论信息
+          .DiscussInformation {
+            height: 83px;
+            width: 100%;
+            color: #444;
+            margin-top: 7px;
+            font-size: 14px;
+          }
+          //评论时间、来源
+          .DiscussTime {
+            display: flex;
+            margin-left: 20px;
+            margin-top: 7px;
+            color: #999;
+            span {
+              margin-left: 10px;
+            }
+            strong {
+              margin-left: 470px;
+              display: flex;
+              a {
+                margin-left: 20px;
+                cursor: default;
+                color: #666;
+                &:hover {
+                  opacity: .7;
+                }
+              }
+            }
+          }
+          //评论回复
+          .DiscussReply {
+            width: 98%;
+            height: 150px;
+            margin-top: 10px;
+            margin-bottom: 10px;
+            //评论回复头像
+            .ReplyUser {
+              width: 80px;
+              float: left;
+              img {
+                margin: 10px 0px 0px 10px;
+              }
+            }
+            //回复详情
+            .ReplyDetail {
+              width: 700px;
+              margin-left: 84px;
+              //评论回复ID
+              .ReplyID {
+                font-size: 16px;
+                color: #999;
+                padding-top: 15px;
+              }
+              //回复信息
+              .ReplyInformation {
+                margin-top: 7px;
+                color: #444;
+                width: 100%;
+                height: 83px;
+              }
+              //回复时间/来源
+              .ReplyTime {
+                display: flex;
+                margin-left: 20px;
+                margin-top: 7px;
+                margin-bottom: 10px;
+                color: #999;
+                span {
+                  margin-left: 10px;
+                }
+                strong {
+                  margin-left: 400px;
+                  display: flex;
+                  a {
+                    margin-left: 30px;
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+      //评论发表
+      .DiscussCommit{
         width: 880px;
         height: 200px;
         margin: 5px 0px 0px 60px;

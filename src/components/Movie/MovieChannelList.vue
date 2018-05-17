@@ -1,5 +1,5 @@
 <template>
-  <!--频道页面的视频列表-->
+  <!--频道页面的视频列表--评分?-->
   <div class="MovieChannelList">
     <!--顶部信息-->
     <div class="TopListInformation">
@@ -7,7 +7,7 @@
       <div class="ChannelTitle">
         <!--类型-->
         <span>{{MovieChannelTypeObj.vf_te_Name}}</span>
-        <p>当前共有影片<strong>110</strong>部</p>
+        <p>当前共有影片<strong>{{MovieChannelTypeListNum.totalRows}}</strong>部</p>
       </div>
       <!--排序和快捷导航-->
       <div class="SortNav">
@@ -17,11 +17,11 @@
           <li :class="{active:index==x}" v-for="item,index in MovieSort" @click="SortMovie(index)">{{item}}</li>
         </ul>
         <!--快捷导航-->
-        <div class="ChannelTypeNav" @mouseover="BoxShow" @mouseleave='BoxClose'>所有频道<span class="el-icon-caret-right"></span></div>
+        <div class="ChannelTypeNav" @mouseenter="BoxShow" @mouseleave=''>所有频道<span class="el-icon-caret-right"></span></div>
         <!--导航器-->
-        <div class="NavBox" ref="show" @mouseleave='BoxClose'>
+        <div class="NavBox" ref="Show" @mouseleave='BoxClose' v-show="BoxType">
           <dl>
-            <dd v-for="item in Listis">{{item}}</dd>
+            <dd v-for="its in MovieChannelList" @click="toMovieChannelList(its)">{{its.vf_te_Name}}</dd>
           </dl>
         </div>
       </div>
@@ -39,17 +39,17 @@
           <!--其他信息->评论、评分、点赞-->
           <div class="OtherInformation">
             <!--评论-->
-            <span class="el-icon-tickets"> 35</span>
+            <span class="el-icon-tickets"> {{MovieChannelTypeObj.count_comment}}</span>
             <!--点赞-->
-            <span class="icon-heart5"> {{item.count_pointGood}}</span>
+            <span class="icon-heart5"> {{MovieChannelTypeObj.count_pointGood}}</span>
             <p>
               <el-rate
-                v-model="value5"
+                v-model="MovieChannelTypeObj.a"
                 disabled
-                show-score
                 text-color="#ff9900"
                 score-template="{value}">
               </el-rate>
+              <i>{{MovieChannelTypeObj.average_score}}</i>
             </p>
           </div>
         </div>
@@ -62,8 +62,10 @@
   import {mapGetters} from 'vuex'
   export default {
     computed:mapGetters([
+      'MovieChannelTypeListNum',
       'MovieChannelTypeList',
-      'MovieChannelTypeObj'
+      'MovieChannelTypeObj',
+      'MovieChannelList',
     ]),
     data(){
       return{
@@ -71,6 +73,7 @@
         m:null,
         n:null,
         x:0,
+        BoxType:false,
         MovieSort:['最新发布','最高评分','评论最多','喜欢最多',],
         Listis:["创意","励志","搞笑","广告","旅行","爱情","剧情","运动","动画","音乐","实验","科幻"]
       }
@@ -83,10 +86,12 @@
         this.n=index;
       },
       BoxShow(){
-        this.$refs.show.style.display='block';
+        this.BoxType=true;
+      },
+      mili(){
       },
       BoxClose(){
-        this.$refs.show.style.display='none';
+        this.BoxType=false;
       },
       //筛选排序
       SortMovie(index){
@@ -106,10 +111,10 @@
           "operateUserID": "",//操作员编码
           "operateUserName": "",//操作员名称
           "pcName": "",
-          "vf_vt_TypeID": this.$route.query.id, //分类编号
+          "vf_vt_TypeID": this.$route.query.TypeID, //分类编号
           "orderColumn": num,//排序字段,1按时间，2点赞次数
           "page": 1,//页码
-          "rows": 12//条数
+          "rows": ""//条数
         }
         this.$store.dispatch("initMovieChannelTypeList",initOption)
       },
@@ -118,10 +123,29 @@
         setTimeout(()=>{
           window.location.reload();
         },30)
-      }
+      },
+      //类型数据
+      initTypeData(){
+        let initOption={
+          "loginUserID": "huileyou",
+          "loginUserPass": "123",
+          "operateUserID": "",//操作员编码
+          "operateUserName": "",//操作员名称
+          "pcName": "",
+        }
+        this.$store.dispatch('initMovieChannelList',initOption)
+      },
+      //快捷导航jump
+      toMovieChannelList(its){
+        this.$router.push({name:'MovieChannelList',query:{TypeID:its.vf_te_ID}})
+        setTimeout(()=>{
+          window.location.reload();
+        },30)
+      },
     },
     created(){
       this.initData(1);
+      this.initTypeData();
     }
   }
 </script>
@@ -160,6 +184,13 @@
         height: 50px;
         width: 100%;
         line-height: 50px;
+        &:after{
+          content: '';
+          height: 0;
+          display: block;
+          overflow: hidden;
+          clear: both;
+        }
         span{
           color: #888;
           float: left;
@@ -174,6 +205,7 @@
           font-size: 18px;
           margin-right: 50px;
           strong{
+            margin: 0px 5px 0px 5px;
             color: #F00;
             font-size: 24px;
           }
@@ -185,6 +217,13 @@
         height: 90px;
         line-height: 90px;
         position: relative;
+        &:after{
+          content: '';
+          overflow: hidden;
+          height: 0;
+          display: block;
+          clear: both;
+        }
         //排序
         ul{
           strong,li{
@@ -195,6 +234,7 @@
             margin: 0px 10px 0px 5px;
           }
           li{
+            cursor: default;
             width: 80px;
             text-align: center;
             &:hover{
@@ -223,19 +263,18 @@
         //导航器
         .NavBox{
           width: 260px;
-          height:300px;
           background-color: rgb(250,250,250);
           position: absolute;
-          z-index: 10;
+          z-index: 999;
           right: 50px;
           top: 25px;
-          display: none;
           dl{
             dd{
               width: 90px;
               height: 30px;
               font-size: 18px;
               float: left;
+              cursor: default;
               font-family: "Microsoft YaHei";
               line-height: 30px;
               text-align: center;
@@ -248,12 +287,11 @@
     //内容->视频列表
     .ChannelContList{
       width: 100%;
-      height: 1000px;
       &:after{
         content: '';
         height: 0;
+        overflow: hidden;
         display: block;
-        height: 0;
         clear: both;
       }
       .MovieContent{
@@ -300,9 +338,16 @@
               margin-left: 10px;
             }
             p{
-              margin-right: 10px;
+              margin-right: 30px;
               float: right;
               display: inline-block;
+              position: relative;
+              i{
+                color: rgb(247,168,42);
+                position: absolute;
+                top: 2px;
+                right: -15px;
+              }
             }
           }
         }

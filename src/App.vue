@@ -29,7 +29,6 @@ export default {
 
 <style>
   /*加载遮罩*/
-  /*加载遮罩*/
   .loadingMask .loadingContentBox {
     width: 100%;
     text-align: center;

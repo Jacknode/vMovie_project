@@ -30,7 +30,7 @@
             <div class="Detail">{{item.vf_ss_Describ}}</div>
             <div class="MovieSection">
               <!--集数-->
-              <p v-for="ims in item.vf_FilmSeries">{{ims.vf_fs_VedioName}}</p>
+              <p v-for="ims in item.vf_FilmSeries" @click="EpisodeJump(item.vf_ss_ID,ims)">{{ims.vf_fs_Level +"."+ ims.vf_fs_VedioName}}</p>
             </div>
           </div>
         </div>
@@ -51,7 +51,7 @@
             <div class="Detail">{{item.vf_ss_Describ}}</div>
             <div class="MovieSection">
               <!--集数-->
-              <p v-for="ims in item.vf_FilmSeries">{{ims.vf_fs_VedioName}}</p>
+              <p v-for="ims in item.vf_FilmSeries">{{ims.vf_fs_Level +"."+ ims.vf_fs_VedioName}}</p>
             </div>
           </div>
         </div>
@@ -73,7 +73,7 @@
             <div class="Detail">{{item.vf_ss_Describ}}</div>
             <div class="MovieSection">
               <!--集数-->
-              <p v-for="ims in item.vf_FilmSeries">{{ims.vf_fs_VedioName}}</p>
+              <p v-for="ims in item.vf_FilmSeries">{{ims.vf_fs_Level +"."+ ims.vf_fs_VedioName}}</p>
             </div>
           </div>
         </div>
@@ -135,7 +135,11 @@
         setTimeout(()=>{
           window.location.reload();
         },60);
-        console.log(item.vf_ss_ID)
+        // console.log(item.vf_ss_ID)
+      },
+      //集数跳转
+      EpisodeJump(id,ims){
+        this.$router.push({name:'MovieSeriesCont',query:{id:id,Level:ims.vf_fs_Level}});
       },
       //初始化
       initData(num){
@@ -147,7 +151,7 @@
           "pcName": "",  //机器码
           "vf_ss_ID": "",//系列编号
           "vf_ss_Name": "",//系列名称
-          "vf_ss_WriteState": num,//连载状态（0连载中1完结)
+          "vf_ss_WriteState": num?num:'',//连载状态（0连载中1完结)
           "page": 1,//页码
           "rows": 8//条数
         }
@@ -233,6 +237,9 @@
             margin-right: 10px;
             width: 150px;
             height: 200px;
+            img{
+              cursor: pointer;
+            }
           }
           .contDetail{
             .MovieName{
@@ -243,6 +250,7 @@
                 font-size: 18px;
                 font-weight: bold;
                 margin-right: 10px;
+                cursor: pointer;
                 &:hover{
                   color: #3498db;
                 }
@@ -262,10 +270,16 @@
                 line-height: 30px;
                 margin-top: 10px;
                 font-size: 12px;
+                color: #2F3B49;
+                cursor: pointer;
                 padding-left: 10px;
                 border-radius: 2px;
                 background-color: #c8c8c8;
                 overflow: hidden;
+                &:hover{
+                  opacity: .8;
+                  color: #3498db;
+                }
               }
             }
           }
