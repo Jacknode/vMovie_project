@@ -14,7 +14,7 @@ export default {
           if( Number(data.resultcode) == 200 ){
             //评分处理
             for(let i=0;i < data.data.length;i++){
-              data.data[i].a = data.data[i].averageScore/2
+              data.data[i].a = data.data[i].average_score/2
             }
             commit('initMovieHomePageList',data.data);
             commit('MoviesHuffling',data.topBigImageList);
@@ -55,8 +55,13 @@ export default {
         .then(data=>{
           var data = data.data;
           if( Number(data.resultcode) == 200 ){
+            for(let i=0;i < data.data.length;i++){
+              data.data[i].a = data.data[i].average_score/2
+            }
+            commit('initMovieChannelTypeListNum',data);
             commit('initMovieChannelTypeList',data.data);
-            commit('MovieChannelTypeObj',data.data[0]);
+            commit('initMovieChannelTypeObj',data.data[0]);
+            console.log(113,data)
             relove();
           }else{
             reject(data.resultcontent)
@@ -94,9 +99,138 @@ export default {
         .then(data=>{
           var data = data.data;
           if( Number(data.resultcode) == 200 ){
-            data.data.a = data.data.averageScore/2;
             commit('initMovieListDetail',data.data);
             relove(data.data);
+          }else{
+            reject(data.resultcontent)
+          }
+        })
+    })
+  },
+  //添加评论
+  AddMovieDetailComment(store,data){
+    return new Promise(function (relove, reject) {
+      axios.post('http://webservice.1000da.com.cn/Comment/InsertV',JSON.stringify(data),{
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded'
+        }
+      })
+        .then(data=>{
+          var data = data.data;
+          if( Number(data.resultcode) == 200 ){
+            relove();
+          }else{
+            reject(data.resultcontent)
+          }
+        })
+    })
+  },
+  //查询评论
+  initMovieDetailComment({commit},data){
+    return new Promise(function (relove, reject) {
+      axios.post('http://webservice.1000da.com.cn/Comment/SelectV',JSON.stringify(data),{
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded'
+        }
+      })
+        .then(data=>{
+          var data = data.data;
+          if( Number(data.resultcode) == 200 ){
+            commit('initMovieDetailComment',data)
+            relove();
+          }else{
+            reject(data.resultcontent)
+          }
+        })
+    })
+  },
+  //删除评论
+  DeteleMovieDetailComment(store,data){
+    return new Promise(function (relove, reject) {
+      axios.post('http://webservice.1000da.com.cn/Comment/DeleteCommentV',JSON.stringify(data),{
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded'
+        }
+      })
+        .then(data=>{
+          var data = data.data;
+          if( Number(data.resultcode) == 200 ){
+            relove();
+          }else{
+            reject(data.resultcontent)
+          }
+        })
+    })
+  },
+  //添加修改评分
+  AddOrUpdateMovieListDetailRate(store,data){
+    return new Promise(function (relove, reject) {
+      axios.post('http://webservice.1000da.com.cn/Score/AddOrUpdate',JSON.stringify(data),{
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded'
+        }
+      })
+        .then(data=>{
+          var data = data.data;
+          if( Number(data.resultcode) == 200 ){
+            relove(data.resultcontent);
+          }else{
+            reject(data.resultcontent)
+          }
+        })
+    })
+  },
+  //查询评分
+  initMovieListRate({commit},data){
+    return new Promise(function (relove, reject) {
+      axios.post('http://webservice.1000da.com.cn/Score/Select',JSON.stringify(data),{
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded'
+        }
+      })
+        .then(data=>{
+          var data = data.data;
+          if( Number(data.resultcode) == 200 ){
+            data.a = data.average_Score/2;
+            commit('initMovieListRate',data)
+            relove();
+          }else{
+            reject(data.resultcontent)
+          }
+        })
+    })
+  },
+  //查询点赞
+  initMovieDetailPointGood({commit},data){
+    return new Promise(function (relove, reject) {
+      axios.post('http://webservice.1000da.com.cn/PointGood/Select',JSON.stringify(data),{
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded'
+        }
+      })
+        .then(data=>{
+          var data = data.data;
+          if( Number(data.resultcode) == 200 ){
+            commit('initMovieDetailPointGood',data);
+            relove();
+          }else{
+            reject(data.resultcontent)
+          }
+        })
+    })
+  },
+  //添加或取消点赞
+  AddDeteleMovieDetailPointGood(store,data){
+    return new Promise(function (relove, reject) {
+      axios.post('http://webservice.1000da.com.cn/PointGood/AddOrDelete',JSON.stringify(data),{
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded'
+        }
+      })
+        .then(data=>{
+          var data = data.data;
+          if( Number(data.resultcode) == 200 ){
+            relove(data.resultcontent);
           }else{
             reject(data.resultcontent)
           }

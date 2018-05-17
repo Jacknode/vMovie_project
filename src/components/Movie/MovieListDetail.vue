@@ -1,5 +1,5 @@
 <template>
-  <!--视频详情-->
+  <!--视频详情--查询评分未做-->
   <div class="ListDetail">
     <!--视频详情区-->
     <div class="MovieDetail">
@@ -23,26 +23,26 @@
             <!--评分-->
             <span style="display: inline-block;" @mouseenter="RateOpen()">
               <el-rate
-                v-model="MovieListDetail.a"
+                v-model="MovieListRate.a"
                 disabled
                 text-color="#ff9900"
                 score-template="{value}">
                 </el-rate>
             </span>
-            <i>{{MovieListDetail.averageScore}}</i>
+            <i>{{MovieListRate.average_Score}}</i>
             <!--评分人数-->
-            (已有<span>{{MovieListDetail.count_score}}</span>人评分)
+            (已有<span>{{MovieListRate.totalRows}}</span>人评分)
             <!--提交评分-->
             <div class="commitRate" v-show="commitRates" @mouseleave="RateClose()">
-              <!--<el-rate v-model="value1"></el-rate>-->
+              <el-rate allow-half v-model="value1" @change="mouseRate()"></el-rate>
             </div>
           </div>
           <!--右边-->
           <div class="MovieDataRight">
             <!--评论次数-->
-            <span class="el-icon-document"> {{MovieListDetail.count_score}}</span>
+            <span class="el-icon-document"> {{MovieDetailComment.totalRows}}</span>
             <!--点赞次数-->
-            <span class="icon-heart5"> {{MovieListDetail.count_pointGood}}</span>
+            <span class="icon-heart5" @click="AddDetele()"> {{MovieDetailPointGood.totalRows}}</span>
             <!--分享次数-->
             <span class="el-icon-share"> 1212</span>
           </div>
@@ -78,11 +78,11 @@
       <!--评论顶部-->
       <div class="DiscussTop">
         <strong>影片点评</strong>
-        <span>已有67条点评</span>
+        <span>已有{{MovieDetailComment.totalRows}}条点评</span>
         <button>快速点评</button>
       </div>
       <!--评论-->
-      <div class="DiscussCont">
+      <div class="DiscussCont" v-for="item in MovieDetailComment.data">
         <!--评论头像-->
         <div class="DiscussUser">
           <img src="@/assets/img/HeaderPortrait.jpg" alt="" style="width: 50px; height: 50px">
@@ -90,19 +90,20 @@
         <!--评论详情-->
         <div class="DiscussDetail">
           <!--评论id-->
-          <div class="DiscussID">萝卜白菜</div>
+          <div class="DiscussID">{{item.ts_ct_userName}}</div>
           <!--评论信息-->
-          <div class="DiscussInformation">打死不爱</div>
+          <div class="DiscussInformation">{{item.ts_ct_Content}}</div>
           <!--评论时间/来源-->
           <div class="DiscussTime">
-            <span>4天前</span>来自<span>V电影</span>
+            <span>{{item.ts_ct_CreateTime}}</span>来自<span>V电影</span>
             <strong>
-              <a>1条评论</a>
+              <a @click="detele(item)">删除</a>
+              <a>评论</a>
               <a>回复</a>
             </strong>
           </div>
           <!--评论回复-->
-          <div class="DiscussReply">
+          <div class="DiscussReply" v-show="0">
             <!--评论回复头像-->
             <div class="ReplyUser">
               <img src="@/assets/img/HeaderPortrait.jpg" alt="" style="width: 50px; height: 50px">
@@ -128,15 +129,13 @@
       <!--发表评论-->
       <div class="MakeComment">
         <!--内容-->
-        <textarea class="DiscussContent"></textarea>
+        <textarea type="text" class="DiscussContent" v-model="content"></textarea>
         <!--按钮-->
         <div class="DiscussBtn">
-          <!--左边评论图标-->
-          <!--<div></div>-->
           <!--右边提交评论-->
           <div class="CommitBtn">
             <span>还可以输入<i>200</i>个字</span>
-            <button>发表评论</button>
+            <button @click="addComt()">发表评论</button>
           </div>
         </div>
       </div>
@@ -151,6 +150,7 @@
     data(){
       return{
         commitRates:false,
+        value1:0,
         playerOptions: {
           // videojs options
           height: '500',
@@ -161,6 +161,7 @@
           ],
         },
         value5:2.7,
+        content:'',
       }
     },
     computed: Object.assign({
@@ -168,7 +169,11 @@
         return this.$refs.videoPlayer.player
       }
     },mapGetters([
-      'MovieListDetail'
+      'MovieListDetail',    //电影详情
+      'MovieListDetailRate',    //电影详情评分上传
+      'MovieListRate',    //电影评分查询
+      'MovieDetailComment',    //评论
+      'MovieDetailPointGood'    //点赞
     ])),
     methods: {
       // listen event
@@ -187,10 +192,11 @@
 
       // player is ready
       playerReadied(player) {
-        console.log('the player is readied', player)
+        // console.log('the player is readied', player)
         // you can use it to do something...
         // player.[methods]
       },
+      //初始化
       initData(){
         let initOption={
           "loginUserID": "huileyou",  //惠乐游用户ID
@@ -209,15 +215,154 @@
             this.playerOptions.poster = obj.vf_vo_ImageURL
           })
       },
+      //修改和添加Rate
+      AddOrUpdateRate(num){
+        let AddOrUpDateOption={
+          "loginUserID": "huileyou",  //惠乐游用户ID
+          "loginUserPass": "123",  //惠乐游用户密码
+          "operateUserID": "",  //操作员编码
+          "operateUserName": "",  //操作员名称
+          "pcName": "",  //机器码
+          "data": {
+            "vf_se_VedioID": this.$route.query.id,//视频编号
+            "vf_se_UserID": "1",//用户编码
+            "vf_se_Score": num?num:'',//分数
+          }
+        }
+        this.$store.dispatch('AddOrUpdateMovieListDetailRate',AddOrUpDateOption)
+          .then(()=>{
+            this.initRate();
+          })
+      },
+      //评分查询
+      initRate(){
+        let initRate={
+          "loginUserID": "huileyou",  //惠乐游用户ID
+          "loginUserPass": "123",  //惠乐游用户密码
+          "operateUserID": "",  //操作员编码
+          "operateUserName": "",  //操作员名称
+          "pcName": "",  //机器码
+          "vf_se_VedioID": this.$route.query.id, //视频编号
+        }
+        this.$store.dispatch('initMovieListRate',initRate)
+      },
+      //查询评论
+      initComment(){
+        let initCommentOption={
+          "loginUserID": "huileyou",  //惠乐游用户ID
+          "loginUserPass": "123",  //惠乐游用户密码
+          "operateUserID": "",  //操作员编码
+          "operateUserName": "",  //操作员名称
+          "pcName": "",  //机器码
+          "ts_ct_UserInfoID": "1",  //用户信息编码
+          "ts_ct_GoodID": this.$route.query.id,    //视频编号
+          "ts_ct_IsDelete": 0,  //是否有效
+          "page": 1,  //页码
+          "rows": 10,  //条数
+        }
+        this.$store.dispatch('initMovieDetailComment',initCommentOption)
+      },
+      //添加评论
+      addComment() {
+        let addCommentOption = {
+          "loginUserID": "huileyou",  //惠乐游用户ID
+          "loginUserPass": "123",  //惠乐游用户密码
+          "operateUserID": "",  //操作员编码
+          "operateUserName": "",  //操作员名称
+          "pcName": "",  //机器码
+          "data": {
+            "ts_ct_UserInfoID": 1,  //用户信息编码
+            "ts_ct_GoodID": this.$route.query.id,   //视频编号
+            "ts_ct_Content": this.content,//内容
+          }
+        }
+        this.$store.dispatch('AddMovieDetailComment',addCommentOption)
+          .then(()=>{
+            setTimeout(()=>{
+              this.initComment();
+            },30)
+          })
+      },
+      //添加评论
+      addComt(){
+        this.addComment();
+        this.content="";
+      },
+      //选择评分
+      mouseRate(){
+        this.AddOrUpdateRate(this.value1*2);
+      },
+      //删除评论
+      deteleComment(id){
+        let deteleComOption={
+          "loginUserID": "huileyou",  //惠乐游用户ID
+          "loginUserPass": "123",  //惠乐游用户密码
+          "operateUserID": "",  //操作员编码
+          "operateUserName": "",  //操作员名称
+          "pcName": "",  //机器码
+          "data": {
+            "ts_ct_UserInfoID": "1",      //用户信息编码
+            "ts_ct_ID": id?id:'',          //视频评论编号
+          }
+        }
+        this.$store.dispatch('DeteleMovieDetailComment',deteleComOption)
+          .then(()=>{
+            this.initComment();
+          })
+      },
+      //删除评论
+      detele(item){
+        this.deteleComment(item.ts_ct_ID);
+      },
+      //查询点赞
+      initPointGood(){
+        let initPointGoodOption={
+          "loginUserID": "huileyou",  //惠乐游用户ID
+          "loginUserPass": "123",  //惠乐游用户密码
+          "operateUserID": "",  //操作员编码
+          "operateUserName": "",  //操作员名称
+          "pcName": "",  //机器码
+          "vf_pg_ID": "",//点赞编码
+          "vf_pg_VedioID": this.$route.query.id,//视频编号
+          "vf_pg_UserID": "1",//点赞员编码
+          "page": 1,//页码
+          "rows": 10//条数
+        }
+        this.$store.dispatch('initMovieDetailPointGood',initPointGoodOption)
+      },
+      //添加、取消点赞
+      AddDetelePointGood(){
+        let AddDeteleOption={
+            "loginUserID": "huileyou",  //惠乐游用户ID
+            "loginUserPass": "123",  //惠乐游用户密码
+            "operateUserID": "",  //操作员编码
+            "operateUserName": "",  //操作员名称
+            "pcName": "",  //机器码
+            "data": {
+              "vf_pg_VedioID": this.$route.query.id,//视频编号
+              "vf_pg_UserID": "1",//点赞员编码
+        }
+       }
+       this.$store.dispatch('AddDeteleMovieDetailPointGood',AddDeteleOption)
+         .then(()=>{
+           this.initPointGood();
+         })
+      },
+      AddDetele(){
+        this.AddDetelePointGood();
+      },
       RateOpen(){
         this.commitRates=true;
       },
       RateClose(){
         this.commitRates=false;
-      }
+      },
     },
     created(){
       this.initData();
+      this.initRate();
+      this.initComment();
+      this.initPointGood();
     }
   }
 </script>
@@ -275,10 +420,14 @@
           //右边
           .MovieDataRight{
             float: right;
-            color: #c8c8c8;
+            color: #999;
             margin-right: 50px;
             span{
               margin: 0px 3px 0px 3px;
+              cursor: default;
+              &:hover{
+                opacity: .4;
+              }
               &:nth-of-type(1),&:nth-of-type(3){
                 line-height: 20px;
               }
@@ -405,6 +554,11 @@
               display: flex;
               a{
                 margin-left: 20px;
+                cursor: default;
+                color: #666;
+                &:hover{
+                  opacity: .7;
+                }
               }
             }
           }
@@ -464,7 +618,6 @@
       //发表评论
       .MakeComment{
         width: 900px;
-        /*height: 200px;*/
         margin:0px 0px 10px 50px;
         //内容
         .DiscussContent{
@@ -473,7 +626,6 @@
           font-size: 16px;
           resize: none;
           border-color: #eee;
-          outline: none;
           color: #666;
           padding: 5px 7px 5px 7px;
           &:after{

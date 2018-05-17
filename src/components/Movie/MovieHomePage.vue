@@ -5,7 +5,7 @@
     <div class="logo">
       <el-carousel trigger="click" :interval="5000" height="540px">
         <el-carousel-item v-for="item in MoviesHuffling" :key="null">
-          <img alt="" style="width: 1400px; height: 540px" @click="toMovieDetail(item)" v-lazy="item.vf_vo_TomImageURL">
+          <img v-lazy="item.vf_vo_TomImageURL" alt="" style="width: 1400px; height: 540px" @click="toMovieDetail(item)">
         </el-carousel-item>
       </el-carousel>
     </div>
@@ -16,7 +16,7 @@
         <li :class="{active:index==x}" v-for="item,index in switchList" @click="Switch(index)">{{item}}</li>
       </ul>
       <!--最新推荐-->
-      <!--切换的内容-->
+      <!--切换内容-->
       <div class="MovieList" v-show="mili.Recommend">
         <!--电影-->
         <div class="Movies" v-for="item in MovieHomePageList">
@@ -38,7 +38,7 @@
                 text-color="#ff9900"
                 score-template="{value}">
               </el-rate>
-              <span>{{item.averageScore}}</span>
+              <span>{{item.average_score}}</span>
             </div>
             <!--简介描述-->
             <div class="MovieDescribe">{{item.vf_vo_Introduce}}</div>
@@ -49,9 +49,10 @@
                 <!--点赞、评论-->
                 <div class="BottomIconCont">
                   <!--评论-->
-                  <span class="el-icon-document"> 213</span>
+                  <span class="el-icon-document"> {{item.count_comment}}</span>
                   <!--点赞-->
                   <span class="icon-heart5"> {{item.count_pointGood}}</span>
+                  <!--分享-->
                   <span class="el-icon-share">121</span>
                 </div>
               </div>
@@ -91,7 +92,7 @@
                 text-color="#ff9900"
                 score-template="{value}">
               </el-rate>
-              <span>{{item.averageScore}}</span>
+              <span>{{item.average_score}}</span>
             </div>
             <!--简介描述-->
             <div class="HotMovieDec">{{item.vf_vo_Introduce}}</div>
@@ -101,7 +102,7 @@
                 <span>2018-04-15</span>
                 <!--点赞、评论-->
                 <div class="HotBottomIconCont">
-                  <span class="el-icon-document"> 213</span>
+                  <span class="el-icon-document"> {{item.count_comment}}</span>
                   <span class="icon-heart5"> {{item.count_pointGood}}</span>
                   <span class="el-icon-share">121</span>
                 </div>
@@ -131,7 +132,6 @@
           <div class="ChooseRight">
             <!--标题-->
             <div class="ChooseMovieName" @click="toMovieHomePage(item)"><span>{{item.vf_vo_Title}}</span>
-              <!--<button>来自新片场</button>-->
             </div>
             <!--星级评分-->
             <div class="ChooseMovieReta">
@@ -143,7 +143,7 @@
                 text-color="#f90"
                 score-template="{value}">
               </el-rate>
-              <span>{{item.averageScore}}</span>
+              <span>{{item.average_score}}</span>
             </div>
             <!--简介描述-->
             <div class="ChooseMovieDec">{{item.vf_vo_Introduce}}</div>
@@ -154,7 +154,7 @@
                 <span>{{item.vf_vo_CreateTime}}</span>
                 <!--点赞、评论-->
                 <div class="ChooseBottomIconCont">
-                  <span class="el-icon-document"> 213</span>
+                  <span class="el-icon-document"> {{item.count_comment}}</span>
                   <span class="icon-heart5"> {{item.count_pointGood}}</span>
                   <span class="el-icon-share">121</span>
                 </div>
@@ -186,7 +186,7 @@
                 text-color="#ff9900"
                 score-template="{value}">
               </el-rate>
-              <span>{{item.averageScore}}</span>
+              <span>{{item.average_score}}</span>
             </div>
             <!--简介描述-->
             <div class="WatchMovieDescribe">{{item.vf_vo_Introduce}}</div>
@@ -198,7 +198,7 @@
                 <!--点赞、评论-->
                 <div class="WatchBottomIconCont">
                   <!--评论次数-->
-                  <span class="el-icon-document"> 213</span>
+                  <span class="el-icon-document"> {{item.count_comment}}</span>
                   <!--点赞次数-->
                   <span class="icon-heart5"> {{item.count_pointGood}}</span>
                   <!--分享次数-->
@@ -291,7 +291,7 @@
           "operateUserID": "",//操作员编码
           "operateUserName": "",//操作员名称
           "pcName": "",
-          "vf_vt_TypeID": num, //40精选 41热门 42 推荐  空为随机
+          "vf_vt_TypeID": num?num:'', //40精选 41热门 42 推荐  空为随机
           "page": 1,//页码
           "rows": 10//条数
 
@@ -340,7 +340,7 @@
           float: left;
           line-height: 50px;
           text-align: center;
-          cursor: pointer;
+          cursor: default;
           font-family: "Microsoft YaHei";
           border-right: 1px #ddd solid;
           border-bottom: 1px #ddd solid;
@@ -392,6 +392,7 @@
             //标题
             .MovieName{
               margin-top: 10px;
+              cursor: pointer;
               font-weight: bold;
               font-size: 20px;
               font-family: "Microsoft YaHei";
@@ -512,6 +513,7 @@
               span{
                 font-weight: bold;
                 font-size: 20px;
+                cursor: default;
                 font-family: "Microsoft YaHei";
                 &:hover{
                   opacity: .6;
@@ -642,19 +644,11 @@
             span{
               font-weight: bold;
               font-size: 20px;
+              cursor: default;
               font-family: "Microsoft YaHei";
               &:hover{
                 opacity: .6;
               }
-            }
-            button{
-              border: none;
-              outline: none;
-              height: 20px;
-              width: 80px;
-              color: #fff;
-              background-color: #5cbeff;
-              margin-left: 10px;
             }
           }
           .ChooseMovieReta{
@@ -748,6 +742,7 @@
               margin-top: 10px;
               font-weight: bold;
               font-size: 20px;
+              cursor: default;
               font-family: "Microsoft YaHei";
               &:hover{
                 opacity: .6;

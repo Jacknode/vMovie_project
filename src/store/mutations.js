@@ -22,8 +22,12 @@ export default {
   initMovieChannelTypeList(state,data){
     state.MovieChannelTypeList=data;
   },
+  //当前类型电影数
+  initMovieChannelTypeListNum(state,data){
+    state.MovieChannelTypeListNum=data;
+  },
   //类型名
-  MovieChannelTypeObj(state,data){
+  initMovieChannelTypeObj(state,data){
     state.MovieChannelTypeObj=data;
   },
   //系列列表
@@ -33,6 +37,22 @@ export default {
   //电影详情
   initMovieListDetail(state,data){
     state.MovieListDetail=data;
+  },
+  //电影详情评分
+  AddOrUpdateMovieListDetailRate(state,data){
+    state.MovieListDetailRate=data;
+  },
+  //查询评论
+  initMovieDetailComment(state,data){
+    state.MovieDetailComment=data;
+  },
+  //评分
+  initMovieListRate(state,data){
+    state.MovieListRate=data;
+  },
+  //查询点赞
+  initMovieDetailPointGood(state,data){
+    state.MovieDetailPointGood=data;
   },
   //系列视频内容
   initMovieSeriesCont(state,data){

@@ -57,7 +57,7 @@
         this.$store.dispatch('initMovieChannelList',initOption)
       },
       toMovieChannelList(item){
-        this.$router.push({name:'MovieChannelList',query:{id:item.vf_te_ID}})
+        this.$router.push({name:'MovieChannelList',query:{TypeID:item.vf_te_ID}})
         setTimeout(()=>{
           window.location.reload();
         },30)
@@ -114,16 +114,18 @@
               width: 100%;
               height: 100%;
               display: flex;
+              cursor: pointer;
               position: relative;
+
+              &:hover img{
+                transform: translateX(-52px);
+              }
               img{
                 width: 100%;
                 height: 100%;
                 position: absolute;
                 transition: all .4s linear;
                 transition-delay: .12s;
-                &:hover{
-                  transform: translateX(-52px);
-                }
               }
               p{
                 position: absolute;

@@ -29,7 +29,6 @@ export default {
 
 <style>
   /*加载遮罩*/
-  /*加载遮罩*/
   .loadingMask .loadingContentBox {
     width: 100%;
     text-align: center;
@@ -53,8 +52,8 @@ export default {
     left: 0;
     bottom: 0;
     right: 0;
-    background-color: #ccc;
-    /*opacity: .9;*/
+    background-color: #000;
+    opacity: .9;
   }
   .el-loading-spinner .circular {
     margin-left: 50%;
