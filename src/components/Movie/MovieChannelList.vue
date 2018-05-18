@@ -1,5 +1,5 @@
 <template>
-  <!--频道页面的视频列表--评分?-->
+  <!--频道页面的视频列表-->
   <div class="MovieChannelList">
     <!--顶部信息-->
     <div class="TopListInformation">
@@ -39,17 +39,17 @@
           <!--其他信息->评论、评分、点赞-->
           <div class="OtherInformation">
             <!--评论-->
-            <span class="el-icon-tickets"> {{MovieChannelTypeObj.count_comment}}</span>
+            <span class="el-icon-tickets"> {{item.count_comment}}</span>
             <!--点赞-->
-            <span class="icon-heart5"> {{MovieChannelTypeObj.count_pointGood}}</span>
+            <span class="icon-heart5"> {{item.count_pointGood}}</span>
             <p>
               <el-rate
-                v-model="MovieChannelTypeObj.a"
+                v-model="item.a"
                 disabled
                 text-color="#ff9900"
                 score-template="{value}">
               </el-rate>
-              <i>{{MovieChannelTypeObj.average_score}}</i>
+              <i>{{item.average_score}}</i>
             </p>
           </div>
         </div>
@@ -76,7 +76,6 @@
         x:0,
         BoxType:false,
         MovieSort:['最新发布','最高评分','评论最多','喜欢最多',],
-        Listis:["创意","励志","搞笑","广告","旅行","爱情","剧情","运动","动画","音乐","实验","科幻"]
       }
     },
     methods:{
@@ -166,6 +165,7 @@
   }
   //视频列表
   .MovieChannelList{
+    background-color: rgb(250,250,250);
     width: 1200px;
     margin: 0px auto;
     //顶部信息
@@ -264,10 +264,10 @@
         //导航器
         .NavBox{
           width: 260px;
-          background-color: rgb(250,250,250);
+          background-color: rgb(255,255,255);
           position: absolute;
           z-index: 999;
-          right: 50px;
+          right: 30px;
           top: 25px;
           dl{
             dd{
@@ -299,7 +299,7 @@
         width: 280px;
         height: 300px;
         float: left;
-        background-color: #eee;
+        background-color: rgb(250,250,250);
         margin: 30px 10px 0px 10px;
         .ImgBox{
           width: 100%;

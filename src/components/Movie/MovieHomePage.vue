@@ -314,6 +314,7 @@
     font-weight: bold;
   }
   .MovieHomePage{
+    background-color: rgb(250,250,250);
     width: 100%;
     .logo{
       width: 1400px;
@@ -361,6 +362,7 @@
           margin: 70px auto 0px;
           display: flex;
           border: 1px solid #eee;
+          background-color: rgb(255,255,255);
           .Movieleft{
             width: 300px;
             height: 200px;
@@ -481,6 +483,7 @@
           margin: 70px auto 0px;
           display: flex;
           border: 1px solid #eee;
+          background-color: rgb(255,255,255);
           .HotLeft{
             margin-right: 30px;
             position: relative;
@@ -611,6 +614,7 @@
         height: 200px;
         margin: 70px auto 0px;
         display: flex;
+        background-color: rgb(255,255,255);
         border: 1px solid #eee;
         .ChooseLeft{
           margin-right: 30px;
@@ -708,6 +712,7 @@
           height: 200px;
           margin: 70px auto 0px;
           display: flex;
+          background-color: rgb(255,255,255);
           border: 1px solid #eee;
           .WatchMovieleft{
             width: 300px;

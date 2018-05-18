@@ -238,7 +238,7 @@ export default {
     })
   },
   //系列视频内容
-  initMovieSeriesCont({commit},data){
+  initMovieSeriesContList({commit},data){
     return new Promise(function (relove, reject) {
       axios.post('http://webservice.1000da.com.cn/VWebPage/SeriesList',JSON.stringify(data),{
         headers: {
@@ -248,11 +248,27 @@ export default {
         .then(data=>{
           var data = data.data;
           if( Number(data.resultcode) == 200 ){
-            commit('initMovieSeriesCont',data.data[0]);
-            let arr = data.data[0].vf_FilmSeries;
-            arr.reverse();
-            commit('MovieSeriesNum',arr);
-            commit('MovieSeriesContEpisode',data.data[0].vf_FilmSeries[0].vf_Vedio[0])
+            commit('initMovieSeriesContList',data);
+            commit('MovieSeriesContDetail',data.data)
+            relove();
+          }else{
+            reject(data.resultcontent)
+          }
+        })
+    })
+  },
+  //系列视频集数Data
+  initMovieSeriesNumHover({commit},data){
+    return new Promise(function (relove, reject) {
+      axios.post('http://webservice.1000da.com.cn/VWebPage/SeriesListMousemovein',JSON.stringify(data),{
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded'
+        }
+      })
+        .then(data=>{
+          var data = data.data;
+          if( Number(data.resultcode) == 200 ){
+            commit('initMovieSeriesNumHover',data.data)
             relove();
           }else{
             reject(data.resultcontent)

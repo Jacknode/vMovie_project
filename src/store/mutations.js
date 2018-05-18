@@ -55,15 +55,15 @@ export default {
     state.MovieDetailPointGood=data;
   },
   //系列视频内容
-  initMovieSeriesCont(state,data){
-    state.MovieSeriesCont=data;
+  initMovieSeriesContList(state,data){
+    state.MovieSeriesContList=data;
   },
-  //系列视频集数
-  MovieSeriesNum(state,data){
-    state.MovieSeriesNum=data;
+  //系列视频集数Data
+  initMovieSeriesNumHover(state,data){
+    state.MovieSeriesNumHover=data;
   },
   //系列视频集数内容
-  MovieSeriesContEpisode(state,data){
-    state.MovieSeriesContEpisode=data;
+  MovieSeriesContDetail(state,data){
+    state.MovieSeriesContDetail=data;
   }
 }

@@ -121,21 +121,12 @@
           this.MovieType.ends=true;
         }
       },
-      //连载中
-      upDating(){
-        this.initData(0);
-      },
-      //完结
-      end(){
-        this.initData(1);
-      },
       //跳转
       toMovieSeries(item){
         this.$router.push({name:'MovieSeriesCont',query:{id:item.vf_ss_ID}});
         setTimeout(()=>{
           window.location.reload();
         },60);
-        // console.log(item.vf_ss_ID)
       },
       //集数跳转
       EpisodeJump(id,ims){
@@ -151,9 +142,9 @@
           "pcName": "",  //机器码
           "vf_ss_ID": "",//系列编号
           "vf_ss_Name": "",//系列名称
-          "vf_ss_WriteState": num?num:'',//连载状态（0连载中1完结)
+          "vf_ss_WriteState": num,//连载状态（0连载中1完结)
           "page": 1,//页码
-          "rows": 8//条数
+          "rows": ""//条数8
         }
         this.$store.dispatch("initMovieSeriesList",initOption)
       },
@@ -229,6 +220,7 @@
       .MovieList{
         width: 100%;
         .MovieDetail{
+          background-color: rgb(250,250,250);
           width: 380px;
           height: 200px;
           margin: 60px 10px 0px 10px;

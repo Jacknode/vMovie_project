@@ -72,12 +72,13 @@
 <style lang="less" scoped type="text/less">
   .ChannelPage{
     width: 100%;
+    background-color: rgb(250,250,250);
     .content{
       width: 1200px;
       height: 100%;
       margin: 0px auto;
       p{
-        margin-top: 20px;
+        padding-top: 20px;
         span{
           &:nth-of-type(1){
             font-size: 26px;

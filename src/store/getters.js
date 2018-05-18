@@ -12,7 +12,8 @@ export default {
   MovieDetailComment:state=>state.MovieDetailComment,    //评论
   MovieDetailPointGood:state=>state.MovieDetailPointGood,   //电影详情点赞
   MovieListRate:state=>state.MovieListRate,   //查询评分
-  MovieSeriesCont:state=>state.MovieSeriesCont,   //系列视频内容
-  MovieSeriesNum:state=>state.MovieSeriesNum,   //系列视频集数
-  MovieSeriesContEpisode:state=>state.MovieSeriesContEpisode,   //系列视频集数内容
+
+  MovieSeriesContList:state=>state.MovieSeriesContList,   //系列视频内容
+  MovieSeriesNumHover:state=>state.MovieSeriesNumHover,   //系列视频集数Data
+  MovieSeriesContDetail:state=>state.MovieSeriesContDetail,   //系列视频集数内容
 }

@@ -1,5 +1,5 @@
 <template>
-  <!--系列中的视频的内容--集数标题 没有和集数对应?-->
+  <!--系列中的视频的内容-->
   <div class="SeriesCont">
     <!--视频部分-->
     <div class="MoviePlay">
@@ -22,25 +22,25 @@
       <div class="MovieTitle">
         <!--标题-->
         <div class="tLeft">
-          {{MovieSeriesContEpisode.vf_vo_Title}}
+          {{MovieSeriesContDetail.vf_vo_Title}}
           <!--<span>自制</span>-->
         </div>
         <!--分享图标-->
         <div class="tRight"></div>
       </div>
       <!--更新-->
-      <div class="MovieUpdata">
-        <strong>{{MovieSeriesCont.vf_ss_UpdateTime}}</strong>
-      </div>
+      <!--<div class="MovieUpdata">-->
+        <!--<strong>{{}}</strong>-->
+      <!--</div>-->
       <!--集数详情-->
-      <div class="EpisodeDetail" v-for="item,index in MovieSeriesNum" @click="toReload(item.vf_fs_Level,item)">
+      <div class="EpisodeDetail" v-for="index in MovieSeriesContList.vf_fs_Levels" @click="toReload(index)" @mouseover="initEqisode(index)">
         <el-popover
           placement="right"
           width="320"
           trigger="hover"
-          :content="MovieSeriesContEpisode.vf_vo_Remark">
+          :content="MovieSeriesNumHover.vf_vo_Remark">
           <!--<span slot="reference" :class="{active:item.vf_fs_Level==n}">{{item.vf_fs_Level}}</span>-->
-          <el-button slot="reference" :class="{active:item.vf_fs_Level==n}" size="small">{{item.vf_fs_Level}}</el-button>
+          <el-button slot="reference" :class="{}" size="small">{{index}}</el-button>
         </el-popover>
       </div>
     </div>
@@ -121,9 +121,10 @@
         return this.$refs.videoPlayer.player
       }
     }, mapGetters([
-      'MovieSeriesCont',      //视频系列内容
-      'MovieSeriesNum',       //视频内容集数
-      'MovieSeriesContEpisode',    //视频集数内容
+      'MovieSeriesContList',      //视频系列内容
+      'MovieSeriesNumHover',       //视频内容集数Data
+      'MovieSeriesContDetail',    //视频集数内容
+
       'MovieDetailComment'    //评论
     ])),
     data(){
@@ -163,8 +164,8 @@
       },
       onPlayerEnded(){},
       onPlayerWaiting(){},
-      //初始化
-      initData(num){
+      //初始化// "vf_ss_ID": this.$route.query.id,//系列编号
+      initData(eqs){
         let initOption = {
           "loginUserID": "huileyou",  //惠乐游用户ID
           "loginUserPass": "123",  //惠乐游用户密码
@@ -172,27 +173,45 @@
           "operateUserName": "",//操作员名称
           "pcName": "",  //机器码
           "vf_ss_ID": this.$route.query.id,//系列编号
-          "vf_fs_Level": num ? num : '',//当前集或最新集
+          "vf_fs_Level": eqs,//当前集或最新集
         }
-        this.$store.dispatch('initMovieSeriesCont', initOption)
+        this.$store.dispatch('initMovieSeriesContList', initOption)
         .then(() => {
           this.playerOptions.sources.push({
-            type: 'video/' + this.MovieSeriesContEpisode.vf_vo_Extend,
-            src: this.MovieSeriesContEpisode.vf_vo_FileURL
+            type: 'video/' +  'mp4',
+            src: this.MovieSeriesContList.data.vf_vo_FileURL
           })
-          this.playerOptions.poster = this.MovieSeriesContEpisode.vf_vo_ImageURL
+          this.playerOptions.poster = this.MovieSeriesContList.data.vf_vo_ImageURL
         })
       },
-      toReload(index, item){
+      //跳转集数
+      toReload(index){
         // sessionStorage.setItem('index',index)
         // window.location.reload()
-        //问题待处理，点击集数没有jump到对应的集数数据
         // console.log(11,this.MovieSeriesCont.vf_fs_Level)
-        this.$router.push({name:'MovieSeriesCont',query:{id:item.vf_fs_SeriesID,Level:index}});
-        setTimeout(()=>{
-          window.location.reload()
-        },50)
-//        console.log(1231, item.vf_Vedio[0].vf_vo_Title)
+        // this.$router.push({name:'MovieSeriesContList',query:{id:item.vf_fs_SeriesID,Level:index}});
+        // this.initData(index);
+        this.initData(index);
+        // setTimeout(()=>{
+          // window.location.reload()
+        // },50)
+      },
+      //视频集数Data
+      initEqisode(es){
+        let initEqisodeOption={
+          "loginUserID": "huileyou",  //惠乐游用户ID
+          "loginUserPass": "123",  //惠乐游用户密码
+          "operateUserID": "",//操作员编码
+          "operateUserName": "",//操作员名称
+          "pcName": "",  //机器码
+          "vf_ss_ID": this.$route.query.id,//系列编号
+          "vf_fs_Level": es,//集数
+        }
+        this.$store.dispatch('initMovieSeriesNumHover',initEqisodeOption)
+      },
+      EqisodeHover(index){
+        this.initEqisode(index)
+        console.log(1221,index)
       },
       //查询评论
       initComment(){
@@ -269,14 +288,6 @@
         this.initData();
         this.initComment();
       }
-//      if (index) {
-//        this.n = index - 1;
-//        this.initData(index);
-//      } else {
-//        this.initData();
-//        this.initComment();
-//      }
-
     }
   }
 </script>
