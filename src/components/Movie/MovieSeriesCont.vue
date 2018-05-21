@@ -33,14 +33,14 @@
         <!--<strong>{{}}</strong>-->
       <!--</div>-->
       <!--集数详情-->
-      <div class="EpisodeDetail" v-for="index in MovieSeriesContList.vf_fs_Levels" @click="toReload(index)" @mouseover="initEqisode(index)">
+      <div class="EpisodeDetail" v-for="index in MovieSeriesContList.vf_fs_Levels" @click="toReload(index)" @mouseover="EqisodeHover(index)">
         <el-popover
           placement="right"
           width="320"
           trigger="hover"
           :content="MovieSeriesNumHover.vf_vo_Remark">
           <!--<span slot="reference" :class="{active:item.vf_fs_Level==n}">{{item.vf_fs_Level}}</span>-->
-          <el-button slot="reference" :class="{}" size="small">{{index}}</el-button>
+          <el-button slot="reference" :class="{active:index==n}" size="small">{{index}}</el-button>
         </el-popover>
       </div>
     </div>
@@ -192,6 +192,7 @@
         // this.$router.push({name:'MovieSeriesContList',query:{id:item.vf_fs_SeriesID,Level:index}});
         // this.initData(index);
         this.initData(index);
+        this.n=index;
         // setTimeout(()=>{
           // window.location.reload()
         // },50)
@@ -211,7 +212,6 @@
       },
       EqisodeHover(index){
         this.initEqisode(index)
-        console.log(1221,index)
       },
       //查询评论
       initComment(){
@@ -345,24 +345,30 @@
       }
       //集数详情
       .EpisodeDetail {
-        width: 680px;
-        margin: 20px 0px 0px 120px;
+        width: 39px;
+        height: 32px;
+        line-height: 39px;
+        margin: 15px 0px 0px 15px;
+        float: left;
+        &:after {
+          content: '';
+          height: 0;
+          display: block;
+          overflow: hidden;
+          clear: left;
+        }
         button {
-          float: left;
           background-color: #fff;
           text-align: center;
           margin: 15px 5px 0px 5px;
-          /*box-shadow: 1px 2px #c8c8c8;*/
-          &:after {
-            content: '';
-            height: 0;
+          span{
             display: block;
-            overflow: hidden;
-            clear: left;
+            height: 32px;
+            width: 39px;
           }
         }
         .active{
-          background: blue;
+          background: #3498DB;
           color: #fff;
           box-shadow: none;
         }
@@ -413,7 +419,7 @@
           height: 0;
           overflow: hidden;
           display: block;
-          clear: left;
+          clear: both;
         }
         //评论人头像
         .DiscussUser {

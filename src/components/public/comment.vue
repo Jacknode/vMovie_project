@@ -3,7 +3,7 @@
   <div class="comment">
     <!--顶部-->
     <div class="PageTop">
-      <img src="@/assets/img/movieLogo.png" alt="">
+      <img src="@/assets/img/movieLogo.png" alt="" @click="toHomePage">
       <!--导航-->
       <ul>
         <li :class="{active:index==n}" v-for="item,index in toArr" @click="toPath(index,item)">{{item.name}}</li>
@@ -46,7 +46,10 @@
         this.$router.push({name:obj.path});
         sessionStorage.setItem('n',index);
         this.n = index;
-      }
+      },
+      toHomePage(){
+        this.$router.push({name:'MovieHomePage'})
+      },
     },
     created(){
       let n = sessionStorage.getItem('n');
