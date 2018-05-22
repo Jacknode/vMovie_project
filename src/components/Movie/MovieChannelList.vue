@@ -41,7 +41,7 @@
             <!--评论-->
             <span class="el-icon-tickets"> {{item.count_comment}}</span>
             <!--点赞-->
-            <span class="icon-heart5"> {{item.count_pointGood}}</span>
+            <span class="fa fa-heart"> {{item.count_pointGood}}</span>
             <p>
               <el-rate
                 v-model="item.a"

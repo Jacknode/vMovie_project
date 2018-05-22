@@ -51,7 +51,7 @@
                   <!--评论-->
                   <span class="el-icon-document"> {{item.count_comment}}</span>
                   <!--点赞-->
-                  <span class="icon-heart5"> {{item.count_pointGood}}</span>
+                  <span class="fa fa-heart"> {{item.count_pointGood}}</span>
                   <!--分享-->
                   <span class="el-icon-share">121</span>
                 </div>
@@ -113,7 +113,7 @@
                 <!--点赞、评论-->
                 <div class="HotBottomIconCont">
                   <span class="el-icon-document"> {{item.count_comment}}</span>
-                  <span class="icon-heart5"> {{item.count_pointGood}}</span>
+                  <span class="fa fa-heart"> {{item.count_pointGood}}</span>
                   <span class="el-icon-share">121</span>
                 </div>
               </div>
@@ -175,7 +175,7 @@
                 <!--点赞、评论-->
                 <div class="ChooseBottomIconCont">
                   <span class="el-icon-document"> {{item.count_comment}}</span>
-                  <span class="icon-heart5"> {{item.count_pointGood}}</span>
+                  <span class="fa fa-heart"> {{item.count_pointGood}}</span>
                   <span class="el-icon-share">121</span>
                 </div>
               </div>
@@ -230,7 +230,7 @@
                   <!--评论次数-->
                   <span class="el-icon-document"> {{item.count_comment}}</span>
                   <!--点赞次数-->
-                  <span class="icon-heart5"> {{item.count_pointGood}}</span>
+                  <span class="fa fa-heart"> {{item.count_pointGood}}</span>
                   <!--分享次数-->
                   <span class="el-icon-share">121</span>
                 </div>

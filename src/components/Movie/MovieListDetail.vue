@@ -42,7 +42,7 @@
             <!--评论次数-->
             <span class="el-icon-document"> {{MovieDetailComment.totalRows}}</span>
             <!--点赞次数-->
-            <span class="icon-heart5" @click="AddDetele()"> {{MovieDetailPointGood.totalRows}}</span>
+            <span class="fa fa-heart" @click="AddDetele()"> {{MovieDetailPointGood.totalRows}}</span>
             <!--分享次数-->
             <span class="el-icon-share"> 1212</span>
           </div>
