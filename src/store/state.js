@@ -12,7 +12,6 @@ export default{
   MovieListDetailRate:[],   //电影详情评分上传
   MovieDetailPointGood:[],    //电影详情点赞
   MovieListRate:[],   //电影评分查询
-
   MovieSeriesContList:[],   //系列视频内容
   MovieSeriesNumHover:[],    //系列视频集数Data
   MovieSeriesContDetail:[],    //系列视频集数内容

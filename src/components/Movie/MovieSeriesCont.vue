@@ -3,6 +3,7 @@
   <div class="SeriesCont">
     <!--视频部分-->
     <div class="MoviePlay">
+      <!--@waiting="onPlayerWaiting($event)"-->
       <video-player class="vjs-custom-skin"
                     ref="videoPlayer"
                     :options="playerOptions"
@@ -11,7 +12,6 @@
                     @play="onPlayerPlay($event)"
                     @pause="onPlayerPause($event)"
                     @ended="onPlayerEnded($event)"
-                    @waiting="onPlayerWaiting($event)"
                     @ready="playerReadied"
       >
       </video-player>
@@ -98,6 +98,16 @@
           </div>
         </div>
       </div>
+      <!--分页-->
+      <div class="page" v-show="total">
+        <el-pagination
+          background
+          @current-change="toPage"
+          :page-size= "5"
+          layout="prev,pager,next"
+          :total="total">
+        </el-pagination>
+      </div>
       <!--评论发表-->
       <div class="DiscussCommit">
         <img src="@/assets/img/HeaderPortrait.jpg" alt="" style="width: 50px; height: 50px">
@@ -130,6 +140,7 @@
     data(){
       return {
         n: 0,
+        total:0,
         content: '',
         playerOptions: {
           // videojs options
@@ -163,8 +174,7 @@
         // player.[methods]
       },
       onPlayerEnded(){},
-      onPlayerWaiting(){},
-      //初始化// "vf_ss_ID": this.$route.query.id,//系列编号
+      onPlayerWaiting(player){},
       initData(eqs){
         let initOption = {
           "loginUserID": "huileyou",  //惠乐游用户ID
@@ -214,7 +224,7 @@
         this.initEqisode(index)
       },
       //查询评论
-      initComment(){
+      initComment(page){
         let initCommentOption = {
           "loginUserID": "huileyou",  //惠乐游用户ID
           "loginUserPass": "123",  //惠乐游用户密码
@@ -224,10 +234,13 @@
           "ts_ct_UserInfoID": "1",  //用户信息编码
           "ts_ct_GoodID": this.$route.query.id,    //视频编号
           "ts_ct_IsDelete": 0,  //是否有效
-          "page": 1,  //页码
-          "rows": 10,  //条数
+          "page": page?page:1,  //页码
+          "rows": "5",  //条数
         }
         this.$store.dispatch('initMovieDetailComment', initCommentOption)
+          .then((total)=>{
+            this.total=total;
+          })
       },
       //添加评论
       addComment() {
@@ -277,6 +290,10 @@
       detele(item){
         this.deteleComment(item.ts_ct_ID);
       },
+      //分页
+      toPage(page){
+        this.initComment(page)
+      },
     },
     created(){
       let index = sessionStorage.getItem('index');
@@ -284,6 +301,7 @@
       if (Level) {
         this.n = Level;
         this.initData(Level);
+        this.initComment();
       }else {
         this.initData();
         this.initComment();
@@ -523,6 +541,14 @@
             }
           }
         }
+      }
+      //分页
+      .page{
+        height: 100px;
+        width: 900px;
+        padding-top: 30px;
+        text-align: center;
+        margin: 0px auto;
       }
       //评论发表
       .DiscussCommit {

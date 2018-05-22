@@ -79,7 +79,16 @@
         </div>
       </div>
     </div>
-
+    <!--分页-->
+    <div class="page" v-show="total">
+      <el-pagination
+        background
+        @current-change="toPage"
+        :page-size= "9"
+        layout="prev,pager,next"
+        :total="total">
+      </el-pagination>
+    </div>
   </div>
 </template>
 
@@ -92,6 +101,7 @@
     data(){
       return{
         x:0,
+        total:0,
         Navs:["全部系列","更新中","完结"],
         MovieType:{Alls:true,UpDates:false,ends:false},
       }
@@ -133,7 +143,7 @@
         this.$router.push({name:'MovieSeriesCont',query:{id:id,Level:ims.vf_fs_Level}});
       },
       //初始化
-      initData(num){
+      initData(num,page){
         let initOption={
           "loginUserID": "huileyou",  //惠乐游用户ID
           "loginUserPass": "123",  //惠乐游用户密码
@@ -143,12 +153,18 @@
           "vf_ss_ID": "",//系列编号
           "vf_ss_Name": "",//系列名称
           "vf_ss_WriteState": num,//连载状态（0连载中1完结)
-          "page": 1,//页码
-          "rows": ""//条数8
+          "page": page?page:1,//页码
+          "rows": "9"//条数
         }
         this.$store.dispatch("initMovieSeriesList",initOption)
+          .then((total)=>{
+            this.total=total;
+          })
       },
-      onPlayerWaiting(){}
+      //分页
+      toPage(page){
+        this.initData(page);
+      }
     },
     created(){
       this.initData();
@@ -278,6 +294,14 @@
           }
         }
       }
+    }
+    //分页
+    .page{
+      height: 100px;
+      width: 900px;
+      padding-top: 30px;
+      text-align: center;
+      margin: 0px auto;
     }
   }
 </style>

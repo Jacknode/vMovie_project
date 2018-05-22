@@ -1,5 +1,5 @@
 <template>
-  <!--电影首页-->
+  <!--电影首页--->
   <div class="MovieHomePage">
     <!--轮播-->
     <div class="logo">
@@ -59,6 +59,16 @@
             </div>
           </div>
         </div>
+        <!--分页-->
+        <div class="page" v-show="total">
+          <el-pagination
+            background
+            @current-change="toRecommendPage"
+            :page-size= "10"
+            layout="prev,pager,next"
+            :total="total">
+          </el-pagination>
+        </div>
       </div>
       <!--热门排行-->
       <div class="HotRanking" v-show="mili.Ranking">
@@ -109,6 +119,16 @@
               </div>
             </div>
           </div>
+        </div>
+        <!--分页-->
+        <div class="page" v-show="total">
+          <el-pagination
+            background
+            @current-change="toHotsPage"
+            :page-size= "10"
+            layout="prev,pager,next"
+            :total="total">
+          </el-pagination>
         </div>
       </div>
       <!--星级精选-->
@@ -162,6 +182,16 @@
             </div>
           </div>
         </div>
+        <!--分页-->
+        <div class="page" v-show="total">
+          <el-pagination
+            background
+            @current-change="toRankingsPage"
+            :page-size= "10"
+            layout="prev,pager,next"
+            :total="total">
+          </el-pagination>
+        </div>
       </div>
       <!--随便看看-->
       <div class="lookAround" v-show="mili.Watching">
@@ -208,6 +238,16 @@
             </div>
           </div>
         </div>
+        <!--分页-->
+        <div class="page" v-show="total">
+          <el-pagination
+            background
+            @current-change="toWatchingsPage"
+            :page-size= "10"
+            layout="prev,pager,next"
+            :total="total">
+          </el-pagination>
+        </div>
       </div>
     </div>
   </div>
@@ -225,6 +265,7 @@
         x:0,
         R:0,
         C:0,
+        total:0,
         Chooses:["最新发布","最高评分"],
         switchList:["最新推荐","热门排行","星级精选","随便看看"],
         RankingSels:["本周","本月","近三月","近一年"],
@@ -250,24 +291,37 @@
         this.x=index;
         if(index==0){
           this.init();
-          this.initData(42);
+          this.initData(1,42);
           this.mili.Recommend=true;
         }
         else if(index==1){
           this.init();
-          this.initData(41);
+          this.initData(1,41);
           this.mili.Ranking=true;
         }
         else if(index==2){
           this.init();
-          this.initData(40);
+          this.initData(1,40);
           this.mili.Select=true;
         }
         else{
           this.init();
-          this.initData();
+          this.initData(1);
           this.mili.Watching=true;
         }
+      },
+      //分页
+      toRecommendPage(page){
+          this.initData(page,42);
+      },
+      toHotsPage(page){
+        this.initData(page,41);
+      },
+      toRankingsPage(page){
+        this.initData(page,40);
+      },
+      toWatchingsPage(page){
+        this.initData(page)
       },
       //热门筛选
       HotRanks(index){
@@ -284,7 +338,7 @@
           window.location.reload();
         },10)
       },
-      initData(num){
+      initData(page,num){
         let initOption={
           "loginUserID": "huileyou",
           "loginUserPass": "123",
@@ -292,15 +346,18 @@
           "operateUserName": "",//操作员名称
           "pcName": "",
           "vf_vt_TypeID": num?num:'', //40精选 41热门 42 推荐  空为随机
-          "page": 1,//页码
-          "rows": 10//条数
+          "page": page?page:1,//页码
+          "rows": "10"//条数
 
         }
         this.$store.dispatch("initMovieHomePageList",initOption)
+          .then((total)=>{
+            this.total=total;
+          })
       },
     },
     created(){
-      this.initData(42);
+      this.initData(1,42);
     }
   }
 </script>
@@ -447,6 +504,13 @@
             }
           }
         }
+        .page{
+          height: 100px;
+          width: 900px;
+          padding-top: 30px;
+          text-align: center;
+          margin: 0px auto;
+        }
       }
       //热门排行
       .HotRanking{
@@ -580,6 +644,13 @@
             }
           }
         }
+        .page{
+          height: 100px;
+          width: 900px;
+          padding-top: 30px;
+          text-align: center;
+          margin: 0px auto;
+        }
       }
       //星级精选
       .choose{
@@ -703,6 +774,13 @@
           }
         }
       }
+      .page{
+        height: 100px;
+        width: 900px;
+        padding-top: 30px;
+        text-align: center;
+        margin: 0px auto;
+      }
       //随便看看
       .lookAround{
         width: 100%;
@@ -798,6 +876,13 @@
               }
             }
           }
+        }
+        .page{
+          height: 100px;
+          width: 900px;
+          padding-top: 30px;
+          text-align: center;
+          margin: 0px auto;
         }
       }
     }

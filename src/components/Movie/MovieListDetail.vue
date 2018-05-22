@@ -50,6 +50,7 @@
       </div>
       <!--视频详情-->
       <div class="MovieCont">
+        <!--@waiting="onPlayerWaiting($event)"-->
         <video-player  class="vjs-custom-skin"
                        ref="videoPlayer"
                        :options="playerOptions"
@@ -58,7 +59,6 @@
                        @play="onPlayerPlay($event)"
                        @pause="onPlayerPause($event)"
                        @ended="onPlayerEnded($event)"
-                       @waiting="onPlayerWaiting($event)"
                        @ready="playerReadied"
         >
         </video-player>
@@ -126,6 +126,16 @@
           </div>
         </div>
       </div>
+      <!--分页-->
+      <div class="page" v-show="total">
+        <el-pagination
+          background
+          @current-change="toPage"
+          :page-size= "5"
+          layout="prev,pager,next"
+          :total="total">
+        </el-pagination>
+      </div>
       <!--发表评论-->
       <div class="MakeComment">
         <!--内容-->
@@ -160,8 +170,8 @@
           sources: [
           ],
         },
-        value5:2.7,
         content:'',
+        total:0,
       }
     },
     computed: Object.assign({
@@ -247,7 +257,7 @@
         this.$store.dispatch('initMovieListRate',initRate)
       },
       //查询评论
-      initComment(){
+      initComment(page){
         let initCommentOption={
           "loginUserID": "huileyou",  //惠乐游用户ID
           "loginUserPass": "123",  //惠乐游用户密码
@@ -257,10 +267,13 @@
           "ts_ct_UserInfoID": "1",  //用户信息编码
           "ts_ct_GoodID": this.$route.query.id,    //视频编号
           "ts_ct_IsDelete": 0,  //是否有效
-          "page": 1,  //页码
-          "rows": 10,  //条数
+          "page": page?page:1,  //页码
+          "rows": "5",  //条数
         }
         this.$store.dispatch('initMovieDetailComment',initCommentOption)
+          .then((total)=>{
+            this.total=total;
+          })
       },
       //添加评论
       addComment() {
@@ -325,8 +338,8 @@
           "vf_pg_ID": "",//点赞编码
           "vf_pg_VedioID": this.$route.query.id,//视频编号
           "vf_pg_UserID": "1",//点赞员编码
-          "page": 1,//页码
-          "rows": 10//条数
+          // "page": 1,//页码
+          // "rows": 10//条数
         }
         this.$store.dispatch('initMovieDetailPointGood',initPointGoodOption)
       },
@@ -356,6 +369,10 @@
       },
       RateClose(){
         this.commitRates=false;
+      },
+      //分页
+      toPage(page){
+        this.initComment(page)
       },
     },
     created(){
@@ -614,6 +631,14 @@
             }
           }
         }
+      }
+      //分页
+      .page{
+        height: 100px;
+        width: 900px;
+        padding-top: 30px;
+        text-align: center;
+        margin: 0px auto;
       }
       //发表评论
       .MakeComment{

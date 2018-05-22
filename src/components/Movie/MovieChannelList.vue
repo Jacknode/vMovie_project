@@ -56,6 +56,16 @@
       </div>
     </div>
     <div v-else style="text-align: center;font-weight: bold;font-size: 20px;">暂无数据</div>
+    <!--分页-->
+    <div class="page" v-show="total">
+      <el-pagination
+        background
+        @current-change="toPage"
+        :page-size= "12"
+        layout="prev,pager,next"
+        :total="total">
+      </el-pagination>
+    </div>
   </div>
 </template>
 
@@ -74,6 +84,7 @@
         m:null,
         n:null,
         x:0,
+        total:0,
         BoxType:false,
         MovieSort:['最新发布','最高评分','评论最多','喜欢最多',],
       }
@@ -104,7 +115,7 @@
         }
       },
       //初始化
-      initData(num){
+      initData(num,page){
         let initOption={
           "loginUserID": "huileyou",
           "loginUserPass": "123",
@@ -113,10 +124,13 @@
           "pcName": "",
           "vf_vt_TypeID": this.$route.query.TypeID, //分类编号
           "orderColumn": num,//排序字段,1按时间，2点赞次数
-          "page": 1,//页码
-          "rows": ""//条数
+          "page": page?page:1,//页码
+          "rows": "12"//条数
         }
         this.$store.dispatch("initMovieChannelTypeList",initOption)
+          .then((total)=>{
+            this.total=total;
+          })
       },
       toMovieListDetail(item){
         this.$router.push({name:'MovieListDetail',query:{id:item.vf_vo_ID}});
@@ -141,6 +155,10 @@
         setTimeout(()=>{
           window.location.reload();
         },30)
+      },
+      //分页
+      toPage(page){
+        this.initData(page)
       },
     },
     created(){
@@ -299,7 +317,7 @@
         width: 280px;
         height: 300px;
         float: left;
-        background-color: rgb(250,250,250);
+        background-color: rgb(255,255,255);
         margin: 30px 10px 0px 10px;
         .ImgBox{
           width: 100%;
@@ -353,6 +371,14 @@
           }
         }
       }
+    }
+    //分页
+    .page{
+      height: 100px;
+      width: 900px;
+      padding-top: 30px;
+      text-align: center;
+      margin: 0px auto;
     }
   }
 </style>

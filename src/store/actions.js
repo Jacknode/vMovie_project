@@ -17,7 +17,7 @@ export default {
             }
             commit('initMovieHomePageList',data.data);
             commit('MoviesHuffling',data.topBigImageList);
-            relove();
+            relove(data.totalRows);
           }else{
             reject(data.resultcontent)
           }
@@ -62,7 +62,7 @@ export default {
               commit('initMovieChannelTypeList',data.data);
               commit('initMovieChannelTypeObj',data.data[0]);
             }
-            relove();
+            relove(data.totalRows);
           }else{
             reject(data.resultcontent)
           }
@@ -81,7 +81,7 @@ export default {
           var data = data.data;
           if( Number(data.resultcode) == 200 ){
             commit('initMovieSeriesList',data.data)
-            relove();
+            relove(data.totalRows);
           }else{
             reject(data.resultcontent)
           }
@@ -137,7 +137,7 @@ export default {
           var data = data.data;
           if( Number(data.resultcode) == 200 ){
             commit('initMovieDetailComment',data)
-            relove();
+            relove(data.totalRows);
           }else{
             reject(data.resultcontent)
           }
