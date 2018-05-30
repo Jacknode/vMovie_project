@@ -10,7 +10,9 @@
         <li>教育</li>
       </ul>
     </div>
-    <router-view name="Home"></router-view>
+    <keep-alive>
+      <router-view name="Home"></router-view>
+    </keep-alive>
     <!--尾部-->
     <div class="PageFooter">
       <!--版权信息-->
