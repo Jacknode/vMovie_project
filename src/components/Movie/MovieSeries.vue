@@ -133,14 +133,24 @@
       },
       //跳转
       toMovieSeries(item){
-        this.$router.push({name:'MovieSeriesCont',query:{id:item.vf_ss_ID}});
-        setTimeout(()=>{
-          window.location.reload();
-        },60);
+//        this.$router.push({name:'MovieSeriesCont',query:{id:item.vf_ss_ID}});
+//        setTimeout(()=>{
+//          window.location.reload();
+//        },60);
+        const {href}=this.$router.resolve({
+          name:'MovieSeriesCont',
+          params:{id:item.vf_ss_ID}
+        });
+        window.open(href,'_blank')
       },
       //集数跳转
       EpisodeJump(id,ims){
-        this.$router.push({name:'MovieSeriesCont',query:{id:id,Level:ims.vf_fs_Level}});
+//        this.$router.push({name:'MovieSeriesCont',query:{id:id,Level:ims.vf_fs_Level}});
+        const {href}=this.$router.resolve({
+          name:'MovieSeriesCont',
+          params:{id:id,Level:ims.vf_fs_Level}
+        });
+        window.open(href,'_blank')
       },
       //初始化
       initData(num,page){

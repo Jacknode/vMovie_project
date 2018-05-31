@@ -133,10 +133,15 @@
           })
       },
       toMovieListDetail(item){
-        this.$router.push({name:'MovieListDetail',query:{id:item.vf_vo_ID}});
-        setTimeout(()=>{
-          window.location.reload();
-        },30)
+//        this.$router.push({name:'MovieListDetail',query:{id:item.vf_vo_ID}});
+//        setTimeout(()=>{
+//          window.location.reload();
+//        },30)
+        const {href}=this.$router.resolve({
+          name:'MovieListDetail',
+          params:{id:item.vf_vo_ID}
+        });
+        window.open(href,'_blank')
       },
       //类型数据
       initTypeData(){

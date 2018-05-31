@@ -5,7 +5,7 @@
     <div class="logo">
       <el-carousel trigger="click" :interval="5000" height="540px">
         <el-carousel-item v-for="item in MoviesHuffling" :key="null">
-          <img v-lazy="item.vf_vo_TomImageURL" alt="" style="width: 1400px; height: 540px" @click="toMovieDetail(item)">
+          <img v-lazy="item.vf_vo_TomImageURL" alt="" style="width: 1400px; height: 540px" @click="toMovieHomePage(item)">
         </el-carousel-item>
       </el-carousel>
     </div>
@@ -280,12 +280,12 @@
         this.mili.Ranking=false;
       },
       //轮播跳转
-      toMovieDetail(item){
-        this.$router.push({name:"MovieListDetail",query:{id:item.vf_vo_ID}});
-        setTimeout(()=>{
-          window.location.reload();
-        },10)
-      },
+//      toMovieDetail(item){
+//        this.$router.push({name:"MovieListDetail",query:{id:item.vf_vo_ID}});
+//        setTimeout(()=>{
+//          window.location.reload();
+//        },10)
+//      },
       //切换
       Switch(index){
         this.x=index;
@@ -333,10 +333,15 @@
       },
       //跳转
       toMovieHomePage(item){
-        this.$router.push({name:"MovieListDetail",query:{id:item.vf_vo_ID}});
-        setTimeout(()=>{
-          window.location.reload();
-        },10)
+//        this.$router.push({name:"MovieListDetail",query:{id:item.vf_vo_ID}});
+//        setTimeout(()=>{
+//          window.location.reload();
+//        },10)
+        const {href}= this.$router.resolve({
+          name:'MovieListDetail',
+          params:{id:item.vf_vo_ID}
+        });
+        window.open(href,'_blank')
       },
       initData(page,num){
         let initOption={
